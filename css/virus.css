@@ -1,0 +1,364 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    background: #600000;
+
+    font-family:
+        Arial,
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+}
+
+
+/* ====================================== */
+/* レッドアウト */
+/* ====================================== */
+
+.red-screen {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #9b0000 0%,
+            #720000 45%,
+            #430000 100%
+        );
+
+    animation:
+        red-screen-in 0.7s ease-out;
+}
+
+
+@keyframes red-screen-in {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* ====================================== */
+/* 中央の警告 */
+/* ====================================== */
+
+.red-message {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: #fff;
+
+    text-align: center;
+
+    text-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.5);
+
+    opacity: 0.9;
+}
+
+.red-warning {
+    margin-bottom: 10px;
+
+    font-size: 50px;
+}
+
+.red-title {
+    font-size: 30px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+}
+
+.red-subtitle {
+    margin-top: 10px;
+
+    font-size: 13px;
+}
+
+
+/* ====================================== */
+/* 大量のウイルス警告ウィンドウ */
+/* ====================================== */
+
+.virus-windows {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+/* ====================================== */
+/* 個々の警告ウィンドウ */
+/* ====================================== */
+
+.virus-window {
+    position: absolute;
+
+    width: 190px;
+
+    min-height: 82px;
+
+    background: #fff;
+
+    border: 1px solid #999;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.5);
+
+    color: #222;
+
+    font-size: 10px;
+
+    pointer-events: auto;
+
+    animation:
+        virus-window-appear 0.15s ease-out;
+}
+
+
+/* ====================================== */
+/* ウィンドウタイトルバー */
+/* ====================================== */
+
+.virus-window-titlebar {
+    height: 24px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-left: 7px;
+
+    background: #f1f1f1;
+
+    border-bottom: 1px solid #ccc;
+
+    font-size: 9px;
+}
+
+.virus-window-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+}
+
+.virus-window-close {
+    width: 27px;
+    height: 24px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #333;
+
+    cursor: pointer;
+
+    font-size: 10px;
+}
+
+.virus-window-close:hover {
+    background: #e81123;
+
+    color: #fff;
+}
+
+
+/* ====================================== */
+/* ウィンドウ本文 */
+/* ====================================== */
+
+.virus-window-body {
+    padding: 8px;
+
+    line-height: 1.35;
+}
+
+.virus-window-body p {
+    margin: 0;
+}
+
+
+/* ====================================== */
+/* 出現アニメーション */
+/* ====================================== */
+
+@keyframes virus-window-appear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+
+}
+
+
+/* ====================================== */
+/* タスクバー */
+/* ====================================== */
+
+.taskbar {
+    position: fixed;
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    height: 42px;
+
+    padding: 5px 10px;
+
+    background:
+        rgba(15, 15, 15, 0.95);
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.35);
+
+    color: #fff;
+
+    font-size: 11px;
+}
+
+
+.taskbar-start {
+    display: flex;
+
+    align-items: center;
+
+    height: 30px;
+
+    padding: 0 14px;
+
+    background: #500000;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.5);
+}
+
+
+.taskbar-window {
+    display: flex;
+
+    align-items: center;
+
+    height: 30px;
+
+    min-width: 190px;
+
+    padding: 0 14px;
+
+    background:
+        rgba(255, 255, 255, 0.12);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.25);
+}
+
+
+.taskbar-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-left: auto;
+
+    padding: 0 8px;
+}
+
+
+/* ====================================== */
+/* デスクトップアイコン */
+/* ====================================== */
+
+.desktop-icons {
+    position: relative;
+    z-index: 2;
+}
+
+.desktopIcon {
+    display: block;
+    width: 100px;
+    height: auto;
+}
+
+.desktopIcon-low {
+    display: block;
+    width: 80px;
+    height: auto;
+}
+
+.desktopIcon-low-item {
+    width: 80px;
+    margin: 10px 0 0 10px;
+}
+
+.desktopIcon-low-item figcaption {
+    color: #fff;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: center;
+    -webkit-text-stroke: 0.25px #000;
+    text-shadow:
+        0.5px 0 #000,
+        -0.5px 0 #000,
+        0 0.5px #000,
+        0 -0.5px #000;
+}

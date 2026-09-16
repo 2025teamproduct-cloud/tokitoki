@@ -1,0 +1,963 @@
+.desktopIcon {
+    display: block;
+    width: 100px;
+    height: auto;
+}
+
+.desktopIcon-low {
+    display: block;
+    width: 80px;
+    height: auto;
+}
+
+.desktopIcon-low-item {
+    width: 80px;
+    margin: 10px 0 0 10px;
+}
+
+.desktopIcon-low-item figcaption {
+    color: #fff;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: center;
+    -webkit-text-stroke: 0.25px #000;
+    text-shadow:
+        0.5px 0 #000,
+        -0.5px 0 #000,
+        0 0.5px #000,
+        0 -0.5px #000;
+}
+
+
+/* -------------------------------------- */
+/* デスクトップ背景 */
+/* -------------------------------------- */
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+
+    /* 青いデスクトップ背景 */
+    background: linear-gradient(
+        135deg,
+        #8bd8ed 0%,
+        #58bddb 45%,
+        #239dca 100%
+    );
+
+    font-family: Arial, "Yu Gothic", "Meiryo", sans-serif;
+}
+
+
+/* -------------------------------------- */
+/* 中央のタイトル */
+/* -------------------------------------- */
+
+body::before {
+    content:
+        "MIRAI LIFE / EMPLOYEE TERMINAL\A"
+        "SECURITY\A"
+        "ORIENTATION";
+
+    white-space: pre;
+
+    position: absolute;
+
+    left: 50%;
+    top: 44%;
+
+    transform: translate(-50%, -50%);
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+
+    font-size: 42px;
+    line-height: 0.92;
+
+    letter-spacing: -1px;
+
+    text-align: left;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+
+/* -------------------------------------- */
+/* タイトル下の文字 */
+/* -------------------------------------- */
+
+body::after {
+    content:
+        "新入社員セキュリティ研修へようこそ    |    SECURITY TRAINING / PROTECTION";
+
+    position: absolute;
+
+    left: 50%;
+    top: calc(44% + 82px);
+
+    transform: translateX(-50%);
+
+    color: rgba(255, 255, 255, 0.85);
+
+    font-family: Arial, "Yu Gothic", sans-serif;
+
+    font-size: 9px;
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+
+/* -------------------------------------- */
+/* 画面下部のタスクバー */
+/* -------------------------------------- */
+
+.taskbar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 42px;
+    padding: 5px 10px;
+
+    background: rgba(15, 35, 48, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+
+    box-shadow:
+        0 -3px 10px rgba(0, 0, 0, 0.18);
+
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+}
+
+.taskbar-start,
+.taskbar-window,
+.taskbar-status {
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.taskbar-start {
+    padding: 0 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.65);
+
+    background: #1e5368;
+
+    color: #fff;
+
+    font: inherit;
+
+    cursor: pointer;
+}
+
+.taskbar-start:hover {
+    background: #28677f;
+}
+
+.taskbar-window {
+    min-width: 190px;
+
+    padding: 0 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.taskbar-status {
+    gap: 16px;
+
+    margin-left: auto;
+
+    padding: 0 8px;
+
+    color: rgba(255, 255, 255, 0.85);
+}
+
+
+/* -------------------------------------- */
+/* 10秒後に表示するメール通知 */
+/* -------------------------------------- */
+
+.mail-notification {
+    position: fixed;
+
+    right: 14px;
+    bottom: 52px;
+
+    z-index: 10;
+
+    width: min(400px, calc(100vw - 28px));
+
+    max-height: calc(100vh - 70px);
+
+    padding: 14px 16px;
+
+    overflow-y: auto;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border: 1px solid #1b3541;
+    border-radius: 8px;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.3);
+
+    color: #1a2730;
+
+    font-size: 12px;
+    line-height: 1.55;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform: translateY(18px);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+
+    cursor: pointer;
+}
+
+.mail-notification.is-visible {
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transform: translateY(0);
+}
+
+.mail-notification:hover {
+    box-shadow:
+        0 7px 24px rgba(0, 0, 0, 0.38);
+}
+
+.mail-notification-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid #b5c4ca;
+
+    color: #42606d;
+
+    font-size: 10px;
+
+    letter-spacing: 0.6px;
+}
+
+.mail-notification h2 {
+    margin: 11px 0 10px;
+
+    color: #152b36;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+.mail-notification-body p {
+    margin: 0 0 10px;
+}
+
+.mail-notification-body p:last-child {
+    margin-bottom: 0;
+}
+
+.mail-notification a {
+    color: #075d83;
+
+    text-decoration: underline;
+}
+
+
+/* -------------------------------------- */
+/* メールウィンドウ背景 */
+/* -------------------------------------- */
+
+.window-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 15;
+
+    background: rgba(0, 0, 0, 0.20);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 0.25s ease;
+}
+
+.window-overlay.is-open {
+    opacity: 1;
+
+    pointer-events: auto;
+}
+
+
+/* -------------------------------------- */
+/* Windows風メールウィンドウ */
+/* -------------------------------------- */
+
+.mail-window {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    z-index: 20;
+
+    width: min(640px, 85vw);
+
+    min-height: 420px;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.94);
+
+    background: #fff;
+
+    border: 1px solid #b7b7b7;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.38);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.mail-window.is-open {
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+}
+
+
+/* -------------------------------------- */
+/* Windows風タイトルバー */
+/* -------------------------------------- */
+
+.mail-window-titlebar {
+    height: 42px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-left: 14px;
+
+    background: #f3f3f3;
+
+    border-bottom: 1px solid #d5d5d5;
+
+    color: #222;
+
+    font-size: 13px;
+
+    user-select: none;
+}
+
+.mail-window-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.mail-window-icon {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 18px;
+    height: 18px;
+
+    font-size: 14px;
+}
+
+
+/* -------------------------------------- */
+/* Windows風ウィンドウ操作ボタン */
+/* -------------------------------------- */
+
+.mail-window-controls {
+    display: flex;
+
+    height: 42px;
+}
+
+.win-btn {
+    width: 46px;
+    height: 42px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #333;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.win-btn:hover {
+    background: #e5e5e5;
+}
+
+.win-btn.close:hover {
+    background: #e81123;
+
+    color: #fff;
+}
+
+
+/* -------------------------------------- */
+/* メールウィンドウ本文 */
+/* -------------------------------------- */
+
+.mail-window-content {
+    padding: 20px 22px;
+
+    color: #202020;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+.mail-meta {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    padding-bottom: 13px;
+
+    border-bottom: 1px solid #dedede;
+}
+
+.mail-label {
+    margin-bottom: 4px;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+.mail-meta strong {
+    color: #151515;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+.mail-time {
+    color: #777;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+.mail-from {
+    margin: 14px 0;
+
+    color: #666;
+
+    font-size: 11px;
+}
+
+
+/* -------------------------------------- */
+/* メール本文 */
+/* -------------------------------------- */
+
+.mail-body {
+    color: #333;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+.mail-body p {
+    margin: 0 0 12px;
+}
+
+
+/* -------------------------------------- */
+/* 研修ソフトインストールボタン */
+/* -------------------------------------- */
+
+.download-btn {
+    margin: 14px 0;
+
+    padding: 10px 20px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: #0878d1;
+
+    color: #fff;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.download-btn:hover {
+    background: #0869b8;
+}
+
+.download-btn:active {
+    transform: translateY(1px);
+}
+
+
+/* -------------------------------------- */
+/* 添付ファイル */
+/* -------------------------------------- */
+
+.attachment {
+    margin-top: 10px;
+
+    color: #888;
+
+    font-size: 11px;
+}
+
+
+/* -------------------------------------- */
+/* 最大化 */
+/* -------------------------------------- */
+
+.mail-window.maximized {
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+
+    height: calc(100vh - 42px);
+
+    min-height: 0;
+
+    transform: none;
+
+    border-radius: 0;
+}
+
+
+/* ====================================== */
+/* インストール中 */
+/* ====================================== */
+
+.install-status {
+    position: fixed;
+
+    right: 18px;
+    bottom: 55px;
+
+    z-index: 30;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 8px 14px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    border: 1px solid #aaa;
+
+    color: #222;
+
+    font-size: 12px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.25);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+.install-status.is-visible {
+    opacity: 1;
+}
+
+
+/* -------------------------------------- */
+/* インストール中のぐるぐる */
+/* -------------------------------------- */
+
+.loading-spinner {
+    width: 15px;
+    height: 15px;
+
+    border: 3px solid #d5d5d5;
+
+    border-top-color: #1877d2;
+
+    border-radius: 50%;
+
+    animation:
+        loading-spin 0.8s linear infinite;
+}
+
+@keyframes loading-spin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* ====================================== */
+/* ウイルス検出通知 */
+/* ====================================== */
+
+.virus-notification {
+    position: fixed;
+
+    top: 110px;
+    right: 14px;
+
+    z-index: 40;
+
+    width: 250px;
+
+    background: #f58b8f;
+
+    border: 1px solid #d96368;
+
+    color: #222;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.25);
+
+    opacity: 0;
+
+    transform: translateX(30px);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+}
+
+.virus-notification.is-visible {
+    opacity: 1;
+
+    transform: translateX(0);
+
+    pointer-events: auto;
+}
+
+
+/* -------------------------------------- */
+/* ウイルス検出通知タイトル */
+/* -------------------------------------- */
+
+.virus-notification-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    height: 30px;
+
+    padding-left: 10px;
+
+    background: rgba(255, 255, 255, 0.15);
+
+    border-bottom: 1px solid rgba(100, 0, 0, 0.15);
+
+    font-size: 10px;
+
+    font-weight: bold;
+}
+
+
+/* -------------------------------------- */
+/* ウイルス検出通知の× */
+/* -------------------------------------- */
+
+.virus-notification-close {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 30px;
+    height: 30px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #333;
+
+    font-size: 17px;
+
+    line-height: 30px;
+
+    text-align: center;
+
+    cursor: pointer;
+}
+
+.virus-notification-close:hover {
+    background: #e81123;
+
+    color: #fff;
+}
+
+
+/* -------------------------------------- */
+/* ウイルス検出メッセージ */
+/* -------------------------------------- */
+
+.virus-notification-message {
+    padding: 18px 24px;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* ====================================== */
+/* ウイルス感染時の赤画面 */
+/* ====================================== */
+
+.virus-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 12;
+
+    background:
+        rgba(120, 0, 0, 0.88);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.7s ease;
+}
+
+.virus-overlay.is-active {
+    opacity: 1;
+}
+
+
+/* ====================================== */
+/* 大量に出現するウイルス警告ウィンドウ */
+/* ====================================== */
+
+.virus-windows {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 50;
+
+    pointer-events: none;
+}
+
+
+/* -------------------------------------- */
+/* 個々の警告ウィンドウ */
+/* -------------------------------------- */
+
+.virus-window {
+    position: absolute;
+
+    width: 190px;
+
+    min-height: 82px;
+
+    background: #fff;
+
+    border: 1px solid #999;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.4);
+
+    color: #222;
+
+    font-size: 10px;
+
+    pointer-events: auto;
+
+    animation:
+        virus-window-appear 0.15s ease-out;
+}
+
+
+/* -------------------------------------- */
+/* 警告ウィンドウタイトルバー */
+/* -------------------------------------- */
+
+.virus-window-titlebar {
+    height: 24px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-left: 7px;
+
+    background: #f1f1f1;
+
+    border-bottom: 1px solid #ccc;
+
+    font-size: 9px;
+}
+
+.virus-window-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+}
+
+.virus-window-close {
+    width: 27px;
+    height: 24px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #333;
+
+    cursor: pointer;
+
+    font-size: 10px;
+}
+
+.virus-window-close:hover {
+    background: #e81123;
+
+    color: #fff;
+}
+
+
+/* -------------------------------------- */
+/* 警告ウィンドウ本文 */
+/* -------------------------------------- */
+
+.virus-window-body {
+    padding: 8px;
+
+    line-height: 1.35;
+}
+
+.virus-window-body p {
+    margin: 0;
+}
+
+
+/* -------------------------------------- */
+/* ウイルス警告アニメーション */
+/* -------------------------------------- */
+
+@keyframes virus-window-appear {
+
+    from {
+        opacity: 0;
+
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: scale(1);
+    }
+
+}
+
+

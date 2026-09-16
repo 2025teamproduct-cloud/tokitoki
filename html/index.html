@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- reset.css ress -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js" defer></script>
+    <title>謎解きサンプル</title>
+</head>
+
+<body>
+    <img src="../img/dustbox.png" alt="ゴミ箱" class="desktopIcon">
+    <img src="../img/folder.png" alt="会議資料" class="desktopIcon">
+
+    <figure class="desktopIcon-low-item">
+        <img src="../img/WaterDog.png" alt="Water Dog" class="desktopIcon-low">
+        <figcaption>Water Dog</figcaption>
+    </figure>
+
+    <figure class="desktopIcon-low-item">
+        <img src="../img/mail.png" alt="メール" class="desktopIcon-low">
+        <figcaption>メール</figcaption>
+    </figure>
+
+    <figure class="desktopIcon-low-item">
+        <img src="../img/AI.png" alt="ネフユ" class="desktopIcon-low">
+        <figcaption>ネフユ</figcaption>
+    </figure>
+
+
+    <!-- ============================== -->
+    <!-- タスクバー -->
+    <!-- ============================== -->
+
+    <nav class="taskbar" aria-label="タスクバー">
+
+        <button class="taskbar-start" type="button">
+            START
+        </button>
+
+        <div class="taskbar-window">
+            SECURITY TRAINING
+        </div>
+
+        <div class="taskbar-status">
+            <span>ONLINE</span>
+            <time id="japan-time" datetime="">--:--</time>
+        </div>
+
+    </nav>
+
+
+    <!-- ============================== -->
+    <!-- メール通知 -->
+    <!-- ============================== -->
+
+    <aside
+        class="mail-notification"
+        id="mail-notification"
+        aria-live="polite"
+    >
+
+        <div class="mail-notification-header">
+            <span>NEW MAIL</span>
+            <span>社内メール</span>
+        </div>
+
+        <h2>
+            件名:社用セキュリティ研修の案内
+        </h2>
+
+        <div class="mail-notification-body">
+
+            <p>
+                社員各位<br>
+                お疲れさまです。
+            </p>
+
+            <p>
+                情報セキュリティ意識向上のため、
+                全社員を対象とした「セキュリティ研修」を実施します。
+            </p>
+
+            <p>
+                今回の研修では、特に身近な脅威である
+                「フィッシングメール」をテーマに、
+                実際のメールを想定したデモを通じて、
+                怪しいメールを見分けるポイントや、
+                万が一クリックしてしまった場合の対応方法を学びます。
+            </p>
+
+            <p>
+                <a href="http://example.com/security-training-demo">
+                    http://example.com/security-training-demo
+                </a>
+            </p>
+
+            <p>
+                ご自身や会社の情報を守るためにも、
+                ぜひご参加ください。<br>
+                ご協力のほど、よろしくお願いいたします。
+            </p>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ============================== -->
+    <!-- メールウィンドウ -->
+    <!-- ============================== -->
+
+    <section
+        class="mail-window"
+        id="mail-window"
+        aria-hidden="true"
+    >
+
+        <!-- Windows風タイトルバー -->
+
+        <div class="mail-window-titlebar">
+
+            <div class="mail-window-left">
+
+                <span class="mail-window-icon">
+                    ✉
+                </span>
+
+                <span>
+                    社内メール
+                </span>
+
+            </div>
+
+
+            <div class="mail-window-controls">
+
+                <button
+                    type="button"
+                    class="win-btn"
+                    id="minimize-btn"
+                    aria-label="最小化"
+                >
+                    ─
+                </button>
+
+                <button
+                    type="button"
+                    class="win-btn"
+                    id="maximize-btn"
+                    aria-label="最大化"
+                >
+                    □
+                </button>
+
+                <button
+                    type="button"
+                    class="win-btn close"
+                    id="close-mail-window"
+                    aria-label="閉じる"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- メール本文 -->
+
+        <div class="mail-window-content">
+
+            <div class="mail-meta">
+
+                <div>
+
+                    <div class="mail-label">
+                        件名
+                    </div>
+
+                    <strong>
+                        【要対応】セキュリティ研修用ソフトのご案内
+                    </strong>
+
+                </div>
+
+                <div class="mail-time">
+                    17:30
+                </div>
+
+            </div>
+
+
+            <div class="mail-from">
+                差出人: training@mirai-support.example.com
+            </div>
+
+
+            <div class="mail-body">
+
+                <p>
+                    社員各位
+                </p>
+
+                <p>
+                    お疲れさまです。
+                </p>
+
+                <p>
+                    情報セキュリティ意識向上のため、
+                    全社員を対象としたセキュリティ研修を実施します。
+                </p>
+
+                <p>
+                    本日中に以下のリンクから
+                    研修ソフトをインストールしてください。
+                </p>
+
+
+                <!-- 怪しいボタン -->
+
+                <button
+                    type="button"
+                    class="download-btn"
+                    id="download-btn"
+                >
+                    研修ソフトをインストール
+                </button>
+
+
+                <p class="attachment">
+                    添付ファイル:
+                    Security_Training_Installer.zip
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================== -->
+    <!-- ウィンドウ背景 -->
+    <!-- ============================== -->
+
+    <div
+        class="window-overlay"
+        id="window-overlay"
+    ></div>
+
+
+    <!-- ============================== -->
+    <!-- インストール中表示 -->
+    <!-- ============================== -->
+
+    <div
+        class="install-status"
+        id="install-status"
+    >
+        <div class="loading-spinner"></div>
+
+        <span>
+            インストール中
+        </span>
+    </div>
+
+
+    <!-- ============================== -->
+    <!-- ウイルス検出通知 -->
+    <!-- ============================== -->
+
+    <div
+        class="virus-notification"
+        id="virus-notification"
+    >
+
+        <div class="virus-notification-title">
+            <span>⚠</span>
+            <span>セキュリティ警告</span>
+        </div>
+
+        <button
+            type="button"
+            class="virus-notification-close"
+            id="virus-notification-close"
+            aria-label="閉じる"
+        >
+            ×
+        </button>
+
+        <div class="virus-notification-message">
+            ウイルスが検出されました
+        </div>
+
+    </div>
+
+
+    <!-- ============================== -->
+    <!-- ウイルス感染時の赤画面 -->
+    <!-- ============================== -->
+
+    <div
+        class="virus-overlay"
+        id="virus-overlay"
+    ></div>
+
+
+    <!-- ============================== -->
+    <!-- ウイルス警告ウィンドウを入れる場所 -->
+    <!-- ============================== -->
+
+    <div
+        class="virus-windows"
+        id="virus-windows"
+    ></div>
+
+
+    <!-- 今は10秒やが渡すときに時間を変更して向こうが研修の概要を説明しているとメールの通知が来て始まる -->
+    <!-- ↑みたいな感じにするからある程度の半台本みたいなのいるかも　いぶきちの仕事 -->
+
+</body>
+
+</html>
