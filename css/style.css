@@ -6,8 +6,9 @@
 
 .desktopIcon-low {
     display: block;
-    width: 80px;
+    width: 60px;
     height: auto;
+    padding-left: 20px;
 }
 
 .desktopIcon-low-item {
