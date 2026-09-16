@@ -960,4 +960,6 @@ body::after {
 
 }
 
-
+#exe {
+    width: 60px;
+}
