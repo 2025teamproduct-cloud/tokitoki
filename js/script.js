@@ -1,8 +1,8 @@
 const japanTime = document.querySelector('#japan-time');
 const mailNotification = document.querySelector('#mail-notification');
+const mailTime = document.querySelector('.mail-time');
 
-function updateJapanTime() {
-	const now = new Date();
+function formatJapanTime(date) {
 	const formatter = new Intl.DateTimeFormat('ja-JP', {
 		timeZone: 'Asia/Tokyo',
 		hour: '2-digit',
@@ -10,7 +10,12 @@ function updateJapanTime() {
 		hour12: false
 	});
 
-	japanTime.textContent = formatter.format(now);
+	return formatter.format(date);
+}
+
+function updateJapanTime() {
+	const now = new Date();
+	japanTime.textContent = formatJapanTime(now);
 	japanTime.dateTime = now.toISOString();
 }
 
@@ -18,7 +23,12 @@ updateJapanTime();
 setInterval(updateJapanTime, 60000);
 
 setTimeout(() => {
+	const notificationTime = new Date();
 	mailNotification.classList.add('is-visible');
+
+	if (mailTime) {
+		mailTime.textContent = formatJapanTime(notificationTime);
+	}
 }, 10000);
 
 
