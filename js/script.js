@@ -202,7 +202,7 @@ downloadBtn.addEventListener('click', () => {
 
 		virusNotification.classList.add('is-visible');
 
-	}, 10000);
+	}, 6000);
 
 });
 
