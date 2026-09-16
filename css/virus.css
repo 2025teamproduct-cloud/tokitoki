@@ -340,8 +340,23 @@ body {
 
 .desktopIcon-low {
     display: block;
-    width: 80px;
+    width: 60px;
     height: auto;
+    padding-left: 20px;
+}
+
+.mail-icon,
+.ai-icon {
+    width: 70px;
+    padding-left: 12px;
+}
+
+#exe.desktopIcon-low,
+img#exe {
+    width: 60px;
+    height: auto;
+    display: block;
+    padding-left: 20px;
 }
 
 .desktopIcon-low-item {
