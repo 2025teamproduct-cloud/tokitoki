@@ -1,6 +1,6 @@
 const japanTime = document.querySelector('#japan-time');
 const mailNotification = document.querySelector('#mail-notification');
-const mailTime = document.querySelector('.mail-time');
+const mailTime = document.querySelector('#mail-window .mail-time');
 
 function formatJapanTime(date) {
 	const formatter = new Intl.DateTimeFormat('ja-JP', {
