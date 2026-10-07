@@ -35,17 +35,23 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-    function openQuestion(index) {
+    function syncInputState() {
         cards.forEach((card) => {
-            const isActive = Number(card.dataset.index) === index;
-            const isSolved = card.classList.contains('is-solved');
-            card.classList.toggle('active', isActive);
-            card.setAttribute('aria-hidden', String(!isActive));
-
             const inputs = Array.from(card.querySelectorAll('.answer-input'));
+            const isActive = card.classList.contains('active');
+            const isSolved = card.classList.contains('is-solved');
+
             inputs.forEach((input) => {
                 input.disabled = !(isActive && !isSolved);
             });
+        });
+    }
+
+    function openQuestion(index) {
+        cards.forEach((card) => {
+            const isActive = Number(card.dataset.index) === index;
+            card.classList.toggle('active', isActive);
+            card.setAttribute('aria-hidden', String(!isActive));
         });
 
         folderButtons.forEach((button) => {
@@ -53,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.toggle('is-active', isActive);
             button.setAttribute('aria-pressed', String(isActive));
         });
+
+        syncInputState();
 
         if (stage) {
             stage.classList.add('has-active');
@@ -107,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!saved) {
                 inputs.forEach((input) => {
                     input.value = '';
-                    input.disabled = false;
                 });
                 badge.textContent = '';
                 badge.classList.remove('correct', 'wrong');
@@ -117,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             inputs.forEach((input, index) => {
                 input.value = saved.values[index] || '';
-                input.disabled = true;
             });
 
             badge.textContent = saved.correct ? '正解' : '不正解';
@@ -127,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         updateFolderStates();
+        syncInputState();
 
         const firstOpenIndex = cards.findIndex((card) => {
             const cardIndex = Number(card.dataset.index);
@@ -148,6 +155,17 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => {
             const index = Number(button.dataset.index);
             openQuestion(index);
+        });
+    });
+
+    cards.forEach((card) => {
+        const inputs = Array.from(card.querySelectorAll('.answer-input'));
+        inputs.forEach((input) => {
+            input.addEventListener('focus', () => {
+                if (input.disabled) {
+                    input.blur();
+                }
+            });
         });
     });
 
