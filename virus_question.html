@@ -7,39 +7,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
     <link rel="stylesheet" href="./css/question.css">
-    <script src="./js/script.js" defer></script>
+    <script src="./js/question.js" defer></script>
     <title>セキュリティ問題</title>
 </head>
 
 <body class="quiz-body">
     <div class="desktop-icons" aria-label="デスクトップアイコン">
-        <div class="desktop-icon-item">
-            <img src="./img/exe.png" alt="修復ツール" class="desktop-icon-graphic">
-            <span>修復</span>
-        </div>
-        <div class="desktop-icon-item">
-            <img src="./img/folder.png" alt="ログ" class="desktop-icon-graphic">
-            <span>ログ</span>
-        </div>
-        <div class="desktop-icon-item">
-            <img src="./img/AI.png" alt="支援AI" class="desktop-icon-graphic ai-graphic">
-            <span>支援AI</span>
-        </div>
+        <button class="desktop-icon-item folder-item is-active" type="button" data-index="0" aria-pressed="true">
+            <img src="./img/folder.png" alt="問題01" class="desktop-icon-graphic">
+            <span>問題01</span>
+        </button>
+        <button class="desktop-icon-item folder-item" type="button" data-index="1" aria-pressed="false">
+            <img src="./img/folder.png" alt="問題02" class="desktop-icon-graphic">
+            <span>問題02</span>
+        </button>
+        <button class="desktop-icon-item folder-item" type="button" data-index="2" aria-pressed="false">
+            <img src="./img/folder.png" alt="問題03" class="desktop-icon-graphic">
+            <span>問題03</span>
+        </button>
+        <button class="desktop-icon-item folder-item" type="button" data-index="3" aria-pressed="false">
+            <img src="./img/folder.png" alt="問題04" class="desktop-icon-graphic">
+            <span>問題04</span>
+        </button>
+        <button class="desktop-icon-item folder-item" type="button" data-index="4" aria-pressed="false">
+            <img src="./img/folder.png" alt="問題05" class="desktop-icon-graphic">
+            <span>問題05</span>
+        </button>
     </div>
 
     <main class="quiz-shell">
-        <div class="quiz-grid">
-
-            <article class="question-card" data-index="0" data-answer="613533">
-                <div class="card-decor" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+        <div class="question-stage">
+            <article class="question-card active" data-index="0" data-answer="613533" aria-hidden="false">
+                <div class="card-header">
+                    <span class="window-tag">FILE-01</span>
+                    <span class="window-close">✕</span>
                 </div>
 
-                <h2>問題文</h2>
-
+                <h2>問題 1</h2>
                 <p class="problem-line">VIRUS = 22 - 9 - 18 - 21 - 19</p>
                 <p class="problem-line">6 - 1 - 3 - 3 - 5 - 3</p>
 
@@ -63,16 +67,13 @@
                 </div>
             </article>
 
-            <article class="question-card" data-index="1" data-answer="914281">
-                <div class="card-decor" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            <article class="question-card" data-index="1" data-answer="914281" aria-hidden="true">
+                <div class="card-header">
+                    <span class="window-tag">FILE-02</span>
+                    <span class="window-close">✕</span>
                 </div>
 
-                <h2>問題文</h2>
-
+                <h2>問題 2</h2>
                 <p class="problem-line">SCAN = 17 - 8 - 12 - 20 - 4</p>
                 <p class="problem-line">9 - 1 - 4 - 2 - 8 - 1</p>
 
@@ -96,16 +97,13 @@
                 </div>
             </article>
 
-            <article class="question-card" data-index="2" data-answer="731268">
-                <div class="card-decor" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            <article class="question-card" data-index="2" data-answer="731268" aria-hidden="true">
+                <div class="card-header">
+                    <span class="window-tag">FILE-03</span>
+                    <span class="window-close">✕</span>
                 </div>
 
-                <h2>問題文</h2>
-
+                <h2>問題 3</h2>
                 <p class="problem-line">ALERT = 5 - 14 - 18 - 27 - 2</p>
                 <p class="problem-line">7 - 3 - 1 - 2 - 6 - 8</p>
 
@@ -129,16 +127,13 @@
                 </div>
             </article>
 
-            <article class="question-card" data-index="3" data-answer="819934">
-                <div class="card-decor" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            <article class="question-card" data-index="3" data-answer="819934" aria-hidden="true">
+                <div class="card-header">
+                    <span class="window-tag">FILE-04</span>
+                    <span class="window-close">✕</span>
                 </div>
 
-                <h2>問題文</h2>
-
+                <h2>問題 4</h2>
                 <p class="problem-line">TOKEN = 3 - 18 - 22 - 20 - 15</p>
                 <p class="problem-line">8 - 1 - 9 - 9 - 3 - 4</p>
 
@@ -162,16 +157,13 @@
                 </div>
             </article>
 
-            <article class="question-card" data-index="4" data-answer="452813">
-                <div class="card-decor" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            <article class="question-card" data-index="4" data-answer="452813" aria-hidden="true">
+                <div class="card-header">
+                    <span class="window-tag">FILE-05</span>
+                    <span class="window-close">✕</span>
                 </div>
 
-                <h2>問題文</h2>
-
+                <h2>問題 5</h2>
                 <p class="problem-line">SYSTEM = 18 - 19 - 19 - 20 - 5 - 13</p>
                 <p class="problem-line">4 - 5 - 2 - 8 - 1 - 3</p>
 
@@ -194,7 +186,6 @@
                     <img src="./img/AI.png" alt="サポートAI">
                 </div>
             </article>
-
         </div>
     </main>
 </body>
