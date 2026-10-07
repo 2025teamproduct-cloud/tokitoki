@@ -255,7 +255,7 @@ body {
     opacity: 0;
     transform: translateY(18px);
     transition: opacity 0.4s ease, transform 0.4s ease;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 .support-ai.is-visible {
@@ -290,6 +290,222 @@ body {
 
 .support-ai-bubble span {
     display: block;
+}
+
+.quiz-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(20, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.quiz-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.quiz-panel {
+    width: min(1100px, 96vw);
+    max-height: 82vh;
+    overflow: auto;
+    background: rgba(230, 230, 230, 0.96);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.quiz-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px 10px;
+    background: rgba(150, 0, 0, 0.9);
+}
+
+.quiz-header-left {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.quiz-dock {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.quiz-close {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.quiz-panel h2 {
+    margin: 18px 0 12px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1d1d1d;
+}
+
+.quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    gap: 26px 18px;
+    padding: 0 18px 18px;
+}
+
+.quiz-card {
+    position: relative;
+    min-height: 280px;
+    background: rgba(210, 210, 210, 0.9);
+    border: 1px solid rgba(0,0,0,0.18);
+    padding: 16px 16px 12px;
+    overflow: visible;
+}
+
+.quiz-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.quiz-card-icons {
+    position: absolute;
+    left: 12px;
+    top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.quiz-card-icons span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: #2f5b9c;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.quiz-card h3 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.quiz-formula {
+    margin: 0 0 14px;
+    text-align: center;
+    font-size: clamp(16px, 1.6vw, 28px);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #111;
+}
+
+.quiz-answer-row,
+.quiz-input-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.answer-box,
+.quiz-input-row input {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(0,0,0,0.28);
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    text-align: center;
+}
+
+.quiz-input-row {
+    margin-top: 10px;
+}
+
+.quiz-input-row input {
+    outline: none;
+}
+
+.quiz-input-row input:focus {
+    outline: 2px solid #2d7ce6;
+}
+
+.quiz-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.quiz-submit {
+    min-width: 130px;
+    height: 52px;
+    border: 1px solid rgba(0,0,0,0.3);
+    background: rgba(120,120,120,0.8);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.quiz-submit:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
+.quiz-result {
+    min-width: 90px;
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 22px;
+    opacity: 0;
+}
+
+.quiz-result.is-correct {
+    opacity: 1;
+    color: #0f8f2d;
+}
+
+.quiz-result.is-wrong {
+    opacity: 1;
+    color: #d11d1d;
+}
+
+.quiz-card.is-correct {
+    box-shadow: inset 0 0 0 2px rgba(20, 140, 60, 0.6);
+}
+
+.quiz-card.is-wrong {
+    box-shadow: inset 0 0 0 2px rgba(190, 20, 20, 0.6);
+}
+
+@media (max-width: 900px) {
+    .quiz-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .taskbar {

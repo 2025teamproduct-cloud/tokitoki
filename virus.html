@@ -82,12 +82,35 @@
     <!-- サポートAI吹き出し -->
     <!-- ====================================== -->
 
-    <div class="support-ai" id="support-ai" aria-live="polite" aria-hidden="true">
+    <div class="support-ai" id="support-ai" aria-live="polite" aria-hidden="true" tabindex="0" role="button" aria-label="サポートAIに相談する">
         <div class="support-ai-bubble">
             <p>サポートAI</p>
             <span>不正な動作を検出しました。まずは画面を閉じずに、サポート窓口へ連絡してください。</span>
         </div>
         <img src="./img/AI.png" alt="サポートAI" class="support-ai-image">
+    </div>
+
+
+    <!-- ====================================== -->
+    <!-- 問題表示 -->
+    <!-- ====================================== -->
+
+    <div class="quiz-overlay" id="quiz-overlay" aria-hidden="true">
+        <div class="quiz-panel" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+            <div class="quiz-header">
+                <div class="quiz-header-left">
+                    <span class="quiz-dock"></span>
+                    <span class="quiz-dock"></span>
+                    <span class="quiz-dock"></span>
+                    <span class="quiz-dock"></span>
+                </div>
+                <button type="button" class="quiz-close" id="quiz-close" aria-label="閉じる">✕</button>
+            </div>
+
+            <h2 id="quiz-title">問題</h2>
+
+            <div class="quiz-grid" id="quiz-grid"></div>
+        </div>
     </div>
 
 
