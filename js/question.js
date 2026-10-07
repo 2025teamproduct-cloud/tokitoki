@@ -38,8 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function openQuestion(index) {
         cards.forEach((card) => {
             const isActive = Number(card.dataset.index) === index;
+            const isSolved = card.classList.contains('is-solved');
             card.classList.toggle('active', isActive);
             card.setAttribute('aria-hidden', String(!isActive));
+
+            const inputs = Array.from(card.querySelectorAll('.answer-input'));
+            inputs.forEach((input) => {
+                input.disabled = !(isActive && !isSolved);
+            });
         });
 
         folderButtons.forEach((button) => {
@@ -129,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (firstOpenIndex >= 0) {
+            openQuestion(Number(cards[firstOpenIndex].dataset.index));
             return;
         }
 
