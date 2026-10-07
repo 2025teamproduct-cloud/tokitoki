@@ -473,6 +473,14 @@ const virusWindowTimer =
 				virusWindowTimer
 			);
 
+			setTimeout(() => {
+				const supportAi = document.querySelector('#support-ai');
+				if (supportAi) {
+					supportAi.classList.add('is-visible');
+					supportAi.setAttribute('aria-hidden', 'false');
+				}
+			}, 3000);
+
 		}
 
 	}, 60);
