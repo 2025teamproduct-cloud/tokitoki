@@ -193,16 +193,16 @@ downloadBtn.addEventListener('click', () => {
 
 
 	/* -------------------------------------- */
-	/* 10秒後にウイルス検出 */
+	/* その操作を起点に、問題表示画面へ切り替える */
 	/* -------------------------------------- */
 
 	setTimeout(() => {
 
 		installStatus.classList.remove('is-visible');
 
-		virusNotification.classList.add('is-visible');
+		goToVirusPage();
 
-	}, 6000);
+	}, 1200);
 
 });
 
@@ -221,25 +221,16 @@ function goToVirusPage() {
 /* ×ボタンをクリック */
 /* -------------------------------------- */
 
-virusNotificationClose.addEventListener('click', () => {
-
-	goToVirusPage();
-
-});
-
-
-/* -------------------------------------- */
-/* ウイルス通知表示中は画面全体をクリック可能 */
-/* -------------------------------------- */
-
-document.addEventListener('click', (event) => {
-
-	/* ウイルス通知が表示されている場合のみ */
-
-	if (virusNotification.classList.contains('is-visible')) {
-
+if (virusNotificationClose) {
+	virusNotificationClose.addEventListener('click', () => {
 		goToVirusPage();
+	});
+}
 
-	}
 
-});
+/* -------------------------------------- */
+/* 画面クリックで移動しないようにする */
+/* -------------------------------------- */
+
+/* 画面全体へのクリック遷移は行わず、
+ * 実際のウイルス操作を起点に遷移させる */
