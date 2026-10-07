@@ -262,12 +262,17 @@
     <div
         class="install-status"
         id="install-status"
+        aria-live="polite"
     >
-        <div class="loading-spinner"></div>
+        <div class="install-status-titlebar">
+            <span>インストール</span>
+            <button type="button" class="install-status-close" aria-label="インストール中表示を閉じる">×</button>
+        </div>
 
-        <span>
-            インストール中
-        </span>
+        <div class="install-status-body">
+            <div class="loading-spinner"></div>
+            <span>インストール中...</span>
+        </div>
     </div>
 
 
