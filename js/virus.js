@@ -479,7 +479,7 @@ const virusWindowTimer =
 					supportAi.classList.add('is-visible');
 					supportAi.setAttribute('aria-hidden', 'false');
 				}
-			}, 3000);
+			}, 5000);
 
 		}
 
