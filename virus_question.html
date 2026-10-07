@@ -36,8 +36,8 @@
     </div>
 
     <main class="quiz-shell">
-        <div class="question-stage">
-            <article class="question-card active" data-index="0" data-answer="613533" aria-hidden="false">
+        <div class="question-stage" aria-live="polite">
+            <article class="question-card" data-index="0" data-answer="613533" aria-hidden="true">
                 <div class="card-header">
                     <span class="window-tag">FILE-01</span>
                     <span class="window-close">✕</span>
@@ -188,6 +188,15 @@
             </article>
         </div>
     </main>
+
+    <nav class="taskbar" aria-label="タスクバー">
+        <div class="taskbar-start">START</div>
+        <div class="taskbar-window">QUESTION FILE</div>
+        <div class="taskbar-status">
+            <span>SECURE</span>
+            <time id="question-time">--:--</time>
+        </div>
+    </nav>
 </body>
 
 </html>

@@ -2,6 +2,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const STORAGE_KEY = 'security-quiz-session';
     const cards = Array.from(document.querySelectorAll('.question-card'));
     const folderButtons = Array.from(document.querySelectorAll('.folder-item'));
+    const stage = document.querySelector('.question-stage');
+    const questionTime = document.querySelector('#question-time');
+
+    function formatJapanTime(date) {
+        return new Intl.DateTimeFormat('ja-JP', {
+            timeZone: 'Asia/Tokyo',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).format(date);
+    }
+
+    function updateQuestionTime() {
+        if (questionTime) {
+            questionTime.textContent = formatJapanTime(new Date());
+        }
+    }
+
+    updateQuestionTime();
+    setInterval(updateQuestionTime, 60000);
 
     function loadSessionState() {
         try {
@@ -27,6 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.toggle('is-active', isActive);
             button.setAttribute('aria-pressed', String(isActive));
         });
+
+        if (stage) {
+            stage.classList.add('has-active');
+        }
     }
 
     function updateFolderStates() {
@@ -105,15 +129,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (firstOpenIndex >= 0) {
-            openQuestion(Number(cards[firstOpenIndex].dataset.index));
             return;
         }
 
-        openQuestion(0);
+        if (stage) {
+            stage.classList.remove('has-active');
+        }
     }
 
     folderButtons.forEach((button) => {
-        button.addEventListener('dblclick', () => {
+        button.addEventListener('click', () => {
             const index = Number(button.dataset.index);
             openQuestion(index);
         });
