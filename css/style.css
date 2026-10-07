@@ -928,16 +928,15 @@ body::after {
 }
 
 .install-status-progress-bar {
-    width: 40%;
+    width: 0%;
     height: 100%;
     background: linear-gradient(90deg, #4aa4ff 0%, #2a7ae8 100%);
-    animation: install-progress 3s ease-in-out infinite;
+    animation: install-progress 6s linear forwards;
 }
 
 @keyframes install-progress {
-    0% { width: 20%; }
-    50% { width: 68%; }
-    100% { width: 88%; }
+    0% { width: 0%; }
+    100% { width: 100%; }
 }
 
 
