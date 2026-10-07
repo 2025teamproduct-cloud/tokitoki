@@ -484,3 +484,19 @@ const virusWindowTimer =
 		}
 
 	}, 60);
+
+const aiTrigger = document.querySelector('#ai-trigger');
+
+if (aiTrigger) {
+	const goToQuestion = () => {
+		window.location.href = 'virus_question.html';
+	};
+
+	aiTrigger.addEventListener('click', goToQuestion);
+	aiTrigger.addEventListener('keydown', (event) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			goToQuestion();
+		}
+	});
+}
