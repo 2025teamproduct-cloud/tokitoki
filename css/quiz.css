@@ -1,0 +1,221 @@
+html,
+body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: Arial, "Yu Gothic", "Meiryo", sans-serif;
+    background: linear-gradient(180deg, #f1f1f1 0%, #d9d9d9 100%);
+}
+
+.quiz-desktop {
+    min-height: 100vh;
+    padding: 28px 20px 36px;
+}
+
+.desktop-shell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px 26px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.desktop-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 110px;
+    padding: 10px 8px;
+    border: none;
+    background: transparent;
+    color: #111;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.desktop-item:focus-visible {
+    outline: 2px solid #2d7ce6;
+    outline-offset: 4px;
+}
+
+.folder-icon {
+    width: 76px;
+    height: 76px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.18));
+}
+
+.color-one { filter: hue-rotate(0deg) saturate(1.1); }
+.color-two { filter: hue-rotate(30deg) saturate(1.2); }
+.color-three { filter: hue-rotate(105deg) saturate(1.2); }
+.color-four { filter: hue-rotate(195deg) saturate(1.2); }
+.color-five { filter: hue-rotate(260deg) saturate(1.2); }
+
+.problem-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.problem-modal.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.problem-window {
+    width: min(820px, 88vw);
+    min-height: 420px;
+    background: rgba(245, 245, 245, 0.96);
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+}
+
+.problem-window-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: rgba(148, 0, 0, 0.9);
+}
+
+.window-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.window-actions span {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.window-close {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.problem-window h2 {
+    margin: 18px 0 14px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.problem-body {
+    padding: 0 26px 26px;
+}
+
+.problem-card {
+    background: rgba(220,220,220,0.9);
+    border: 1px solid rgba(0,0,0,0.18);
+    padding: 18px 18px 14px;
+}
+
+.problem-text {
+    margin: 0 0 18px;
+    text-align: center;
+    font-size: clamp(20px, 2vw, 30px);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #111;
+}
+
+.problem-answer-row,
+.problem-input-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.problem-answer-box,
+.problem-input-row input {
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(0,0,0,0.26);
+    background: rgba(255,255,255,0.5);
+    color: #111;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.problem-input-row {
+    margin-top: 12px;
+}
+
+.problem-input-row input:focus {
+    outline: 2px solid #2d7ce6;
+    outline-offset: 2px;
+}
+
+.problem-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.problem-submit {
+    min-width: 130px;
+    height: 52px;
+    border: 1px solid rgba(0,0,0,0.3);
+    background: rgba(120,120,120,0.8);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.problem-submit:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
+.problem-result {
+    min-width: 100px;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    opacity: 0;
+}
+
+.problem-result.is-correct {
+    opacity: 1;
+    color: #0f8a22;
+}
+
+.problem-result.is-wrong {
+    opacity: 1;
+    color: #d11d1d;
+}
+
+.problem-card.is-correct {
+    box-shadow: inset 0 0 0 2px rgba(20, 140, 60, 0.6);
+}
+
+.problem-card.is-wrong {
+    box-shadow: inset 0 0 0 2px rgba(190, 20, 20, 0.6);
+}
