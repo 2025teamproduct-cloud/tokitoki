@@ -29,7 +29,7 @@ body.quiz-body::before {
             transparent 1px,
             transparent 4px
         );
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 .quiz-shell {
@@ -53,7 +53,7 @@ body.quiz-body::before {
     backdrop-filter: blur(2px);
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
+    pointer-events: auto;
     transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
