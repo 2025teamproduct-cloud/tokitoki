@@ -53,22 +53,81 @@ body {
     margin: 0;
     overflow: hidden;
 
-    background:
-        radial-gradient(circle at center, #9a0000 0%, #700000 38%, #430000 100%);
+    background: linear-gradient(
+        135deg,
+        #8bd8ed 0%,
+        #58bddb 45%,
+        #239dca 100%
+    );
 
     font-family: Arial, "Yu Gothic", "Meiryo", sans-serif;
 }
 
-body::before,
+body::before {
+    content:
+        "MIRAI LIFE / EMPLOYEE TERMINAL\A"
+        "SECURITY\A"
+        "ORIENTATION";
+
+    white-space: pre;
+
+    position: absolute;
+
+    left: 50%;
+    top: 44%;
+
+    transform: translate(-50%, -50%);
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+
+    font-size: 42px;
+    line-height: 0.92;
+
+    letter-spacing: -1px;
+
+    text-align: left;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
 body::after {
-    content: "";
-    display: none;
+    content:
+        "新入社員セキュリティ研修へようこそ    |    SECURITY TRAINING / PROTECTION";
+
+    position: absolute;
+
+    left: 50%;
+    top: calc(44% + 82px);
+
+    transform: translateX(-50%);
+
+    color: rgba(255, 255, 255, 0.85);
+
+    font-family: Arial, "Yu Gothic", sans-serif;
+
+    font-size: 9px;
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+
+    z-index: 1;
+
+    pointer-events: none;
 }
 
 .quiz-body {
     overflow: hidden;
-    background:
-        radial-gradient(circle at center, #a50000 0%, #6a0000 35%, #2d0000 100%);
+    background: linear-gradient(
+        135deg,
+        #8bd8ed 0%,
+        #58bddb 45%,
+        #239dca 100%
+    );
 }
 
 .quiz-shell {
@@ -145,7 +204,7 @@ body::after {
     display: block;
     width: 12px;
     height: 12px;
-    background: #a00000;
+    background: #2e5d9b;
     border: 1px solid rgba(0,0,0,0.28);
 }
 
@@ -154,7 +213,7 @@ body::after {
     text-align: center;
     font-size: clamp(20px, 2vw, 28px);
     font-weight: 700;
-    color: #110000;
+    color: #1b1b1b;
 }
 
 .problem-line {
@@ -209,7 +268,7 @@ body::after {
     height: 52px;
     padding: 0 18px;
     border: 1px solid rgba(0, 0, 0, 0.25);
-    background: linear-gradient(180deg, #7a0d0d 0%, #520505 100%);
+    background: linear-gradient(180deg, #1e5368 0%, #103f52 100%);
     color: #fff;
     font-size: 18px;
     font-weight: 700;
@@ -274,7 +333,7 @@ body::after {
     background: rgba(255,255,255,0.92);
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 999px;
-    color: #260909;
+    color: #1d2b36;
     font-size: 11px;
     line-height: 1.5;
     white-space: nowrap;
