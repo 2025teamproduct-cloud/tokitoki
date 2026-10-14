@@ -30,7 +30,7 @@ body.quiz-body::before {
             transparent 1px,
             transparent 4px
         );
-    pointer-events: auto;
+    pointer-events: none;
 }
 
 .quiz-shell {

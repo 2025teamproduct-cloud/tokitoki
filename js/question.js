@@ -1,15 +1,8 @@
-// question.css
 document.addEventListener('DOMContentLoaded', () => {
     const STORAGE_KEY = 'security-quiz-session';
 
-    const cards = Array.from(
-        document.querySelectorAll('.question-card')
-    );
-
-    const folderButtons = Array.from(
-        document.querySelectorAll('.folder-item')
-    );
-
+    const cards = Array.from(document.querySelectorAll('.question-card'));
+    const folderButtons = Array.from(document.querySelectorAll('.folder-item'));
     const stage = document.querySelector('.question-stage');
     const questionTime = document.querySelector('#question-time');
 
@@ -27,43 +20,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }).format(date);
     }
 
-
     function updateQuestionTime() {
         if (questionTime) {
             questionTime.textContent = formatJapanTime(new Date());
         }
     }
 
-
     updateQuestionTime();
-
     setInterval(updateQuestionTime, 60000);
 
 
     /* ====================================== */
-    /* セッション状態の読み込み */
+    /* セッション状態の読み込み・保存 */
     /* ====================================== */
 
     function loadSessionState() {
         try {
-            return JSON.parse(
-                sessionStorage.getItem(STORAGE_KEY) || '{}'
-            );
+            return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}');
         } catch (error) {
             return {};
         }
     }
 
-
-    /* ====================================== */
-    /* セッション状態の保存 */
-    /* ====================================== */
-
     function saveSessionState(state) {
-        sessionStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(state)
-        );
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
 
@@ -72,29 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ====================================== */
 
     function syncInputState() {
-
         cards.forEach((card) => {
-
-            const inputs = Array.from(
-                card.querySelectorAll('.answer-input')
-            );
-
-            const isSolved =
-                card.classList.contains('is-solved');
-
+            const inputs = Array.from(card.querySelectorAll('.answer-input'));
+            const isSolved = card.classList.contains('is-solved');
 
             inputs.forEach((input) => {
-
-                /*
-                 * 未回答なら入力可能。
-                 * 回答済みの場合のみdisabledにする。
-                 */
+                // 未回答なら入力可能。回答済み(正解)の場合のみ disabled にする
                 input.disabled = isSolved;
-
             });
-
         });
-
     }
 
 
@@ -103,50 +69,23 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ====================================== */
 
     function openQuestion(index) {
-
         cards.forEach((card) => {
-
-            const isActive =
-                Number(card.dataset.index) === index;
-
-            card.classList.toggle(
-                'active',
-                isActive
-            );
-
-            card.setAttribute(
-                'aria-hidden',
-                String(!isActive)
-            );
-
+            const isActive = Number(card.dataset.index) === index;
+            card.classList.toggle('active', isActive);
+            card.setAttribute('aria-hidden', String(!isActive));
         });
-
 
         folderButtons.forEach((button) => {
-
-            const isActive =
-                Number(button.dataset.index) === index;
-
-            button.classList.toggle(
-                'is-active',
-                isActive
-            );
-
-            button.setAttribute(
-                'aria-pressed',
-                String(isActive)
-            );
-
+            const isActive = Number(button.dataset.index) === index;
+            button.classList.toggle('is-active', isActive);
+            button.setAttribute('aria-pressed', String(isActive));
         });
 
-
         syncInputState();
-
 
         if (stage) {
             stage.classList.add('has-active');
         }
-
     }
 
 
@@ -155,30 +94,18 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ====================================== */
 
     function updateFolderStates() {
-
         const state = loadSessionState();
 
-
         folderButtons.forEach((button) => {
-
-            const index =
-                Number(button.dataset.index);
-
-            const solved =
-                Boolean(
-                    state[index] &&
-                    state[index].answered &&
-                    state[index].correct
-                );
-
-
-            button.classList.toggle(
-                'is-solved',
-                solved
+            const index = Number(button.dataset.index);
+            const solved = Boolean(
+                state[index] &&
+                state[index].answered &&
+                state[index].correct
             );
 
+            button.classList.toggle('is-solved', solved);
         });
-
     }
 
 
@@ -186,67 +113,27 @@ document.addEventListener('DOMContentLoaded', () => {
     /* 回答結果をカードに反映 */
     /* ====================================== */
 
-    function setCardState(
-        card,
-        values,
-        correct
-    ) {
+    function setCardState(card, values, correct) {
+        const badge = card.querySelector('.result-badge');
+        const inputs = Array.from(card.querySelectorAll('.answer-input'));
+        const state = loadSessionState();
 
-        const badge =
-            card.querySelector('.result-badge');
-
-        const inputs =
-            Array.from(
-                card.querySelectorAll('.answer-input')
-            );
-
-        const state =
-            loadSessionState();
-
-
-        /*
-         * 入力された値を保存
-         */
+        // 入力された値を保存
         inputs.forEach((input, index) => {
-
-            input.value =
-                values[index] || '';
-
+            input.value = values[index] || '';
             input.disabled = true;
-
         });
 
+        // 結果表示
+        badge.textContent = correct ? '正解' : '不正解';
+        badge.classList.remove('correct', 'wrong');
+        badge.classList.add(correct ? 'correct' : 'wrong');
 
-        /*
-         * 結果表示
-         */
-        badge.textContent =
-            correct ? '正解' : '不正解';
-
-
-        badge.classList.remove(
-            'correct',
-            'wrong'
-        );
-
-
-        badge.classList.add(
-            correct ? 'correct' : 'wrong'
-        );
-
-
-        /*
-         * 回答済みにする
-         */
+        // 回答済みにする
         card.classList.add('is-solved');
 
-
-        /*
-         * セッションに保存
-         */
-        const cardIndex =
-            Number(card.dataset.index);
-
+        // セッションに保存
+        const cardIndex = Number(card.dataset.index);
 
         state[cardIndex] = {
             answered: true,
@@ -254,21 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
             values: values
         };
 
-
         saveSessionState(state);
 
-
-        /*
-         * フォルダのチェックマークなどを更新
-         */
+        // フォルダのチェックマークなどを更新
         updateFolderStates();
 
-
-        /*
-         * 入力欄を同期
-         */
+        // 入力欄を同期
         syncInputState();
-
     }
 
 
@@ -277,156 +156,69 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ====================================== */
 
     function restoreState() {
-
-        const state =
-            loadSessionState();
-
+        const state = loadSessionState();
 
         cards.forEach((card) => {
+            const cardIndex = Number(card.dataset.index);
+            const saved = state[cardIndex];
+            const inputs = Array.from(card.querySelectorAll('.answer-input'));
+            const badge = card.querySelector('.result-badge');
 
-            const cardIndex =
-                Number(card.dataset.index);
-
-            const saved =
-                state[cardIndex];
-
-            const inputs =
-                Array.from(
-                    card.querySelectorAll('.answer-input')
-                );
-
-            const badge =
-                card.querySelector('.result-badge');
-
-
-            /*
-             * 保存データがない場合
-             */
+            // 保存データがない場合
             if (!saved) {
-
                 inputs.forEach((input) => {
                     input.value = '';
                     input.disabled = false;
                 });
 
-
                 badge.textContent = '';
-
-                badge.classList.remove(
-                    'correct',
-                    'wrong'
-                );
-
-
-                card.classList.remove(
-                    'is-solved'
-                );
-
+                badge.classList.remove('correct', 'wrong');
+                card.classList.remove('is-solved');
 
                 return;
             }
 
-
-            /*
-             * 保存された回答を復元
-             */
+            // 保存された回答を復元
             inputs.forEach((input, index) => {
-
                 input.value =
-                    saved.values &&
-                    saved.values[index]
+                    saved.values && saved.values[index]
                         ? saved.values[index]
                         : '';
-
             });
 
-
-            /*
-             * 回答済みなら結果を復元
-             */
+            // 回答済みなら結果を復元
             if (saved.answered) {
-
-                badge.textContent =
-                    saved.correct
-                        ? '正解'
-                        : '不正解';
-
-
-                badge.classList.remove(
-                    'correct',
-                    'wrong'
-                );
-
-
-                badge.classList.add(
-                    saved.correct
-                        ? 'correct'
-                        : 'wrong'
-                );
-
+                badge.textContent = saved.correct ? '正解' : '不正解';
+                badge.classList.remove('correct', 'wrong');
+                badge.classList.add(saved.correct ? 'correct' : 'wrong');
 
                 if (saved.correct) {
-                    card.classList.add(
-                        'is-solved'
-                    );
+                    card.classList.add('is-solved');
                 }
-
             }
-
         });
 
-
         updateFolderStates();
-
         syncInputState();
 
+        // 最初にまだ回答していない問題を探す
+        const firstOpenIndex = cards.findIndex((card) => {
+            const cardIndex = Number(card.dataset.index);
+            const saved = state[cardIndex];
 
-        /*
-         * 最初にまだ回答していない問題を探す
-         */
-        const firstOpenIndex =
-            cards.findIndex((card) => {
+            return !saved || !saved.answered;
+        });
 
-                const cardIndex =
-                    Number(card.dataset.index);
-
-                const saved =
-                    state[cardIndex];
-
-
-                return !saved ||
-                    !saved.answered;
-
-            });
-
-
-        /*
-         * 未回答の問題がある場合、
-         * その問題を開く
-         */
+        // 未回答の問題がある場合、その問題を開く
         if (firstOpenIndex >= 0) {
-
-            openQuestion(
-                Number(
-                    cards[firstOpenIndex]
-                        .dataset.index
-                )
-            );
-
+            openQuestion(Number(cards[firstOpenIndex].dataset.index));
             return;
-
         }
 
-
-        /*
-         * 全問回答済みの場合
-         */
+        // 全問回答済みの場合
         if (stage) {
-            stage.classList.remove(
-                'has-active'
-            );
+            stage.classList.remove('has-active');
         }
-
     }
 
 
@@ -435,116 +227,82 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ====================================== */
 
     folderButtons.forEach((button) => {
-
-        button.addEventListener(
-            'click',
-            () => {
-
-                const index =
-                    Number(button.dataset.index);
-
-                openQuestion(index);
-
-            }
-        );
-
+        button.addEventListener('click', () => {
+            const index = Number(button.dataset.index);
+            openQuestion(index);
+        });
     });
 
 
     /* ====================================== */
-    /* 入力欄の処理 */
+    /* 入力欄の処理(半角英数字を受け付ける) */
     /* ====================================== */
 
     cards.forEach((card) => {
-
-        const inputs =
-            Array.from(
-                card.querySelectorAll('.answer-input')
-            );
-
+        const inputs = Array.from(card.querySelectorAll('.answer-input'));
 
         inputs.forEach((input, index) => {
+
+            /* -------------------------------- */
+            /* フォーカス・クリック時に全選択 */
+            /* → 入力済みの欄でもそのまま上書きできる */
+            /* -------------------------------- */
+
+            input.addEventListener('focus', () => input.select());
+            input.addEventListener('click', () => input.select());
 
 
             /* -------------------------------- */
             /* 入力時 */
             /* -------------------------------- */
 
-            input.addEventListener(
-                'input',
-                () => {
+            const handleInput = () => {
+                // 全角英数字を半角に直し、半角英数字以外を削除し、最後の1文字だけ残す
+                input.value = input.value
+                    .normalize('NFKC')
+                    .replace(/[^0-9A-Za-z]/g, '')
+                    .slice(-1);
 
-                    /*
-                     * 数字以外を削除
-                     */
-                    input.value =
-                        input.value
-                            .replace(/[^\d]/g, '')
-                            .slice(0, 1);
+                // 1文字入力されたら次の入力欄へ移動
+                if (input.value && index < inputs.length - 1) {
+                    const nextInput = inputs[index + 1];
 
-
-                    /*
-                     * 1文字入力されたら
-                     * 次の入力欄へ移動
-                     */
-                    if (
-                        input.value &&
-                        index < inputs.length - 1
-                    ) {
-
-                        const nextInput =
-                            inputs[index + 1];
-
-
-                        if (
-                            nextInput &&
-                            !nextInput.disabled
-                        ) {
-
-                            nextInput.focus();
-
-                        }
-
+                    if (nextInput && !nextInput.disabled) {
+                        nextInput.focus();
                     }
-
                 }
-            );
+            };
+
+            input.addEventListener('input', (event) => {
+                // IME変換中は触らない
+                if (event.isComposing) {
+                    return;
+                }
+
+                handleInput();
+            });
+
+            input.addEventListener('compositionend', handleInput);
 
 
             /* -------------------------------- */
             /* Backspace */
             /* -------------------------------- */
 
-            input.addEventListener(
-                'keydown',
-                (event) => {
+            input.addEventListener('keydown', (event) => {
+                if (
+                    event.key === 'Backspace' &&
+                    !input.value &&
+                    index > 0
+                ) {
+                    const previousInput = inputs[index - 1];
 
-                    if (
-                        event.key === 'Backspace' &&
-                        !input.value &&
-                        index > 0
-                    ) {
-
-                        const previousInput =
-                            inputs[index - 1];
-
-
-                        if (
-                            previousInput &&
-                            !previousInput.disabled
-                        ) {
-
-                            previousInput.focus();
-
-                        }
-
+                    if (previousInput && !previousInput.disabled) {
+                        previousInput.focus();
                     }
-
                 }
-            );
-
+            });
         });
-
     });
 
 
@@ -553,130 +311,55 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ====================================== */
 
     cards.forEach((card) => {
-
-        const submitButton =
-            card.querySelector('.submit-btn');
-
-        const inputs =
-            Array.from(
-                card.querySelectorAll('.answer-input')
-            );
-
+        const submitButton = card.querySelector('.submit-btn');
+        const inputs = Array.from(card.querySelectorAll('.answer-input'));
 
         if (!submitButton) {
             return;
         }
 
+        submitButton.addEventListener('click', () => {
 
-        submitButton.addEventListener(
-            'click',
-            () => {
-
-                /*
-                 * すでに回答済みなら何もしない
-                 */
-                if (
-                    card.classList.contains(
-                        'is-solved'
-                    )
-                ) {
-
-                    return;
-
-                }
-
-
-                /*
-                 * 入力値を取得
-                 */
-                const values =
-                    inputs.map(
-                        (input) =>
-                            input.value.trim()
-                    );
-
-
-                /*
-                 * 6文字すべて入力されているか確認
-                 */
-                const isComplete =
-                    values.every(
-                        (value) =>
-                            value.length === 1
-                    );
-
-
-                /*
-                 * 未入力がある場合
-                 */
-                if (!isComplete) {
-
-                    const badge =
-                        card.querySelector(
-                            '.result-badge'
-                        );
-
-
-                    badge.textContent =
-                        '未入力';
-
-
-                    badge.classList.remove(
-                        'correct',
-                        'wrong'
-                    );
-
-
-                    badge.classList.add(
-                        'wrong'
-                    );
-
-
-                    return;
-
-                }
-
-
-                /*
-                 * 正解判定
-                 */
-                const answer =
-                    card.dataset.answer;
-
-                const entered =
-                    values.join('');
-
-
-                const correct =
-                    entered === answer;
-
-
-                if (!correct) {
-
-                    const badge =
-                        card.querySelector('.result-badge');
-
-                    badge.textContent = '不正解';
-                    badge.classList.remove('correct', 'wrong');
-                    badge.classList.add('wrong');
-
-                    return;
-
-                }
-
-
-                /*
-                 * 結果を保存
-                 */
-                setCardState(
-                    card,
-                    values,
-                    correct
-                );
-
+            // すでに回答済みなら何もしない
+            if (card.classList.contains('is-solved')) {
+                return;
             }
-        );
 
+            // 入力値を取得
+            const values = inputs.map((input) => input.value.trim());
+
+            // 6文字すべて入力されているか確認
+            const isComplete = values.every((value) => value.length === 1);
+
+            // 未入力がある場合
+            if (!isComplete) {
+                const badge = card.querySelector('.result-badge');
+
+                badge.textContent = '未入力';
+                badge.classList.remove('correct', 'wrong');
+                badge.classList.add('wrong');
+
+                return;
+            }
+
+            // 正解判定
+            const answer = card.dataset.answer;
+            const entered = values.join('');
+            const correct = entered === answer;
+
+            if (!correct) {
+                const badge = card.querySelector('.result-badge');
+
+                badge.textContent = '不正解';
+                badge.classList.remove('correct', 'wrong');
+                badge.classList.add('wrong');
+
+                return;
+            }
+
+            // 結果を保存
+            setCardState(card, values, correct);
+        });
     });
 
 
@@ -687,4 +370,3 @@ document.addEventListener('DOMContentLoaded', () => {
     restoreState();
 
 });
-
