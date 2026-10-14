@@ -12,8 +12,8 @@ body.quiz-body {
     position: relative;
     overflow: hidden;
     background:
-        radial-gradient(circle at top, rgba(255, 0, 0, 0.18), transparent 35%),
-        linear-gradient(135deg, #1b1b1b 0%, #2d0808 25%, #4a0202 52%, #120808 100%);
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 35%),
+        linear-gradient(135deg, #080808 0%, #151515 42%, #090909 100%);
     color: #f4f4f4;
     font-family: Arial, "Yu Gothic", "Meiryo", sans-serif;
 }
@@ -49,8 +49,8 @@ body.quiz-body::before {
     min-height: 430px;
     padding: 18px;
     background: rgba(10, 10, 10, 0.72);
-    border: 1px solid rgba(255, 60, 60, 0.45);
-    box-shadow: 0 0 0 2px rgba(255, 80, 80, 0.18), 0 22px 48px rgba(0, 0, 0, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.04), 0 22px 48px rgba(0, 0, 0, 0.58);
     backdrop-filter: blur(2px);
     opacity: 0;
     visibility: hidden;
@@ -69,8 +69,8 @@ body.quiz-body::before {
     display: none;
     min-height: 390px;
     padding: 26px 22px 22px 60px;
-    background: linear-gradient(180deg, rgba(38, 18, 18, 0.9), rgba(15, 10, 10, 0.96));
-    border: 1px solid rgba(255, 85, 85, 0.45);
+    background: linear-gradient(180deg, rgba(30, 30, 30, 0.96), rgba(12, 12, 12, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
 }
 
@@ -86,7 +86,7 @@ body.quiz-body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #f5d4d4;
+    color: #dedede;
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -95,8 +95,8 @@ body.quiz-body::before {
 .window-tag {
     display: inline-block;
     padding: 4px 8px;
-    background: rgba(255, 80, 80, 0.12);
-    border: 1px solid rgba(255, 90, 90, 0.28);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .window-close {
@@ -106,8 +106,8 @@ body.quiz-body::before {
     width: 18px;
     height: 18px;
     background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 88, 88, 0.32);
-    color: #ffd7d7;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #e8e8e8;
 }
 
 .question-card h2 {
@@ -116,7 +116,7 @@ body.quiz-body::before {
     font-size: clamp(1.5rem, 2vw, 2.3rem);
     font-weight: 800;
     letter-spacing: 0.08em;
-    color: #fff0f0;
+    color: #f4f4f4;
 }
 
 .problem-line {
@@ -125,21 +125,21 @@ body.quiz-body::before {
     font-size: clamp(1.1rem, 1.6vw, 2rem);
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #fff7f7;
+    color: #e8e8e8;
 }
 
 .answer-feed {
     width: min(100%, 560px);
     margin: 18px auto 20px;
     padding: 14px 20px;
-    background: #ededed;
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    color: #171717;
+    background: #171717;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ededed;
 }
 
 .answer-feed h3 {
     margin: 0 0 10px;
-    color: #244bd2;
+    color: #ffffff;
     text-align: center;
     font-size: 1.35rem;
 }
@@ -161,7 +161,7 @@ body.quiz-body::before {
 .answer-input {
     width: 48px;
     height: 44px;
-    border: 1px solid rgba(255, 110, 110, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 8px;
     background: rgba(0, 0, 0, 0.35);
     color: #fff;
@@ -169,14 +169,14 @@ body.quiz-body::before {
     text-align: center;
     font-size: 1.2rem;
     font-weight: 700;
-    box-shadow: inset 0 0 16px rgba(255, 0, 0, 0.08);
+    box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.025);
     caret-color: #fff;
 }
 
 .answer-input:focus {
     outline: none;
-    border-color: #ff5a5a;
-    box-shadow: 0 0 0 3px rgba(255, 90, 90, 0.2);
+    border-color: #f2f2f2;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.13);
 }
 
 .answer-input:disabled {
@@ -195,15 +195,15 @@ body.quiz-body::before {
 
 .submit-btn {
     padding: 11px 26px;
-    border: 1px solid rgba(255, 120, 120, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.58);
     border-radius: 999px;
-    background: linear-gradient(180deg, #d62222, #8c1010);
+    background: linear-gradient(180deg, #555555, #262626);
     color: #fff;
     font-size: 0.98rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     cursor: pointer;
-    box-shadow: 0 7px 18px rgba(138, 0, 0, 0.4);
+    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.45);
 }
 
 .submit-btn:hover {
@@ -218,7 +218,7 @@ body.quiz-body::before {
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.06em;
-    color: #ffd5d5;
+    color: #d0d0d0;
     overflow-wrap: anywhere;
 }
 
@@ -244,9 +244,9 @@ body.quiz-body::before {
     max-width: 180px;
     padding: 8px 10px;
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 120, 120, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 12px;
-    color: #fff2f2;
+    color: #eeeeee;
     font-size: 0.72rem;
     line-height: 1.5;
     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
@@ -288,7 +288,7 @@ body.quiz-body::before {
 .desktop-icon-item:hover,
 .desktop-icon-item.is-active {
     background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 123, 123, 0.36);
+    border-color: rgba(255, 255, 255, 0.24);
     transform: translateY(-1px);
 }
 
@@ -358,7 +358,7 @@ body.quiz-body::before {
     padding: 0 18px;
     min-width: 160px;
     background: rgba(255, 255, 255, 0.04);
-    color: #f7d6d6;
+    color: #dedede;
 }
 
 .taskbar-status {
