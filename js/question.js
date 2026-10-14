@@ -257,9 +257,14 @@ document.addEventListener('DOMContentLoaded', () => {
             /* -------------------------------- */
 
             const handleInput = () => {
-                // 全角英数字を半角に直し、半角英数字以外を削除し、最後の1文字だけ残す
+                // 全角文字は受け付けず、半角英数字での入力を案内する
+                if (/[^\x00-\x7F]/.test(input.value)) {
+                    window.alert('全角文字は入力できません。半角英数字に切り替えて入力してください。');
+                    input.value = '';
+                    return;
+                }
+
                 input.value = input.value
-                    .normalize('NFKC')
                     .replace(/[^0-9A-Za-z]/g, '')
                     .slice(-1);
 
