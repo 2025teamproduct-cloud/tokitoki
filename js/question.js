@@ -258,15 +258,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const handleInput = () => {
                 // 全角文字は受け付けず、半角英数字での入力を案内する
-                if (/[^\x00-\x7F]/.test(input.value)) {
-                    window.alert('全角文字は入力できません。半角英数字に切り替えて入力してください。');
+                const badge = card.querySelector('.result-badge');
+                const fullWidthMessage = '全角文字は入力できません。半角英数字に切り替えて入力してください。';
+
+                if ([...input.value].some((character) => character.codePointAt(0) > 0x7F)) {
                     input.value = '';
+                    badge.textContent = fullWidthMessage;
+                    badge.classList.remove('correct');
+                    badge.classList.add('wrong');
                     return;
                 }
 
                 input.value = input.value
                     .replace(/[^0-9A-Za-z]/g, '')
                     .slice(-1);
+
+                if (badge.textContent === fullWidthMessage) {
+                    badge.textContent = '';
+                    badge.classList.remove('wrong');
+                }
 
                 // 1文字入力されたら次の入力欄へ移動
                 if (input.value && index < inputs.length - 1) {
