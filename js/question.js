@@ -167,7 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const solved =
                 Boolean(
                     state[index] &&
-                    state[index].answered
+                    state[index].answered &&
+                    state[index].correct
                 );
 
 
@@ -364,9 +365,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
 
 
-                card.classList.add(
-                    'is-solved'
-                );
+                if (saved.correct) {
+                    card.classList.add(
+                        'is-solved'
+                    );
+                }
 
             }
 
@@ -646,6 +649,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const correct =
                     entered === answer;
+
+
+                if (!correct) {
+
+                    const badge =
+                        card.querySelector('.result-badge');
+
+                    badge.textContent = '不正解';
+                    badge.classList.remove('correct', 'wrong');
+                    badge.classList.add('wrong');
+
+                    return;
+
+                }
 
 
                 /*
