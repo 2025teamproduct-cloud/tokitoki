@@ -1,3 +1,4 @@
+// script.css
 const japanTime = document.querySelector('#japan-time');
 const mailNotification = document.querySelector('#mail-notification');
 const mailTime = document.querySelector('#mail-window .mail-time');
