@@ -128,6 +128,28 @@ body.quiz-body::before {
     color: #fff7f7;
 }
 
+.answer-feed {
+    width: min(100%, 560px);
+    margin: 18px auto 20px;
+    padding: 14px 20px;
+    background: #ededed;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: #171717;
+}
+
+.answer-feed h3 {
+    margin: 0 0 10px;
+    color: #244bd2;
+    text-align: center;
+    font-size: 1.35rem;
+}
+
+.answer-feed p {
+    margin: 0;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
 .answer-row {
     display: flex;
     justify-content: center;

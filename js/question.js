@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const folderButtons = Array.from(document.querySelectorAll('.folder-item'));
     const stage = document.querySelector('.question-stage');
     const questionTime = document.querySelector('#question-time');
+    const answerFeedbackTemplate = document.querySelector('#answer-feedback-template');
 
 
     /* ====================================== */
@@ -44,6 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveSessionState(state) {
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function showAnswerFeed(card) {
+        if (!answerFeedbackTemplate || card.querySelector('.answer-feed')) {
+            return;
+        }
+
+        const feed = answerFeedbackTemplate.content.firstElementChild.cloneNode(true);
+        const answerRow = card.querySelector('.answer-row');
+
+        if (answerRow) {
+            card.insertBefore(feed, answerRow);
+        }
     }
 
 
@@ -129,6 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
         badge.classList.remove('correct', 'wrong');
         badge.classList.add(correct ? 'correct' : 'wrong');
 
+        if (correct) {
+            showAnswerFeed(card);
+        }
+
         // 回答済みにする
         card.classList.add('is-solved');
 
@@ -194,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (saved.correct) {
                     card.classList.add('is-solved');
+                    showAnswerFeed(card);
                 }
             }
         });
