@@ -164,6 +164,7 @@ body.quiz-body::before {
 
 .card-actions {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 16px;
@@ -188,13 +189,15 @@ body.quiz-body::before {
 }
 
 .result-badge {
-    min-width: 92px;
+    flex: 1 1 180px;
+    min-width: 0;
     margin: 0;
     text-align: center;
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     color: #ffd5d5;
+    overflow-wrap: anywhere;
 }
 
 .result-badge.correct {
@@ -206,13 +209,12 @@ body.quiz-body::before {
 }
 
 .assistant {
-    position: absolute;
-    right: 18px;
-    bottom: 18px;
+    position: static;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
     gap: 8px;
+    margin-top: 12px;
     pointer-events: none;
 }
 
