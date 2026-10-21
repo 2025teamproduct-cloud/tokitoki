@@ -267,6 +267,7 @@ body.quiz-body::before {
     display: grid;
     grid-template-columns: repeat(2, 84px);
     grid-template-rows: repeat(8, auto);
+    grid-auto-flow: column;   /* ← 追加:縦方向に並べる */
     gap: 8px;
     pointer-events: auto;
 }
