@@ -53,7 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const feed = answerFeedbackTemplate.content.firstElementChild.cloneNode(true);
+        const explanation = feed.querySelector('p');
         const answerRow = card.querySelector('.answer-row');
+
+        if (explanation) {
+            explanation.textContent = card.dataset.explanation || '';
+        }
 
         if (answerRow) {
             card.insertBefore(feed, answerRow);
