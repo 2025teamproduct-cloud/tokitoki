@@ -7,6 +7,101 @@ document.addEventListener('DOMContentLoaded', () => {
     const questionTime = document.querySelector('#question-time');
     const answerFeedbackTemplate = document.querySelector('#answer-feedback-template');
 
+    /* ====================================== */
+    /* exe による問題07以降のロック解除 */
+    /* ====================================== */
+
+    const UNLOCK_KEY = 'security-quiz-unlocked';
+    const UNLOCK_CODE = '123456';      // ← 本番のコードに変更してください
+    const LOCKED_FROM_INDEX = 6;       // 問題07(index 6)以降をロック
+
+    const exeIcon = document.querySelector('#exe-icon');
+    const unlockDialog = document.querySelector('#unlock-dialog');
+    const unlockInput = document.querySelector('#unlock-input');
+    const unlockSubmit = document.querySelector('#unlock-submit');
+    const unlockClose = document.querySelector('#unlock-close');
+    const unlockMessage = document.querySelector('#unlock-message');
+
+    function isUnlocked() {
+        try {
+            return sessionStorage.getItem(UNLOCK_KEY) === '1';
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function setUnlocked() {
+        try {
+            sessionStorage.setItem(UNLOCK_KEY, '1');
+        } catch (error) {
+            // 保存できない環境では、リロードするとロックに戻る
+        }
+    }
+
+    function isAvailable(index) {
+        return index < LOCKED_FROM_INDEX || isUnlocked();
+    }
+
+    function applyLockState() {
+        const unlocked = isUnlocked();
+
+        folderButtons.forEach((button) => {
+            const locked = Number(button.dataset.index) >= LOCKED_FROM_INDEX && !unlocked;
+            button.classList.toggle('is-locked', locked);
+        });
+
+        if (exeIcon) {
+            exeIcon.classList.toggle('is-solved', unlocked);
+        }
+    }
+
+    function openUnlockDialog() {
+        if (isUnlocked() || !unlockDialog) {
+            return;
+        }
+
+        // 問題カードを閉じる
+        if (stage) {
+            stage.classList.remove('has-active');
+        }
+
+        folderButtons.forEach((button) => {
+            button.classList.remove('is-active');
+            button.setAttribute('aria-pressed', 'false');
+        });
+
+        unlockInput.value = '';
+        unlockMessage.textContent = '';
+        unlockMessage.classList.remove('correct', 'wrong');
+        unlockDialog.hidden = false;
+        unlockInput.focus();
+    }
+
+    function showUnlockMessage(text) {
+        unlockMessage.textContent = text;
+        unlockMessage.classList.remove('correct');
+        unlockMessage.classList.add('wrong');
+    }
+
+    function submitUnlock() {
+        const value = unlockInput.value;
+
+        if (value.length !== 6) {
+            showUnlockMessage('6桁の数字を入力してください');
+            return;
+        }
+
+        if (value !== UNLOCK_CODE) {
+            showUnlockMessage('不正解');
+            return;
+        }
+
+        setUnlocked();
+        applyLockState();
+        unlockDialog.hidden = true;
+        openQuestion(LOCKED_FROM_INDEX);   // 問題07を開く
+    }
+
 
     /* ====================================== */
     /* 日本時間表示 */
@@ -88,6 +183,16 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ====================================== */
 
     function openQuestion(index) {
+        // ロック中の問題は開かない
+        if (!isAvailable(index)) {
+            return;
+        }
+
+        // コード入力ダイアログが開いていれば閉じる
+        if (unlockDialog) {
+            unlockDialog.hidden = true;
+        }
+
         cards.forEach((card) => {
             const isActive = Number(card.dataset.index) === index;
             card.classList.toggle('active', isActive);
@@ -222,15 +327,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        applyLockState();
         updateFolderStates();
         syncInputState();
 
-        // 最初にまだ回答していない問題を探す
+        // 最初にまだ回答していない(かつロックされていない)問題を探す
         const firstOpenIndex = cards.findIndex((card) => {
             const cardIndex = Number(card.dataset.index);
             const saved = state[cardIndex];
 
-            return !saved || !saved.answered;
+            return isAvailable(cardIndex) && (!saved || !saved.answered);
         });
 
         // 未回答の問題がある場合、その問題を開く
@@ -239,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 全問回答済みの場合
+        // 開ける問題がない場合(全問回答済み、またはロック中)
         if (stage) {
             stage.classList.remove('has-active');
         }
@@ -400,6 +506,39 @@ document.addEventListener('DOMContentLoaded', () => {
             setCardState(card, values, correct);
         });
     });
+
+
+    /* ====================================== */
+    /* exe・コード入力ダイアログのイベント */
+    /* ====================================== */
+
+    if (exeIcon) {
+        exeIcon.addEventListener('click', openUnlockDialog);
+    }
+
+    if (unlockInput) {
+        unlockInput.addEventListener('input', () => {
+            unlockInput.value = unlockInput.value.replace(/[^0-9]/g, '').slice(0, 6);
+            unlockMessage.textContent = '';
+            unlockMessage.classList.remove('correct', 'wrong');
+        });
+
+        unlockInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                submitUnlock();
+            }
+        });
+    }
+
+    if (unlockSubmit) {
+        unlockSubmit.addEventListener('click', submitUnlock);
+    }
+
+    if (unlockClose) {
+        unlockClose.addEventListener('click', () => {
+            unlockDialog.hidden = true;
+        });
+    }
 
 
     /* ====================================== */
