@@ -23,14 +23,16 @@ function updateJapanTime() {
 updateJapanTime();
 setInterval(updateJapanTime, 60000);
 
-setTimeout(() => {
-	const notificationTime = new Date();
-	mailNotification.classList.add('is-visible');
+if (mailNotification) {
+	setTimeout(() => {
+		const notificationTime = new Date();
+		mailNotification.classList.add('is-visible');
 
-	if (mailTime) {
-		mailTime.textContent = formatJapanTime(notificationTime);
-	}
-}, 10000);
+		if (mailTime) {
+			mailTime.textContent = formatJapanTime(notificationTime);
+		}
+	}, 10000);
+}
 
 
 /* -------------------------------------- */
@@ -54,18 +56,20 @@ const maximizeBtn =
 /* メール通知をクリック */
 /* -------------------------------------- */
 
-mailNotification.addEventListener('click', () => {
+if (mailNotification) {
+	mailNotification.addEventListener('click', () => {
 
-	mailWindow.classList.add('is-open');
+		mailWindow.classList.add('is-open');
 
-	windowOverlay.classList.add('is-open');
+		windowOverlay.classList.add('is-open');
 
-	mailWindow.setAttribute(
-		'aria-hidden',
-		'false'
-	);
+		mailWindow.setAttribute(
+			'aria-hidden',
+			'false'
+		);
 
-});
+	});
+}
 
 
 /* -------------------------------------- */
@@ -185,7 +189,9 @@ downloadBtn.addEventListener('click', () => {
 
 	/* メール通知も消す */
 
-	mailNotification.classList.remove('is-visible');
+	if (mailNotification) {
+		mailNotification.classList.remove('is-visible');
+	}
 
 
 	/* インストール中表示 */
