@@ -8,55 +8,100 @@ document.addEventListener('DOMContentLoaded', () => {
     const answerFeedbackTemplate = document.querySelector('#answer-feedback-template');
 
     /* ====================================== */
-    /* exe による問題07以降のロック解除 */
+    /* 問題06クリア後:サポートAI + 最終exe → securiti.html */
     /* ====================================== */
 
-    const UNLOCK_KEY = 'security-quiz-unlocked';
-    const UNLOCK_CODE = '123456';      // ← 本番のコードに変更してください
-    const LOCKED_FROM_INDEX = 6;       // 問題07(index 6)以降をロック
+    const FINAL_QUESTION_INDEX = 5;          // 問題06(index 5)
+    const FINAL_CODE = '111111';             // ← 仮の答え(半角数字111111)。確定したら変更
+    const FINAL_NEXT_PAGE = 'securiti.html'; // 正解後の遷移先
+    const SUPPORT_AI_DELAY = 800;            // 問題07正解からAI表示までの待ち時間(ms)
+    const REDIRECT_DELAY = 700;              // 正解表示から遷移までの待ち時間(ms)
 
-    const exeIcon = document.querySelector('#exe-icon');
-    const unlockDialog = document.querySelector('#unlock-dialog');
-    const unlockInput = document.querySelector('#unlock-input');
-    const unlockSubmit = document.querySelector('#unlock-submit');
-    const unlockClose = document.querySelector('#unlock-close');
-    const unlockMessage = document.querySelector('#unlock-message');
+    const finalExeIcon = document.querySelector('#final-exe-icon');
+    const finalDialog = document.querySelector('#final-dialog');
+    const finalInput = document.querySelector('#final-input');
+    const finalSubmit = document.querySelector('#final-submit');
+    const finalClose = document.querySelector('#final-close');
+    const finalMessage = document.querySelector('#final-message');
+    const supportAi = document.querySelector('#support-ai');
+    const imagePreview = document.querySelector('#image-preview');
+    const imagePreviewContent = imagePreview?.querySelector('.image-preview-content');
+    const imagePreviewClose = imagePreview?.querySelector('.image-preview-close');
 
-    function isUnlocked() {
-        try {
-            return sessionStorage.getItem(UNLOCK_KEY) === '1';
-        } catch (error) {
+
+    /* ====================================== */
+    /* 正誤判定ロジック */
+    /* ====================================== */
+
+    // 問題index → 正解(文字列。複数の正解を許可したい場合は配列に追加)
+    // ※ 現在は仮の値です。実際の答えに書き換えてください
+    const ANSWERS = {
+        0: ['つりばり','ツリバリ','釣り針','釣りばり','釣りバリ','釣針'],
+        1: ['きんきゅう','キンキュウ','緊急'],
+        2: ['かぎあな','カギアナ','鍵穴'],
+        3: ['きょか','キョカ','許可'],
+        4: ['ほぞん','ホゾン','保存'],
+        5: ['142'],
+    };
+
+    // 入力値の正規化
+    // ・全角/半角の違いを吸収(NFKC)  例:ＡＢＣ → ABC
+    // ・英字の大文字/小文字を無視
+    // ・空白(全角スペース含む)を無視
+    function normalizeAnswer(text) {
+        return text
+            .normalize('NFKC')
+            .replace(/\s+/g, '')
+            .toLowerCase();
+    }
+
+    // 正誤判定:問題index と 入力文字列 を受け取り true/false を返す
+    function checkAnswer(questionIndex, entered) {
+        const accepted = ANSWERS[questionIndex];
+
+        if (!accepted) {
             return false;
         }
+
+        const value = normalizeAnswer(entered);
+        return accepted.some((answer) => normalizeAnswer(answer) === value);
     }
 
-    function setUnlocked() {
-        try {
-            sessionStorage.setItem(UNLOCK_KEY, '1');
-        } catch (error) {
-            // 保存できない環境では、リロードするとロックに戻る
+
+    /* ====================================== */
+    /* 最終exe(問題06クリア後に出現) */
+    /* ====================================== */
+
+    function isFinalReady() {
+        const saved = loadSessionState()[FINAL_QUESTION_INDEX];
+        return Boolean(saved && saved.answered && saved.correct);
+    }
+
+    // 問題06が正解済みなら、最終exeとサポートAIを表示する
+    // animate=true のときだけ、AIを少し遅らせて出す(進展を感じさせる演出)
+    function applyFinalState(ready, animate) {
+        if (finalExeIcon) {
+            finalExeIcon.classList.toggle('is-locked', !ready);
+        }
+
+        if (!supportAi || !ready) {
+            return;
+        }
+
+        const showSupportAi = () => {
+            supportAi.classList.add('is-visible');
+            supportAi.setAttribute('aria-hidden', 'false');
+        };
+
+        if (animate) {
+            setTimeout(showSupportAi, SUPPORT_AI_DELAY);
+        } else {
+            showSupportAi();
         }
     }
 
-    function isAvailable(index) {
-        return index < LOCKED_FROM_INDEX || isUnlocked();
-    }
-
-    function applyLockState() {
-        const unlocked = isUnlocked();
-
-        folderButtons.forEach((button) => {
-            const locked = Number(button.dataset.index) >= LOCKED_FROM_INDEX && !unlocked;
-            button.classList.toggle('is-locked', locked);
-        });
-
-        if (exeIcon) {
-            exeIcon.classList.toggle('is-solved', unlocked);
-        }
-    }
-
-    function openUnlockDialog() {
-        if (isUnlocked() || !unlockDialog) {
+    function openFinalDialog() {
+        if (!isFinalReady() || !finalDialog) {
             return;
         }
 
@@ -70,36 +115,40 @@ document.addEventListener('DOMContentLoaded', () => {
             button.setAttribute('aria-pressed', 'false');
         });
 
-        unlockInput.value = '';
-        unlockMessage.textContent = '';
-        unlockMessage.classList.remove('correct', 'wrong');
-        unlockDialog.hidden = false;
-        unlockInput.focus();
+        finalInput.value = '';
+        finalMessage.textContent = '';
+        finalMessage.classList.remove('correct', 'wrong');
+        finalDialog.hidden = false;
+        finalInput.focus();
     }
 
-    function showUnlockMessage(text) {
-        unlockMessage.textContent = text;
-        unlockMessage.classList.remove('correct');
-        unlockMessage.classList.add('wrong');
+    function showFinalMessage(text, correct) {
+        finalMessage.textContent = text;
+        finalMessage.classList.toggle('correct', correct);
+        finalMessage.classList.toggle('wrong', !correct);
     }
 
-    function submitUnlock() {
-        const value = unlockInput.value;
+    function submitFinal() {
+        const value = finalInput.value;
 
         if (value.length !== 6) {
-            showUnlockMessage('6桁の数字を入力してください');
+            showFinalMessage('6桁の数字を入力してください', false);
             return;
         }
 
-        if (value !== UNLOCK_CODE) {
-            showUnlockMessage('不正解');
+        if (value !== FINAL_CODE) {
+            showFinalMessage('不正解', false);
             return;
         }
 
-        setUnlocked();
-        applyLockState();
-        unlockDialog.hidden = true;
-        openQuestion(LOCKED_FROM_INDEX);   // 問題07を開く
+        // 正解:二重送信を防いで securiti.html へ遷移
+        finalInput.disabled = true;
+        finalSubmit.disabled = true;
+        showFinalMessage('正解', true);
+
+        setTimeout(() => {
+            window.location.href = FINAL_NEXT_PAGE;
+        }, REDIRECT_DELAY);
     }
 
 
@@ -183,14 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ====================================== */
 
     function openQuestion(index) {
-        // ロック中の問題は開かない
-        if (!isAvailable(index)) {
-            return;
-        }
-
-        // コード入力ダイアログが開いていれば閉じる
-        if (unlockDialog) {
-            unlockDialog.hidden = true;
+        // 最終コード入力ダイアログが開いていれば閉じる
+        if (finalDialog) {
+            finalDialog.hidden = true;
         }
 
         cards.forEach((card) => {
@@ -237,14 +281,14 @@ document.addEventListener('DOMContentLoaded', () => {
     /* 回答結果をカードに反映 */
     /* ====================================== */
 
-    function setCardState(card, values, correct) {
+    function setCardState(card, value, correct) {
         const badge = card.querySelector('.result-badge');
         const inputs = Array.from(card.querySelectorAll('.answer-input'));
         const state = loadSessionState();
 
-        // 入力された値を保存
-        inputs.forEach((input, index) => {
-            input.value = values[index] || '';
+        // 入力された値を反映して入力不可にする
+        inputs.forEach((input) => {
+            input.value = value;
             input.disabled = true;
         });
 
@@ -266,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
         state[cardIndex] = {
             answered: true,
             correct: correct,
-            values: values
+            value: value
         };
 
         saveSessionState(state);
@@ -276,6 +320,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 入力欄を同期
         syncInputState();
+
+        // 問題06に正解したら、サポートAIと最終exeを出す
+        if (correct && cardIndex === FINAL_QUESTION_INDEX) {
+            applyFinalState(true, true);
+        }
     }
 
 
@@ -306,12 +355,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 保存された回答を復元
-            inputs.forEach((input, index) => {
-                input.value =
-                    saved.values && saved.values[index]
-                        ? saved.values[index]
-                        : '';
+            // 保存された回答を復元(旧形式の values 配列にも対応)
+            const savedValue = saved.value
+                ?? (Array.isArray(saved.values) ? saved.values.join('') : '');
+
+            inputs.forEach((input) => {
+                input.value = savedValue;
             });
 
             // 回答済みなら結果を復元
@@ -327,16 +376,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        applyLockState();
+        applyFinalState(isFinalReady(), false);
         updateFolderStates();
         syncInputState();
 
-        // 最初にまだ回答していない(かつロックされていない)問題を探す
+        // 最初にまだ回答していない問題を探す
         const firstOpenIndex = cards.findIndex((card) => {
-            const cardIndex = Number(card.dataset.index);
-            const saved = state[cardIndex];
-
-            return isAvailable(cardIndex) && (!saved || !saved.answered);
+            const saved = state[Number(card.dataset.index)];
+            return !saved || !saved.answered;
         });
 
         // 未回答の問題がある場合、その問題を開く
@@ -345,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 開ける問題がない場合(全問回答済み、またはロック中)
+        // 全問回答済みの場合
         if (stage) {
             stage.classList.remove('has-active');
         }
@@ -364,179 +411,147 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    /* ====================================== */
-    /* 入力欄の処理(半角英数字を受け付ける) */
-    /* ====================================== */
+    /* 問題画像の拡大表示 */
 
-    cards.forEach((card) => {
-        const inputs = Array.from(card.querySelectorAll('.answer-input'));
+    if (imagePreview && imagePreviewContent) {
+        document.querySelectorAll('.problem-image').forEach((image) => {
+            image.tabIndex = 0;
+            image.setAttribute('role', 'button');
+            image.setAttribute('aria-label', `${image.alt}を拡大`);
 
-        inputs.forEach((input, index) => {
-
-            /* -------------------------------- */
-            /* フォーカス・クリック時に全選択 */
-            /* → 入力済みの欄でもそのまま上書きできる */
-            /* -------------------------------- */
-
-            input.addEventListener('focus', () => input.select());
-            input.addEventListener('click', () => input.select());
-
-
-            /* -------------------------------- */
-            /* 入力時 */
-            /* -------------------------------- */
-
-            const handleInput = () => {
-                // 全角文字は受け付けず、半角英数字での入力を案内する
-                const badge = card.querySelector('.result-badge');
-                const fullWidthMessage = '全角文字は入力できません。半角英数字に切り替えて入力してください。';
-
-                if ([...input.value].some((character) => character.codePointAt(0) > 0x7F)) {
-                    input.value = '';
-                    badge.textContent = fullWidthMessage;
-                    badge.classList.remove('correct');
-                    badge.classList.add('wrong');
-                    return;
-                }
-
-                input.value = input.value
-                    .replace(/[^0-9A-Za-z]/g, '')
-                    .slice(-1);
-
-                if (badge.textContent === fullWidthMessage) {
-                    badge.textContent = '';
-                    badge.classList.remove('wrong');
-                }
-
-                // 1文字入力されたら次の入力欄へ移動
-                if (input.value && index < inputs.length - 1) {
-                    const nextInput = inputs[index + 1];
-
-                    if (nextInput && !nextInput.disabled) {
-                        nextInput.focus();
-                    }
-                }
+            const openPreview = () => {
+                imagePreviewContent.src = image.src;
+                imagePreviewContent.alt = image.alt;
+                imagePreview.showModal();
             };
 
-            input.addEventListener('input', (event) => {
-                // IME変換中は触らない
-                if (event.isComposing) {
-                    return;
-                }
-
-                handleInput();
-            });
-
-            input.addEventListener('compositionend', handleInput);
-
-
-            /* -------------------------------- */
-            /* Backspace */
-            /* -------------------------------- */
-
-            input.addEventListener('keydown', (event) => {
-                if (
-                    event.key === 'Backspace' &&
-                    !input.value &&
-                    index > 0
-                ) {
-                    const previousInput = inputs[index - 1];
-
-                    if (previousInput && !previousInput.disabled) {
-                        previousInput.focus();
-                    }
+            image.addEventListener('click', openPreview);
+            image.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openPreview();
                 }
             });
         });
-    });
+
+        imagePreviewClose?.addEventListener('click', () => imagePreview.close());
+        imagePreview.addEventListener('click', (event) => {
+            if (event.target === imagePreview) {
+                imagePreview.close();
+            }
+        });
+    }
 
 
     /* ====================================== */
-    /* 決定ボタン */
+    /* 入力欄の処理(文字数制限なし・文字種の制限なし) */
     /* ====================================== */
 
     cards.forEach((card) => {
-        const submitButton = card.querySelector('.submit-btn');
-        const inputs = Array.from(card.querySelectorAll('.answer-input'));
+        const input = card.querySelector('.answer-input');
+        const badge = card.querySelector('.result-badge');
 
-        if (!submitButton) {
+        if (!input) {
             return;
         }
 
-        submitButton.addEventListener('click', () => {
-
-            // すでに回答済みなら何もしない
-            if (card.classList.contains('is-solved')) {
-                return;
-            }
-
-            // 入力値を取得
-            const values = inputs.map((input) => input.value.trim());
-
-            // 6文字すべて入力されているか確認
-            const isComplete = values.every((value) => value.length === 1);
-
-            // 未入力がある場合
-            if (!isComplete) {
-                const badge = card.querySelector('.result-badge');
-
-                badge.textContent = '未入力';
+        // 入力し直したら、前回の「未入力」「不正解」表示を消す
+        input.addEventListener('input', () => {
+            if (!card.classList.contains('is-solved')) {
+                badge.textContent = '';
                 badge.classList.remove('correct', 'wrong');
-                badge.classList.add('wrong');
-
-                return;
             }
-
-            // 正解判定
-            const answer = card.dataset.answer;
-            const entered = values.join('');
-            const correct = entered === answer;
-
-            if (!correct) {
-                const badge = card.querySelector('.result-badge');
-
-                badge.textContent = '不正解';
-                badge.classList.remove('correct', 'wrong');
-                badge.classList.add('wrong');
-
-                return;
-            }
-
-            // 結果を保存
-            setCardState(card, values, correct);
         });
     });
 
 
     /* ====================================== */
-    /* exe・コード入力ダイアログのイベント */
+    /* 決定ボタン / Enterキーで回答 */
     /* ====================================== */
 
-    if (exeIcon) {
-        exeIcon.addEventListener('click', openUnlockDialog);
+    function showBadge(badge, text) {
+        badge.textContent = text;
+        badge.classList.remove('correct', 'wrong');
+        badge.classList.add('wrong');
     }
 
-    if (unlockInput) {
-        unlockInput.addEventListener('input', () => {
-            unlockInput.value = unlockInput.value.replace(/[^0-9]/g, '').slice(0, 6);
-            unlockMessage.textContent = '';
-            unlockMessage.classList.remove('correct', 'wrong');
+    function submitAnswer(card) {
+        const input = card.querySelector('.answer-input');
+        const badge = card.querySelector('.result-badge');
+
+        // すでに回答済みなら何もしない
+        if (card.classList.contains('is-solved')) {
+            return;
+        }
+
+        const value = input.value.trim();
+
+        // 未入力
+        if (!value) {
+            showBadge(badge, '未入力');
+            return;
+        }
+
+        // 正解判定(JSのロジックで判定)
+        const correct = checkAnswer(Number(card.dataset.index), value);
+
+        if (!correct) {
+            showBadge(badge, '不正解');
+            return;
+        }
+
+        // 結果を保存
+        setCardState(card, value, correct);
+    }
+
+    cards.forEach((card) => {
+        const submitButton = card.querySelector('.submit-btn');
+        const input = card.querySelector('.answer-input');
+
+        if (submitButton) {
+            submitButton.addEventListener('click', () => submitAnswer(card));
+        }
+
+        if (input) {
+            input.addEventListener('keydown', (event) => {
+                // IME変換の確定Enterでは送信しない
+                if (event.key === 'Enter' && !event.isComposing) {
+                    submitAnswer(card);
+                }
+            });
+        }
+    });
+
+
+    /* ====================================== */
+    /* 最終exe・最終コード入力ダイアログのイベント */
+    /* ====================================== */
+
+    if (finalExeIcon) {
+        finalExeIcon.addEventListener('click', openFinalDialog);
+    }
+
+    if (finalInput) {
+        finalInput.addEventListener('input', () => {
+            finalInput.value = finalInput.value.replace(/[^0-9]/g, '').slice(0, 6);
+            finalMessage.textContent = '';
+            finalMessage.classList.remove('correct', 'wrong');
         });
 
-        unlockInput.addEventListener('keydown', (event) => {
+        finalInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                submitUnlock();
+                submitFinal();
             }
         });
     }
 
-    if (unlockSubmit) {
-        unlockSubmit.addEventListener('click', submitUnlock);
+    if (finalSubmit) {
+        finalSubmit.addEventListener('click', submitFinal);
     }
 
-    if (unlockClose) {
-        unlockClose.addEventListener('click', () => {
-            unlockDialog.hidden = true;
+    if (finalClose) {
+        finalClose.addEventListener('click', () => {
+            finalDialog.hidden = true;
         });
     }
 

@@ -128,6 +128,65 @@ body.quiz-body::before {
     color: #fff7f7;
 }
 
+/* 問題文画像 */
+.problem-image {
+    display: block;
+    max-width: 100%;
+    max-height: 220px;
+    margin: 0 auto 10px;
+    object-fit: contain;
+    cursor: zoom-in;
+}
+
+.problem-image:focus-visible {
+    outline: 2px solid #ff7b7b;
+    outline-offset: 4px;
+}
+
+.image-preview {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    width: min(96vw, 1600px);
+    height: min(94vh, 1000px);
+    padding: 48px 24px;
+    overflow: hidden;
+    background: rgba(15, 10, 10, 0.98);
+    border: 1px solid rgba(255, 85, 85, 0.65);
+    box-shadow: 0 0 0 2px rgba(255, 80, 80, 0.18), 0 22px 48px rgba(0, 0, 0, 0.7);
+    place-items: center;
+}
+
+.image-preview[open] {
+    display: grid;
+}
+
+.image-preview::backdrop {
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(3px);
+}
+
+.image-preview-content {
+    display: block;
+    max-width: 100%;
+    max-height: min(calc(94vh - 100px), 900px);
+    object-fit: contain;
+}
+
+.image-preview-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(255, 88, 88, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+}
+
 .answer-feed {
     width: min(100%, 560px);
     margin: 18px auto 20px;
@@ -150,27 +209,36 @@ body.quiz-body::before {
     overflow-wrap: anywhere;
 }
 
+/* 解答欄(テキストボックス1つ) */
 .answer-row {
     display: flex;
     justify-content: center;
-    gap: 10px;
     margin-top: 24px;
     padding: 0 10px;
 }
 
 .answer-input {
-    width: 48px;
-    height: 44px;
+    width: min(100%, 420px);
+    height: 48px;
+    padding: 0 16px;
     border: 1px solid rgba(255, 110, 110, 0.55);
     border-radius: 8px;
     background: rgba(0, 0, 0, 0.35);
     color: #fff;
     -webkit-text-fill-color: #fff;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
+    letter-spacing: 0.08em;
     box-shadow: inset 0 0 16px rgba(255, 0, 0, 0.08);
     caret-color: #fff;
+}
+
+.answer-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.35);
+    font-weight: 400;
+    letter-spacing: 0.04em;
 }
 
 .answer-input:focus {
@@ -267,7 +335,7 @@ body.quiz-body::before {
     display: grid;
     grid-template-columns: repeat(2, 84px);
     grid-template-rows: repeat(8, auto);
-    grid-auto-flow: column;   /* ← 追加:縦方向に並べる */
+    grid-auto-flow: column;
     gap: 8px;
     pointer-events: auto;
 }
@@ -453,13 +521,10 @@ body.quiz-body::before {
         padding-right: 14px;
     }
 
-    .answer-row {
-        gap: 6px;
-    }
-
     .answer-input {
-        width: 36px;
-        height: 38px;
+        width: 100%;
+        height: 44px;
+        font-size: 1.05rem;
     }
 
     .card-actions {
@@ -472,4 +537,61 @@ body.quiz-body::before {
         justify-content: flex-end;
         margin-top: 12px;
     }
+}
+
+/* ====================================== */
+/* 問題06クリア後のサポートAI(右下) */
+/* ====================================== */
+
+.support-ai {
+    position: fixed;
+    right: 28px;
+    bottom: 62px;
+    z-index: 12;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+}
+
+.support-ai.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.support-ai-image {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
+}
+
+.support-ai-bubble {
+    max-width: 360px;
+    padding: 12px 14px 10px;
+    border-radius: 16px 16px 4px 16px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.2);
+    color: #1b1b1b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.support-ai-bubble p {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #7a0000;
+}
+
+.support-ai-bubble span {
+    display: block;
+}
+
+/* 最終exe:正解後は少し暗くする */
+.final-exe-item.is-solved {
+    opacity: 0.6;
 }

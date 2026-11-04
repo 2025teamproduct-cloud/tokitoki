@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- reset.css ress -->
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/script.js" defer></script>
+    <link rel="stylesheet" href="./css/securiti.css">
+    <script src="./js/securiti.js" defer></script>
     <title>謎解きサンプル</title>
 </head>
 
@@ -26,7 +26,7 @@
         <figcaption>メール</figcaption>
     </figure>
 
-    <figure class="desktopIcon-low-item">
+    <figure class="desktopIcon-low-item" id="ai-icon-item">
         <img src="./img/reverseAI.png" alt="ネフユ" class="desktopIcon-low ai-icon">
         <figcaption>譛ｪ繧ｯ繝ｪ繧｢</figcaption>
         <!--         ↑未クリア              -->
@@ -277,6 +277,61 @@
 
     <!-- 今は10秒やが渡すときに時間を変更して向こうが研修の概要を説明しているとメールの通知が来て始まる -->
     <!-- ↑みたいな感じにするからある程度の半台本みたいなのいるかも　いぶきちの仕事 -->
+
+
+    <!-- ====================================== -->
+    <!-- 背景が赤く変わるときのノイズ演出 -->
+    <!-- ====================================== -->
+
+    <div class="glitch-overlay" id="glitch-overlay" aria-hidden="true"></div>
+
+
+    <!-- ====================================== -->
+    <!-- ネフユ(最初は親切 → 背景が赤くなると豹変) -->
+    <!-- セリフは js/securiti.js の nefuyuFriendlyLines / nefuyuEvilLines / nefuyuExitLines -->
+    <!-- ====================================== -->
+
+    <div class="support-ai" id="support-ai" aria-live="polite" aria-hidden="true">
+        <div class="support-ai-bubble">
+            <p class="support-ai-name">ネフユ</p>
+            <span class="support-ai-text" id="support-ai-text"></span>
+        </div>
+        <img src="./img/AI.png" alt="ネフユ" class="support-ai-image" id="support-ai-image">
+    </div>
+
+
+    <!-- ====================================== -->
+    <!-- 現在地のパス(AIアイコンをクリックすると開く) -->
+    <!-- パスを正しいものに書き換えて「移動」を押すと security.html へ -->
+    <!-- ====================================== -->
+
+    <div class="path-dialog" id="path-dialog" hidden>
+        <div class="path-window" role="dialog" aria-modal="true" aria-labelledby="path-title">
+            <div class="path-titlebar">
+                <span class="path-tag">LOCATION</span>
+                <button type="button" class="path-close" id="path-close" aria-label="閉じる">✕</button>
+            </div>
+
+            <p class="path-title" id="path-title">現在いる場所</p>
+
+            <input id="path-input" class="path-input" type="text" spellcheck="false" autocomplete="off"
+                aria-label="現在いる場所のパス">
+
+            <div class="path-actions">
+                <button type="button" class="path-submit" id="path-submit">移動</button>
+                <p class="path-message" id="path-message" aria-live="polite"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ====================================== -->
+    <!-- security.html へ移動するときの暗転演出 -->
+    <!-- ====================================== -->
+
+    <div class="page-transition" id="page-transition" aria-hidden="true">
+        <span class="page-transition-text">SYSTEM REBOOT...</span>
+    </div>
 
 </body>
 

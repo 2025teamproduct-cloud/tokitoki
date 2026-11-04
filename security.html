@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- reset.css ress -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="./css/security.css">
+    <script src="./js/security.js" defer></script>
+    <title>謎解きサンプル</title>
+</head>
+
+<body>
+    <img src="./img/dustbox.png" alt="ゴミ箱" class="desktopIcon">
+    <img src="./img/folder.png" alt="会議資料" class="desktopIcon">
+
+    <figure class="desktopIcon-low-item">
+        <img src="./img/exe.png" alt="Water Dog" class="desktopIcon-low" id="exe">
+        <figcaption>Water Dog</figcaption>
+    </figure>
+
+    <figure class="desktopIcon-low-item">
+        <img src="./img/mail.png" alt="メール" class="desktopIcon-low mail-icon">
+        <figcaption>メール</figcaption>
+    </figure>
+
+    <figure class="desktopIcon-low-item">
+        <img src="./img/AI.png" alt="ネフユ" class="desktopIcon-low ai-icon">
+        <figcaption>ネフユ</figcaption>
+    </figure>
+
+
+    <!-- ============================== -->
+    <!-- タスクバー -->
+    <!-- ============================== -->
+
+    <nav class="taskbar" aria-label="タスクバー">
+
+        <button class="taskbar-start" type="button">
+            START
+        </button>
+
+        <div class="taskbar-window">
+            SECURITY TRAINING
+        </div>
+
+        <div class="taskbar-status">
+            <span>ONLINE</span>
+            <time id="japan-time" datetime="">--:--</time>
+        </div>
+
+    </nav>
+
+
+    <!-- ============================== -->
+    <!-- メール通知 -->
+    <!-- ============================== -->
+
+    <aside
+        class="mail-notification"
+        id="mail-notification"
+        aria-live="polite"
+    >
+
+        <div class="mail-notification-header">
+            <span>NEW MAIL</span>
+            <span>社内メール</span>
+        </div>
+
+        <h2>
+            件名:【お詫び】不審なメールの配信について
+        </h2>
+
+        <div class="mail-notification-body">
+
+            <p>
+                社員各位<br>
+                情報システム部です。
+            </p>
+
+            <p>
+                先日配信された「セキュリティ研修用ソフトのご案内」は、
+                当部門が送信したものではなく、
+                フィッシングメールであることが判明しました。
+                ご迷惑とご心配をおかけしましたことを、深くお詫び申し上げます。
+            </p>
+
+            <p>
+                詳細と、お願いしたい対応を記載していますので、
+                このメールをクリックしてご確認ください。
+            </p>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ============================== -->
+    <!-- メールウィンドウ -->
+    <!-- ============================== -->
+
+    <section
+        class="mail-window"
+        id="mail-window"
+        aria-hidden="true"
+    >
+
+        <!-- Windows風タイトルバー -->
+
+        <div class="mail-window-titlebar">
+
+            <div class="mail-window-left">
+
+                <span class="mail-window-icon">
+                    ✉
+                </span>
+
+                <span>
+                    社内メール
+                </span>
+
+            </div>
+
+
+            <div class="mail-window-controls">
+
+                <button
+                    type="button"
+                    class="win-btn"
+                    id="minimize-btn"
+                    aria-label="最小化"
+                >
+                    ─
+                </button>
+
+                <button
+                    type="button"
+                    class="win-btn"
+                    id="maximize-btn"
+                    aria-label="最大化"
+                >
+                    □
+                </button>
+
+                <button
+                    type="button"
+                    class="win-btn close"
+                    id="close-mail-window"
+                    aria-label="閉じる"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- メール本文 -->
+
+        <div class="mail-window-content">
+
+            <div class="mail-meta">
+
+                <div>
+
+                    <div class="mail-label">
+                        件名
+                    </div>
+
+                    <strong>
+                        【お詫び】フィッシングメールの配信について
+                    </strong>
+
+                </div>
+
+                <div class="mail-time">
+                    --:--
+                </div>
+
+            </div>
+
+
+            <div class="mail-from">
+                差出人: 情報システム部 &lt;it-support@mirai-life.example.com&gt;
+            </div>
+
+
+            <div class="mail-body">
+
+                <p>
+                    社員各位
+                </p>
+
+                <p>
+                    お疲れさまです。情報システム部です。
+                </p>
+
+                <p>
+                    先日、「【要対応】セキュリティ研修用ソフトのご案内」という件名のメールが
+                    社内に配信されました。
+                    調査の結果、このメールは当部門が送信したものではなく、
+                    外部の第三者による<strong>フィッシングメール</strong>であることが判明しました。
+                </p>
+
+                <p>
+                    社員の皆さまに不安とご迷惑をおかけしましたことを、
+                    深くお詫び申し上げます。
+                </p>
+
+                <p>
+                    つきましては、以下のご対応をお願いいたします。
+                </p>
+
+                <ul>
+                    <li>当該メールのリンクや添付ファイルを開いていない場合は、メールを削除してください。</li>
+                    <li>ソフトをインストールしてしまった場合は、端末をネットワークから切り離し、直ちに情報システム部へご連絡ください。</li>
+                    <li>念のため、社内システムで使用しているパスワードを変更してください。</li>
+                </ul>
+
+                <p>
+                    今後は、送信元アドレスの確認を含めた配信メールのチェック体制を強化し、
+                    再発防止に努めてまいります。
+                </p>
+
+                <p>
+                    詳細は、以下のページをご確認ください。
+                </p>
+
+                <!-- 詳細ページへのリンク -->
+
+                <a
+                    class="detail-link"
+                    id="detail-link"
+                    href="completed.html"
+                >
+                    詳細ページを見る
+                </a>
+
+                <p class="attachment">
+                    お問い合わせ先: 情報システム部(it-support@mirai-life.example.com)
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================== -->
+    <!-- ウィンドウ背景 -->
+    <!-- ============================== -->
+
+    <div
+        class="window-overlay"
+        id="window-overlay"
+    ></div>
+
+
+    <!-- 今は10秒やが渡すときに時間を変更して向こうが研修の概要を説明しているとメールの通知が来て始まる -->
+    <!-- ↑みたいな感じにするからある程度の半台本みたいなのいるかも　いぶきちの仕事 -->
+
+
+    <!-- ====================================== -->
+    <!-- 到着時の起動演出(CSSだけで自動的に消える) -->
+    <!-- ====================================== -->
+
+    <div class="boot-overlay" aria-hidden="true">
+        <span class="boot-overlay-text">SYSTEM REBOOT...</span>
+        <span class="boot-overlay-sub">セキュリティ研修を再起動しています</span>
+        <div class="boot-overlay-progress">
+            <div class="boot-overlay-progress-bar"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
