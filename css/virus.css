@@ -280,6 +280,7 @@ body {
     color: #1b1b1b;
     font-size: 12px;
     line-height: 1.5;
+    text-decoration: none;
 }
 
 .support-ai-bubble p {
@@ -291,6 +292,30 @@ body {
 
 .support-ai-bubble span {
     display: block;
+}
+
+.support-ai a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.support-ai a:hover,
+.support-ai a:focus-visible {
+    text-decoration: none;
+}
+
+.support-ai-bubble,
+.support-ai-image {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.support-ai a:hover .support-ai-bubble {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.support-ai a:hover .support-ai-image {
+    transform: scale(1.08);
 }
 
 .taskbar {
@@ -425,4 +450,99 @@ img#exe {
         -0.5px 0 #000,
         0 0.5px #000,
         0 -0.5px #000;
+}
+
+/* ====================================== */
+/* ウインドウの種類(virus.css の末尾に追記) */
+/* ====================================== */
+
+/* エラー: 赤いタイトルバー */
+.virus-window.is-error .virus-window-titlebar {
+    background: #b3121a;
+    border-bottom-color: #7d0c12;
+    color: #fff;
+}
+
+.virus-window.is-error .virus-window-close {
+    color: #fff;
+}
+
+.virus-window.is-error .virus-window-close:hover {
+    background: #7d0c12;
+}
+
+/* 警告: 黄色いタイトルバー */
+.virus-window.is-warning .virus-window-titlebar {
+    background: #ffffff;
+    border-bottom-color: #d6d6d6;
+    color: #3a2c00;
+}
+
+.virus-window.is-warning .virus-window-close {
+    color: #3a2c00;
+}
+
+.virus-window.is-warning .virus-window-close:hover {
+    background: #e81123;
+    color: #fff;
+}
+
+/* 本文 */
+.virus-window-main {
+    font-weight: 700;
+    font-size: 11px;
+}
+
+.virus-window-sub {
+    margin-top: 4px !important;
+    color: #666;
+    font-size: 9px;
+}
+
+/* 進捗バー */
+.virus-window-progress {
+    height: 6px;
+    margin-top: 8px;
+    background: #ddd;
+    overflow: hidden;
+}
+
+.virus-window-progress span {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: #b3121a;
+    animation: virus-progress 2.4s ease-in-out forwards;
+}
+
+@keyframes virus-progress {
+    from { width: 0; }
+    to   { width: 100%; }
+}
+
+/* 終盤の震え */
+/* .virus-window.is-shaking {
+    animation:
+        virus-window-appear 0.15s ease-out,
+        virus-shake 0.35s linear 0.15s infinite;
+} */
+
+@keyframes virus-shake {
+    0%   { translate: 0 0; }
+    25%  { translate: 2px -1px; }
+    50%  { translate: -2px 1px; }
+    75%  { translate: 1px 2px; }
+    100% { translate: 0 0; }
+}
+
+/* 動きを減らす設定の人には震え・進捗を止める */
+@media (prefers-reduced-motion: reduce) {
+    .virus-window.is-shaking {
+        animation: virus-window-appear 0.15s ease-out;
+    }
+
+    .virus-window-progress span {
+        animation: none;
+        width: 60%;
+    }
 }

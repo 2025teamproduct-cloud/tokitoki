@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
     <link rel="stylesheet" href="./css/security.css">
     <script src="./js/security.js" defer></script>
-    <title>謎解きサンプル</title>
+    <title>security-training</title>
 </head>
 
 <body>
@@ -226,18 +226,18 @@
                 </p>
 
                 <p>
-                    詳細は、以下のページをご確認ください。
+                    詳細は、以下のテキストファイルをご確認ください。
                 </p>
 
-                <!-- 詳細ページへのリンク -->
+                <!-- 詳細説明.txtを画面内で開くボタン -->
 
-                <a
+                <button
+                    type="button"
                     class="detail-link"
                     id="detail-link"
-                    href="completed.html"
                 >
-                    詳細ページを見る
-                </a>
+                    詳細説明.txt
+                </button>
 
                 <p class="attachment">
                     お問い合わせ先: 情報システム部(it-support@mirai-life.example.com)
@@ -251,13 +251,155 @@
 
 
     <!-- ============================== -->
-    <!-- ウィンドウ背景 -->
+    <!-- メールウィンドウ背景 -->
     <!-- ============================== -->
 
     <div
         class="window-overlay"
         id="window-overlay"
     ></div>
+
+
+    <!-- ============================== -->
+    <!-- 詳細説明.txt（メモ帳風ウィンドウ） -->
+    <!-- ============================== -->
+
+    <div
+        class="text-file-overlay"
+        id="text-file-overlay"
+        aria-hidden="true"
+    ></div>
+
+    <section
+        class="text-file-window"
+        id="text-file-window"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="text-file-window-title"
+        aria-hidden="true"
+    >
+
+        <div class="text-file-titlebar">
+
+            <div class="text-file-title">
+                <span class="text-file-title-icon">▤</span>
+                <span id="text-file-window-title">詳細説明.txt - メモ帳</span>
+            </div>
+
+            <div class="text-file-controls">
+                <button
+                    type="button"
+                    class="text-file-close"
+                    id="close-text-file"
+                    aria-label="閉じる"
+                >
+                    ✕
+                </button>
+            </div>
+
+        </div>
+
+        <div class="text-file-menu">
+            <span>ファイル</span>
+            <span>編集</span>
+            <span>書式</span>
+            <span>表示</span>
+            <span>ヘルプ</span>
+        </div>
+
+        <div class="text-file-content" id="text-file-content">
+
+            <article class="explanation-item" id="explanation1">
+                <h3>① フィッシング攻撃</h3>
+                <p>フィッシング攻撃とは、銀行や通販サイトなど本物そっくりのメールや偽サイトを使い、相手をだましてパスワードやカード番号などを入力させ、盗み取る攻撃です。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation2">
+                <h3>② ビジネスメール詐欺（BEC）</h3>
+                <p>ビジネスメール詐欺は、社長や取引先になりすましたメールを送り、会社の担当者に偽の口座へお金を振り込ませる詐欺です。送金前に別の方法で本人へ確認することが大切です。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation3">
+                <h3>③ パスワードリスト攻撃</h3>
+                <p>パスワードリスト攻撃とは、別のサイトから流出したIDとパスワードの組み合わせを使い、ほかのサイトへのログインを試す攻撃です。同じパスワードを使い回すと被害に遭いやすくなります。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation4">
+                <h3>④ ブルートフォース攻撃</h3>
+                <p>ブルートフォース攻撃は、考えられるパスワードの文字や数字の組み合わせを片っ端から試し、正しいものを見つけようとする攻撃です。短く単純なパスワードほど破られやすくなります。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation5">
+                <h3>⑤ アカウント乗っ取り</h3>
+                <p>アカウント乗っ取りとは、他人のIDやパスワードなどを不正に入手し、本人になりすましてサービスを使うことです。勝手に投稿されたり、個人情報を見られたりする危険があります。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation6">
+                <h3>⑥ 多要素認証（MFA）</h3>
+                <p>多要素認証とは、パスワードに加え、スマートフォンへの確認コードや指紋など、異なる種類の方法を組み合わせて本人確認する仕組みです。パスワードが盗まれても不正ログインを防ぎやすくなります。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation7">
+                <h3>⑦ アクセス制御</h3>
+                <p>アクセス制御とは、コンピューターやデータを利用できる人や、その人ができる操作を決める仕組みです。必要な人に必要な範囲だけ利用を許可することで、情報の盗み見や誤操作を防ぎます。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation8">
+                <h3>⑧ ランサムウェア攻撃</h3>
+                <p>ランサムウェア攻撃とは、ウイルスなどでパソコンのファイルを勝手に使えなくし、元に戻す代わりに金銭を要求する攻撃です。被害に備え、データを別の場所にバックアップしておくことが重要です。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation9">
+                <h3>⑨ バックアップ</h3>
+                <p>バックアップとは、写真や書類など大切なデータのコピーを、別の場所や機器に保存しておくことです。故障や誤操作、ウイルス感染で元のデータが消えたり使えなくなったりしても、コピーから復元できます。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation10">
+                <h3>⑩ セキュリティアップデート（脆弱性修正）</h3>
+                <p>セキュリティアップデートとは、ソフトやOSに見つかった安全上の弱点（脆弱性）を修正する更新です。古いまま使うと攻撃者に侵入される危険が高まるため、更新のお知らせが来たら早めに適用します。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation11">
+                <h3>⑪ サプライチェーン攻撃</h3>
+                <p>サプライチェーン攻撃とは、標的の会社を直接狙うのではなく、その会社と取引する企業や、使っているソフトの提供元などを攻撃の入り口にする手口です。つながりのある相手を通じて被害が広がることがあります。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation12">
+                <h3>⑫ ファイアウォール</h3>
+                <p>ファイアウォールとは、インターネットと家や会社のネットワークの間で通信を見張り、決められたルールに合わない危険な通信を止める仕組みです。建物の防火壁のように、外からの攻撃を防ぐ役割があります。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation13">
+                <h3>⑬ 中間者攻撃</h3>
+                <p>中間者攻撃とは、通信する二人や機器の間に攻撃者が入り込み、やり取りを盗み見たり、内容を書き換えたりする攻撃です。利用者が気づかないまま情報を盗まれるおそれがあります。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation14">
+                <h3>⑭ インシデント対応</h3>
+                <p>インシデント対応とは、情報漏えいや不正アクセスなどのトラブルが起きたとき、被害の広がりを止め、原因を調べ、元の状態に戻すための活動です。日頃から連絡先や手順を決めておくことが大切です。</p>
+            </article>
+
+            <article class="explanation-item" id="explanation15">
+                <h3>⑮ VPN</h3>
+                <p>VPNとは、インターネットなどの通信経路を暗号化し、安全に情報をやり取りできるようにする技術です。離れた場所から会社のネットワークに接続するときなどに使われ、通信内容を第三者に見られにくくします。</p>
+            </article>
+
+            <!-- ⑯～⑳は後から解説を追加するための空欄 -->
+
+            <article class="explanation-empty" id="explanation16"></article>
+            <article class="explanation-empty" id="explanation17"></article>
+            <article class="explanation-empty" id="explanation18"></article>
+            <article class="explanation-empty" id="explanation19"></article>
+            <article class="explanation-empty" id="explanation20"></article>
+
+        </div>
+
+        <div class="text-file-statusbar">
+            <span>テキスト ドキュメント</span>
+            <span>UTF-8</span>
+        </div>
+
+    </section>
 
 
     <!-- 今は10秒やが渡すときに時間を変更して向こうが研修の概要を説明しているとメールの通知が来て始まる -->
