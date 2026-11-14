@@ -39,7 +39,7 @@
 
 
 /* -------------------------------------- */
-/* デスクトップ背景(question.css と同じ暗い赤の形式) */
+/* デスクトップ背景 */
 /* -------------------------------------- */
 
 html {
@@ -54,35 +54,15 @@ body {
     margin: 0;
     overflow: hidden;
 
-    /* 上部の赤い光 + 暗い赤のグラデーション */
-    /* 色は変数にして、感染時に #600000 へアニメーションさせる */
-    background:
-        radial-gradient(circle at top, rgba(255, 0, 0, 0.18), transparent 35%),
-        linear-gradient(
-            135deg,
-            var(--bg1, #1b1b1b) 0%,
-            var(--bg2, #2d0808) 25%,
-            var(--bg3, #4a0202) 52%,
-            var(--bg4, #120808) 100%
-        );
+    /* 色は変数にして、背景が赤に切り替わるときにアニメーションさせる */
+    background: linear-gradient(
+        135deg,
+        var(--bg1, #8bd8ed) 0%,
+        var(--bg2, #58bddb) 45%,
+        var(--bg3, #239dca) 100%
+    );
 
     font-family: Arial, "Yu Gothic", "Meiryo", sans-serif;
-}
-
-/* 走査線(body::before は文字表示に使っているので html 側に付ける) */
-html::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.015),
-        rgba(255, 255, 255, 0.015) 1px,
-        transparent 1px,
-        transparent 4px
-    );
-    pointer-events: none;
 }
 
 body::before {
@@ -144,9 +124,12 @@ body::after {
 
 .quiz-body {
     overflow: hidden;
-    background:
-        radial-gradient(circle at top, rgba(255, 0, 0, 0.18), transparent 35%),
-        linear-gradient(135deg, #1b1b1b 0%, #2d0808 25%, #4a0202 52%, #120808 100%);
+    background: linear-gradient(
+        135deg,
+        #8bd8ed 0%,
+        #58bddb 45%,
+        #239dca 100%
+    );
 }
 
 .quiz-shell {
@@ -1279,49 +1262,41 @@ img#exe {
 
 
 /* ====================================== */
-/* 暗い赤 → 鮮やかな赤(#600000)への背景変化 */
+/* 青 → 赤(#600000)への背景変化 */
 /* ====================================== */
 
-/* 色を滑らかに変化させるため、背景の色変数を登録する(question.css と同じ配色が初期値) */
+/* 色を滑らかに変化させるため、背景の色変数を登録する */
 @property --bg1 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #1b1b1b;
+    initial-value: #8bd8ed;
 }
 
 @property --bg2 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #2d0808;
+    initial-value: #58bddb;
 }
 
 @property --bg3 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #4a0202;
-}
-
-@property --bg4 {
-    syntax: '<color>';
-    inherits: false;
-    initial-value: #120808;
+    initial-value: #239dca;
 }
 
 body {
     transition:
         --bg1 2.4s ease-in,
         --bg2 2.4s ease-in,
-        --bg3 2.4s ease-in,
-        --bg4 2.4s ease-in;
+        --bg3 2.4s ease-in;
 }
 
-/* 感染中・感染後は、4色とも #600000(=単色の暗い赤) */
+/* 感染中・感染後は、3色とも #600000(=単色の暗い赤) */
 body.is-infecting,
 body.is-infected {
     --bg1: #600000;
     --bg2: #600000;
     --bg3: #600000;
-    --bg4: #600000;
 }
 
 
