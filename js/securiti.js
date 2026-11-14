@@ -1,5 +1,4 @@
 // securiti.js
-// ※ このページは classified/leaked_data/ にあるため、他ページへの遷移・画像は ../../ から始める
 const japanTime = document.querySelector('#japan-time');
 const mailNotification = document.querySelector('#mail-notification');
 const mailTime = document.querySelector('#mail-window .mail-time');
@@ -222,8 +221,7 @@ downloadBtn.addEventListener('click', () => {
 
 function goToVirusPage() {
 
-	/* 【変更】2階層上の virus.html へ */
-	window.location.href = '../../virus.html';
+	window.location.href = 'virus.html';
 
 }
 
@@ -448,8 +446,7 @@ async function startEvilScene() {
 
 	nefuyuBox.classList.add('is-evil');
 
-	/* 【変更】画像パスを ../../img/ に */
-	nefuyuImage.src = '../../img/reverseAI.png';
+	nefuyuImage.src = './img/reverseAI.png';
 
 	nefuyuText.textContent = '';
 
@@ -497,8 +494,9 @@ setTimeout(startInfection, BLUE_DURATION);
 /* 設定 */
 /* -------------------------------------- */
 
-/* 【変更】正解のページ。securiti.html から見た相対パス(2階層上) */
-const PATH_ANSWER_FILE = '../../security.html';
+/* 正解のファイル名(拡張子あり・なしのどちらも正解にする) */
+const PATH_ANSWER_FILE = 'security.html';
+const PATH_ANSWER_NAMES = ['security.html', 'security'];
 
 /* 正解してから、ネフユのセリフを出し始めるまでの待ち時間(ミリ秒) */
 const PATH_REDIRECT_DELAY = 700;
@@ -528,7 +526,7 @@ let pathPuzzleEnabled = false;
 
 
 /* -------------------------------------- */
-/* 現在いる場所のパス(例: /classified/leaked_data/securiti.html) */
+/* 現在いる場所のパス(例: /training/securiti.html) */
 /* -------------------------------------- */
 
 function getCurrentPath() {
@@ -540,37 +538,6 @@ function getCurrentPath() {
 	}
 
 }
-
-
-/* -------------------------------------- */
-/* 【変更】入力されたパスを、実際のURLのパスに解決する */
-/*   ・「/」始まり(絶対パス)も「../」を含む相対パスも解決できる */
-/*   ・例: /classified/leaked_data/../../security.html → /security.html */
-/* -------------------------------------- */
-
-function resolvePath(text) {
-
-	try {
-
-		const resolved = new URL(text, window.location.href).pathname;
-
-		return decodeURIComponent(resolved).toLowerCase();
-
-	} catch (error) {
-
-		return null;
-
-	}
-
-}
-
-/* 正解のパス(拡張子あり・なしのどちらも正解にする) */
-const PATH_ANSWER_RESOLVED = resolvePath(PATH_ANSWER_FILE);
-
-const PATH_ANSWER_PATHS = [
-	PATH_ANSWER_RESOLVED,
-	PATH_ANSWER_RESOLVED.replace(/\.html$/, '')
-];
 
 
 /* -------------------------------------- */
@@ -699,6 +666,10 @@ function submitPath() {
 
 	const current = getCurrentPath();
 
+	/* いまいるフォルダまでのパス(例: /training/) */
+
+	const directory = current.slice(0, current.lastIndexOf('/') + 1);
+
 
 	/* 変えていない */
 
@@ -711,15 +682,15 @@ function submitPath() {
 	}
 
 
-	/* 【変更】入力されたパスを解決して、正解(security.html)と一致するか確認する */
-	/* security.html は2階層上にあるので、「/security.html」や「../../security.html」と */
-	/* 書き換える必要がある(同じフォルダ内の security.html は不正解) */
+	/* フォルダ部分はそのままで、ファイル名だけが正解か確認する */
 
-	const resolved = resolvePath(entered);
+	const sameDirectory = entered.startsWith(directory);
+
+	const fileName = entered.slice(directory.length).toLowerCase();
 
 	const isCorrect =
-		resolved !== null &&
-		PATH_ANSWER_PATHS.includes(resolved);
+		sameDirectory &&
+		PATH_ANSWER_NAMES.includes(fileName);
 
 	if (!isCorrect) {
 
