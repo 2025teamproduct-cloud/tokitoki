@@ -1365,6 +1365,14 @@ body.is-infecting {
     100% { transform: translate(0, 0); }
 }
 
+body.is-infecting::before,
+body.is-leaving::before {
+    content:
+        "SYSTEM ALERT\A"
+        "SECURITY\A"
+        "BREACH DETECTED";
+}
+
 body.is-infecting::before {
     animation: text-glitch 0.4s steps(2, end) infinite;
 }
