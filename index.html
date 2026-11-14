@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/script.js" defer></script>
+    <link rel="stylesheet" href="./css/taskbar.css">
+    <script src="./js/taskbar.js" defer></script>
     <title>security-training</title>
 </head>
 
@@ -45,17 +47,66 @@
 
     <nav class="taskbar" aria-label="タスクバー">
 
-        <button class="taskbar-start" type="button">
-            START
+        <!-- スタートボタン -->
+        <button class="taskbar-start" id="start-button" type="button" aria-haspopup="true" aria-expanded="false"
+            aria-controls="start-menu">
+            <span class="start-logo" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+            </span>
+            <span class="start-label">START</span>
         </button>
 
-        <div class="taskbar-window">
-            SECURITY TRAINING
+        <!-- 開いているウィンドウのボタン -->
+        <div class="taskbar-apps" role="toolbar" aria-label="開いているウィンドウ">
+
+            <button class="taskbar-app is-active" id="taskbar-app-training" type="button" aria-pressed="true">
+                <svg class="taskbar-app-icon" viewBox="0 0 16 16" width="14" height="14" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M8 1.5l5.5 2v4c0 3.2-2.3 5.6-5.5 7-3.2-1.4-5.5-3.8-5.5-7v-4z" />
+                </svg>
+                <span class="taskbar-app-label">SECURITY TRAINING</span>
+            </button>
+
+            <!-- メールウィンドウを開いている間だけ表示される -->
+            <button class="taskbar-app" id="taskbar-app-mail" type="button" aria-pressed="false" hidden>
+                <svg class="taskbar-app-icon" viewBox="0 0 16 16" width="14" height="14" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="1.5" y="3" width="13" height="10" rx="1.5" />
+                    <path d="M2 4l6 5 6-5" />
+                </svg>
+                <span class="taskbar-app-label">社内メール</span>
+            </button>
+
         </div>
 
+        <!-- 右側(通知領域) -->
         <div class="taskbar-status">
-            <span>ONLINE</span>
-            <time id="japan-time" datetime="">--:--</time>
+
+            <span class="tray-icon" title="ネットワーク: 接続済み">
+                <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" aria-hidden="true">
+                    <path d="M1.5 6a9 9 0 0 1 13 0" />
+                    <path d="M4 8.7a5.5 5.5 0 0 1 8 0" />
+                    <path d="M6.4 11.3a2 2 0 0 1 3.2 0" />
+                    <circle cx="8" cy="13.5" r=".6" fill="currentColor" />
+                </svg>
+            </span>
+
+            <span class="tray-icon" title="音量">
+                <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" aria-hidden="true">
+                    <path d="M2 6h3l4-3v10l-4-3H2z" fill="currentColor" stroke="none" />
+                    <path d="M11.5 5.5a3.5 3.5 0 0 1 0 5" />
+                </svg>
+            </span>
+
+            <span class="tray-online"><i class="tray-dot" aria-hidden="true"></i>ONLINE</span>
+
+            <div class="tray-clock">
+                <time id="japan-time" datetime="">--:--</time>
+                <span id="japan-date" class="tray-date">--/--</span>
+            </div>
+
         </div>
 
     </nav>
@@ -65,11 +116,7 @@
     <!-- メール通知 -->
     <!-- ============================== -->
 
-    <aside
-        class="mail-notification"
-        id="mail-notification"
-        aria-live="polite"
-    >
+    <aside class="mail-notification" id="mail-notification" aria-live="polite">
 
         <div class="mail-notification-header">
             <span>NEW MAIL</span>
@@ -102,7 +149,7 @@
 
             <p>
                 <!-- <a href="http://example.com/security-training-demo"> -->
-                    htpps://training-uirusudayo.com/security-training-danamo
+                htpps://training-uirusudayo.com/security-training-danamo
                 <!-- </a> -->
             </p>
 
@@ -121,11 +168,7 @@
     <!-- メールウィンドウ -->
     <!-- ============================== -->
 
-    <section
-        class="mail-window"
-        id="mail-window"
-        aria-hidden="true"
-    >
+    <section class="mail-window" id="mail-window" aria-hidden="true">
 
         <!-- Windows風タイトルバー -->
 
@@ -146,30 +189,15 @@
 
             <div class="mail-window-controls">
 
-                <button
-                    type="button"
-                    class="win-btn"
-                    id="minimize-btn"
-                    aria-label="最小化"
-                >
+                <button type="button" class="win-btn" id="minimize-btn" aria-label="最小化">
                     ─
                 </button>
 
-                <button
-                    type="button"
-                    class="win-btn"
-                    id="maximize-btn"
-                    aria-label="最大化"
-                >
+                <button type="button" class="win-btn" id="maximize-btn" aria-label="最大化">
                     □
                 </button>
 
-                <button
-                    type="button"
-                    class="win-btn close"
-                    id="close-mail-window"
-                    aria-label="閉じる"
-                >
+                <button type="button" class="win-btn close" id="close-mail-window" aria-label="閉じる">
                     ✕
                 </button>
 
@@ -231,11 +259,7 @@
 
                 <!-- 怪しいボタン -->
 
-                <button
-                    type="button"
-                    class="download-btn"
-                    id="download-btn"
-                >
+                <button type="button" class="download-btn" id="download-btn">
                     研修ソフトをインストール
                 </button>
 
@@ -256,21 +280,14 @@
     <!-- ウィンドウ背景 -->
     <!-- ============================== -->
 
-    <div
-        class="window-overlay"
-        id="window-overlay"
-    ></div>
+    <div class="window-overlay" id="window-overlay"></div>
 
 
     <!-- ============================== -->
     <!-- インストール中表示 -->
     <!-- ============================== -->
 
-    <div
-        class="install-status"
-        id="install-status"
-        aria-live="polite"
-    >
+    <div class="install-status" id="install-status" aria-live="polite">
         <div class="install-status-titlebar">
             <span>インストール</span>
             <button type="button" class="install-status-close" aria-label="インストール中表示を閉じる">×</button>
@@ -291,22 +308,14 @@
     <!-- ウイルス検出通知 -->
     <!-- ============================== -->
 
-    <div
-        class="virus-notification"
-        id="virus-notification"
-    >
+    <div class="virus-notification" id="virus-notification">
 
         <div class="virus-notification-title">
             <span>⚠</span>
             <span>セキュリティ警告</span>
         </div>
 
-        <button
-            type="button"
-            class="virus-notification-close"
-            id="virus-notification-close"
-            aria-label="閉じる"
-        >
+        <button type="button" class="virus-notification-close" id="virus-notification-close" aria-label="閉じる">
             ×
         </button>
 
@@ -321,22 +330,65 @@
     <!-- ウイルス感染時の赤画面 -->
     <!-- ============================== -->
 
-    <div
-        class="virus-overlay"
-        id="virus-overlay"
-    ></div>
+    <div class="virus-overlay" id="virus-overlay"></div>
 
 
     <!-- ============================== -->
     <!-- ウイルス警告ウィンドウを入れる場所 -->
     <!-- ============================== -->
 
-    <div
-        class="virus-windows"
-        id="virus-windows"
-    ></div>
+    <div class="virus-windows" id="virus-windows"></div>
 
 
+
+    <div class="start-menu" id="start-menu" aria-hidden="true">
+
+        <div class="start-menu-header">
+            <span class="start-menu-avatar" aria-hidden="true">社</span>
+            <div class="start-menu-user">
+                <strong>新入社員</strong>
+                <span>MIRAI LIFE / EMPLOYEE</span>
+            </div>
+        </div>
+
+        <ul class="start-menu-list" role="menu">
+            <li role="none">
+                <button type="button" class="start-menu-item" role="menuitem" data-action="mail">
+                    <img src="./img/mail.png" alt="" class="start-menu-item-icon">
+                    <span>メール</span>
+                </button>
+            </li>
+            <li role="none">
+                <button type="button" class="start-menu-item" role="menuitem" data-action="unavailable">
+                    <img src="./img/folder.png" alt="" class="start-menu-item-icon">
+                    <span>会議資料</span>
+                </button>
+            </li>
+            <li role="none">
+                <button type="button" class="start-menu-item" role="menuitem" data-action="unavailable">
+                    <img src="./img/exe.png" alt="" class="start-menu-item-icon">
+                    <span>Water Dog</span>
+                </button>
+            </li>
+            <li role="none">
+                <button type="button" class="start-menu-item" role="menuitem" data-action="unavailable">
+                    <img src="./img/dustbox.png" alt="" class="start-menu-item-icon">
+                    <span>ごみ箱</span>
+                </button>
+            </li>
+            <li role="none">
+                <button type="button" class="start-menu-item" role="menuitem" data-action="unavailable">
+                    <img src="./img/AI.png" alt="" class="start-menu-item-icon">
+                    <span>ネフユ</span>
+                </button>
+            </li>
+        </ul>
+
+        <div class="start-menu-footer">
+            <span class="start-menu-note" id="start-menu-note" aria-live="polite">SECURITY TRAINING</span>
+        </div>
+
+    </div>
 
 </body>
 
