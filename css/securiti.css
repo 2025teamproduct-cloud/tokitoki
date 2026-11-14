@@ -23,6 +23,10 @@
     margin: 10px 0 0 10px;
 }
 
+.desktopIcon-low-item--extra-bottom-space {
+    padding-bottom: 10px;
+}
+
 .desktopIcon-low-item figcaption {
     color: #fff;
     font-size: 11px;
