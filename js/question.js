@@ -36,11 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // 問題index → 正解(文字列。複数の正解を許可したい場合は配列に追加)
     // ※ 現在は仮の値です。実際の答えに書き換えてください
     const ANSWERS = {
-        0: ['つりばり','ツリバリ'],
-        1: ['きんきゅう','キンキュウ'],
-        2: ['かぎあな','カギアナ'],
-        3: ['きょか','キョカ'],
-        4: ['ほぞん','ホゾン'],
+        0: ['つりばり', 'ツリバリ'],
+        1: ['きんきゅう', 'キンキュウ'],
+        2: ['かぎあな', 'カギアナ'],
+        3: ['きょか', 'キョカ'],
+        4: ['ほぞん', 'ホゾン'],
         5: ['142'],
     };
 
@@ -73,8 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ====================================== */
 
     function isFinalReady() {
-        const saved = loadSessionState()[FINAL_QUESTION_INDEX];
-        return Boolean(saved && saved.answered && saved.correct);
+        const state = loadSessionState();
+
+        // 全カード(問題01〜06)が正解済みのときだけ true
+        return cards.every((card) => {
+            const saved = state[Number(card.dataset.index)];
+            return Boolean(saved && saved.answered && saved.correct);
+        });
     }
 
     // 問題06が正解済みなら、最終exeとサポートAIを表示する
@@ -322,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
         syncInputState();
 
         // 問題06に正解したら、サポートAIと最終exeを出す
-        if (correct && cardIndex === FINAL_QUESTION_INDEX) {
+        if (correct && isFinalReady()) {
             applyFinalState(true, true);
         }
     }
