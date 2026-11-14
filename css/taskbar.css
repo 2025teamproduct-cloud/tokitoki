@@ -1,0 +1,401 @@
+/* taskbar.css  ※ style.css より後に読み込む */
+
+/* ====================================== */
+/* タスクバー本体 */
+/* ====================================== */
+
+.taskbar {
+    gap: 6px;
+    height: 42px;
+    padding: 4px 8px 4px 4px;
+    background: linear-gradient(180deg, rgba(24, 52, 68, 0.94) 0%, rgba(12, 30, 42, 0.96) 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(6px);
+    user-select: none;
+}
+
+.taskbar button {
+    font-family: inherit;
+}
+
+
+/* ====================================== */
+/* スタートボタン */
+/* ====================================== */
+
+.taskbar-start {
+    gap: 8px;
+    height: 34px;
+    padding: 0 16px 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 3px;
+    background: linear-gradient(180deg, #2c7894 0%, #1e5368 55%, #17445a 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        0 1px 3px rgba(0, 0, 0, 0.35);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.taskbar-start:hover {
+    background: linear-gradient(180deg, #3790b0 0%, #28677f 55%, #1e5368 100%);
+    filter: brightness(1.05);
+}
+
+.taskbar-start:active,
+.taskbar-start[aria-expanded="true"] {
+    background: linear-gradient(180deg, #123747 0%, #17445a 100%);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.45);
+    transform: translateY(1px);
+}
+
+.taskbar-start:focus-visible,
+.taskbar-app:focus-visible,
+.start-menu-item:focus-visible {
+    outline: 2px solid #8bd8ed;
+    outline-offset: 2px;
+}
+
+/* 4つの四角のロゴ */
+.start-logo {
+    display: grid;
+    grid-template-columns: repeat(2, 7px);
+    grid-template-rows: repeat(2, 7px);
+    gap: 2px;
+}
+
+.start-logo span {
+    display: block;
+    background: #fff;
+    border-radius: 1px;
+    opacity: 0.95;
+}
+
+.start-logo span:nth-child(1) { background: #ff7b7b; }
+.start-logo span:nth-child(2) { background: #8bd8ed; }
+.start-logo span:nth-child(3) { background: #ffe08a; }
+.start-logo span:nth-child(4) { background: #9be8a6; }
+
+
+/* ====================================== */
+/* 開いているウィンドウのボタン */
+/* ====================================== */
+
+.taskbar-apps {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    height: 100%;
+    padding-left: 4px;
+}
+
+.taskbar-app {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    max-width: 200px;
+    height: 32px;
+    padding: 0 14px 0 10px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.taskbar-app[hidden] {
+    display: none;
+}
+
+.taskbar-app-icon {
+    flex: none;
+}
+
+.taskbar-app-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.taskbar-app:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* 開いている(前面にある)ウィンドウ */
+.taskbar-app.is-active {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: inset 0 -2px 0 #8bd8ed;
+}
+
+.taskbar-app:active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* 出現アニメーション(メールウィンドウを開いたとき) */
+.taskbar-app.is-entering {
+    animation: taskbar-app-in 0.22s ease-out;
+}
+
+@keyframes taskbar-app-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ====================================== */
+/* 右側の通知領域 */
+/* ====================================== */
+
+.taskbar-status {
+    gap: 12px;
+    height: 100%;
+    padding: 0 6px 0 12px;
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.tray-icon {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 0.85);
+    cursor: default;
+    transition: background 0.15s ease;
+}
+
+.tray-icon:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.tray-online {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+}
+
+.tray-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #7ef0ac;
+    box-shadow: 0 0 6px rgba(126, 240, 172, 0.85);
+    animation: tray-dot-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes tray-dot-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.45; }
+}
+
+.tray-clock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 46px;
+    padding: 0 6px;
+    border-radius: 3px;
+    line-height: 1.25;
+    cursor: default;
+    transition: background 0.15s ease;
+}
+
+.tray-clock:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.tray-clock time {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.tray-date {
+    font-size: 9px;
+    opacity: 0.8;
+}
+
+
+/* ====================================== */
+/* スタートメニュー */
+/* ====================================== */
+
+.start-menu {
+    position: fixed;
+    left: 4px;
+    bottom: 46px;
+    z-index: 25;           /* メールウィンドウ(20)より上、インストール表示(30)より下 */
+    width: 280px;
+    overflow: hidden;
+    background: rgba(250, 253, 255, 0.97);
+    border: 1px solid #1b3541;
+    border-radius: 6px 6px 0 0;
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.35);
+    color: #1a2730;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease,
+        visibility 0s linear 0.18s;
+}
+
+.start-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease,
+        visibility 0s;
+}
+
+.start-menu-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #1e5368 0%, #239dca 100%);
+    color: #fff;
+}
+
+.start-menu-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.start-menu-user {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.start-menu-user strong {
+    font-size: 13px;
+}
+
+.start-menu-user span {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+}
+
+.start-menu-list {
+    margin: 0;
+    padding: 8px;
+    list-style: none;
+}
+
+.start-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: transparent;
+    color: inherit;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.start-menu-item:hover {
+    background: #dff2f9;
+    border-color: #a9d6e6;
+}
+
+.start-menu-item:active {
+    background: #c9e8f3;
+}
+
+.start-menu-item-icon {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.start-menu-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 16px;
+    background: #eaf2f5;
+    border-top: 1px solid #cddde4;
+}
+
+.start-menu-note {
+    color: #42606d;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    transition: color 0.2s ease;
+}
+
+.start-menu-note.is-warning {
+    color: #b30000;
+    font-weight: 700;
+}
+
+
+/* ====================================== */
+/* 動きを減らす設定 / 小さい画面 */
+/* ====================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .taskbar-app.is-entering,
+    .tray-dot {
+        animation: none;
+    }
+
+    .start-menu,
+    .start-menu.is-open {
+        transition: none;
+        transform: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .start-label,
+    .tray-online,
+    .tray-date {
+        display: none;
+    }
+
+    .taskbar-start {
+        padding: 0 12px;
+    }
+
+    .start-menu {
+        width: min(280px, calc(100vw - 8px));
+    }
+}
