@@ -408,21 +408,8 @@ async function startFriendlyScene() {
 function startScreenShake(className) {
 	const body = document.body;
 
-	if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-		body.classList.add('is-shaking');
-	}
-
-	body.classList.add(className);
+	body.classList.add('has-shaken', className);
 }
-
-function finishScreenShake(event) {
-	if (event.target === document.body && event.animationName === 'screen-shake') {
-		document.body.classList.remove('is-shaking');
-	}
-}
-
-document.body.addEventListener('animationend', finishScreenShake);
-document.body.addEventListener('animationcancel', finishScreenShake);
 
 function startInfection() {
 
