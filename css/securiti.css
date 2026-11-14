@@ -39,7 +39,7 @@
 
 
 /* -------------------------------------- */
-/* デスクトップ背景 */
+/* デスクトップ背景(question.css と同じ暗い赤の形式) */
 /* -------------------------------------- */
 
 html {
@@ -54,15 +54,31 @@ body {
     margin: 0;
     overflow: hidden;
 
-    /* 色は変数にして、背景が赤に切り替わるときにアニメーションさせる */
-    background: linear-gradient(
-        135deg,
-        var(--bg1, #8bd8ed) 0%,
-        var(--bg2, #58bddb) 45%,
-        var(--bg3, #239dca) 100%
-    );
+    /* 上部の赤い光 + 暗い赤のグラデーション */
+    /* 色は変数にして、感染時に #600000 へアニメーションさせる */
+    background:
+        radial-gradient(circle at top, rgba(255, 0, 0, 0.18), transparent 35%),
+        linear-gradient(135deg,
+            var(--bg1, #1b1b1b) 0%,
+            var(--bg2, #2d0808) 25%,
+            var(--bg3, #4a0202) 52%,
+            var(--bg4, #120808) 100%);
 
     font-family: Arial, "Yu Gothic", "Meiryo", sans-serif;
+}
+
+/* 走査線(body::before は文字表示に使っているので html 側に付ける) */
+html::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: repeating-linear-gradient(0deg,
+            rgba(255, 255, 255, 0.015),
+            rgba(255, 255, 255, 0.015) 1px,
+            transparent 1px,
+            transparent 4px);
+    pointer-events: none;
 }
 
 body::before {
@@ -124,12 +140,9 @@ body::after {
 
 .quiz-body {
     overflow: hidden;
-    background: linear-gradient(
-        135deg,
-        #8bd8ed 0%,
-        #58bddb 45%,
-        #239dca 100%
-    );
+    background:
+        radial-gradient(circle at top, rgba(255, 0, 0, 0.18), transparent 35%),
+        linear-gradient(135deg, #1b1b1b 0%, #2d0808 25%, #4a0202 52%, #120808 100%);
 }
 
 .quiz-shell {
@@ -157,7 +170,7 @@ body::after {
     color: #fff;
     font-size: 11px;
     font-weight: 600;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .desktop-icon-graphic {
@@ -188,8 +201,8 @@ body::after {
     min-height: 260px;
     padding: 18px 18px 12px;
     background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(0,0,0,0.25);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
     overflow: visible;
 }
 
@@ -207,7 +220,7 @@ body::after {
     width: 12px;
     height: 12px;
     background: #2e5d9b;
-    border: 1px solid rgba(0,0,0,0.28);
+    border: 1px solid rgba(0, 0, 0, 0.28);
 }
 
 .question-card h2 {
@@ -240,7 +253,7 @@ body::after {
     width: 56px;
     height: 42px;
     border: 1px solid rgba(0, 0, 0, 0.35);
-    background: rgba(255,255,255,0.75);
+    background: rgba(255, 255, 255, 0.75);
     text-align: center;
     font-size: 18px;
     font-weight: 700;
@@ -253,7 +266,7 @@ body::after {
 }
 
 .answer-input:disabled {
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 255, 255, 0.85);
     color: #111;
 }
 
@@ -312,11 +325,11 @@ body::after {
 }
 
 .question-card.is-correct {
-    box-shadow: inset 0 0 0 1px rgba(42,158,68,0.7), 0 0 0 1px rgba(42,158,68,0.5);
+    box-shadow: inset 0 0 0 1px rgba(42, 158, 68, 0.7), 0 0 0 1px rgba(42, 158, 68, 0.5);
 }
 
 .question-card.is-wrong {
-    box-shadow: inset 0 0 0 1px rgba(209,29,29,0.7), 0 0 0 1px rgba(209,29,29,0.5);
+    box-shadow: inset 0 0 0 1px rgba(209, 29, 29, 0.7), 0 0 0 1px rgba(209, 29, 29, 0.5);
 }
 
 .assistant {
@@ -332,8 +345,8 @@ body::after {
 .assistant-dialog {
     max-width: 300px;
     padding: 12px 16px;
-    background: rgba(255,255,255,0.92);
-    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 999px;
     color: #1d2b36;
     font-size: 11px;
@@ -345,7 +358,7 @@ body::after {
     width: 56px;
     height: 56px;
     object-fit: contain;
-    filter: drop-shadow(0 8px 10px rgba(0,0,0,0.18));
+    filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.18));
 }
 
 @media (max-width: 900px) {
@@ -584,8 +597,7 @@ body::after {
     min-height: 420px;
 
     transform:
-        translate(-50%, -50%)
-        scale(0.94);
+        translate(-50%, -50%) scale(0.94);
 
     background: #fff;
 
@@ -613,8 +625,7 @@ body::after {
     pointer-events: auto;
 
     transform:
-        translate(-50%, -50%)
-        scale(1);
+        translate(-50%, -50%) scale(1);
 }
 
 
@@ -937,8 +948,13 @@ body::after {
 }
 
 @keyframes install-progress {
-    0% { width: 0%; }
-    100% { width: 100%; }
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
 }
 
 
@@ -1262,41 +1278,49 @@ img#exe {
 
 
 /* ====================================== */
-/* 青 → 赤(#600000)への背景変化 */
+/* 暗い赤 → 鮮やかな赤(#600000)への背景変化 */
 /* ====================================== */
 
-/* 色を滑らかに変化させるため、背景の色変数を登録する */
+/* 色を滑らかに変化させるため、背景の色変数を登録する(question.css と同じ配色が初期値) */
 @property --bg1 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #8bd8ed;
+    initial-value: #1b1b1b;
 }
 
 @property --bg2 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #58bddb;
+    initial-value: #2d0808;
 }
 
 @property --bg3 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #239dca;
+    initial-value: #4a0202;
+}
+
+@property --bg4 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #120808;
 }
 
 body {
     transition:
         --bg1 2.4s ease-in,
         --bg2 2.4s ease-in,
-        --bg3 2.4s ease-in;
+        --bg3 2.4s ease-in,
+        --bg4 2.4s ease-in;
 }
 
-/* 感染中・感染後は、3色とも #600000(=単色の暗い赤) */
+/* 感染中・感染後は、4色とも #600000(=単色の暗い赤) */
 body.is-infecting,
 body.is-infected {
     --bg1: #600000;
     --bg2: #600000;
     --bg3: #600000;
+    --bg4: #600000;
 }
 
 
@@ -1309,11 +1333,25 @@ body.is-infecting {
 }
 
 @keyframes screen-shake {
-    0%   { transform: translate(0, 0); }
-    25%  { transform: translate(-5px, 2px); }
-    50%  { transform: translate(4px, -3px); }
-    75%  { transform: translate(-3px, -2px); }
-    100% { transform: translate(0, 0); }
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-5px, 2px);
+    }
+
+    50% {
+        transform: translate(4px, -3px);
+    }
+
+    75% {
+        transform: translate(-3px, -2px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
 }
 
 body.is-infecting::before {
@@ -1321,9 +1359,17 @@ body.is-infecting::before {
 }
 
 @keyframes text-glitch {
-    0%   { text-shadow: 3px 0 #ff1a1a, -3px 0 #00e5ff; }
-    50%  { text-shadow: -4px 0 #ff1a1a, 4px 0 #00e5ff; }
-    100% { text-shadow: none; }
+    0% {
+        text-shadow: 3px 0 #ff1a1a, -3px 0 #00e5ff;
+    }
+
+    50% {
+        text-shadow: -4px 0 #ff1a1a, 4px 0 #00e5ff;
+    }
+
+    100% {
+        text-shadow: none;
+    }
 }
 
 .glitch-overlay {
@@ -1331,13 +1377,11 @@ body.is-infecting::before {
     inset: 0;
     z-index: 65;
     background:
-        repeating-linear-gradient(
-            0deg,
+        repeating-linear-gradient(0deg,
             rgba(0, 0, 0, 0.35) 0,
             rgba(0, 0, 0, 0.35) 2px,
             transparent 2px,
-            transparent 5px
-        ),
+            transparent 5px),
         rgba(96, 0, 0, 0.55);
     opacity: 0;
     pointer-events: none;
@@ -1349,20 +1393,50 @@ body.is-infecting .glitch-overlay {
 
 /* 明滅は毎秒3回以下に抑える(強い点滅を避ける) */
 @keyframes glitch-flicker {
-    0%   { opacity: 0; }
-    8%   { opacity: 0.7; }
-    14%  { opacity: 0.1; }
-    30%  { opacity: 0.55; }
-    38%  { opacity: 0; }
-    56%  { opacity: 0.8; }
-    62%  { opacity: 0.2; }
-    78%  { opacity: 0.5; }
-    90%  { opacity: 0.15; }
-    100% { opacity: 0; }
+    0% {
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 0.7;
+    }
+
+    14% {
+        opacity: 0.1;
+    }
+
+    30% {
+        opacity: 0.55;
+    }
+
+    38% {
+        opacity: 0;
+    }
+
+    56% {
+        opacity: 0.8;
+    }
+
+    62% {
+        opacity: 0.2;
+    }
+
+    78% {
+        opacity: 0.5;
+    }
+
+    90% {
+        opacity: 0.15;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 /* 動きを減らす設定の環境では、揺れ・明滅を止めて色の変化だけにする */
 @media (prefers-reduced-motion: reduce) {
+
     body.is-infecting,
     body.is-infecting::before,
     body.is-infecting .glitch-overlay {
@@ -1433,8 +1507,13 @@ body.is-infecting .glitch-overlay {
 }
 
 @keyframes caret-blink {
-    0%   { opacity: 1; }
-    50%  { opacity: 0; }
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 
@@ -1466,8 +1545,15 @@ body.is-infecting .glitch-overlay {
 }
 
 @keyframes evil-pulse {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.08); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1497,8 +1583,15 @@ body.is-infecting .glitch-overlay {
 }
 
 @keyframes icon-call {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.1); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
 }
 
 /* 右下のAIアイコン(吹き出しの枠自体はクリックを通すまま) */
@@ -1667,13 +1760,11 @@ body.is-infecting .glitch-overlay {
     align-items: center;
     justify-content: center;
     background:
-        repeating-linear-gradient(
-            0deg,
+        repeating-linear-gradient(0deg,
             rgba(255, 255, 255, 0.04) 0,
             rgba(255, 255, 255, 0.04) 2px,
             transparent 2px,
-            transparent 5px
-        ),
+            transparent 5px),
         #000;
     opacity: 0;
     pointer-events: none;

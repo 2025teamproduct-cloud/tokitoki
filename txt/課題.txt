@@ -1,5 +1,2842 @@
-﻿導線の確保
-×トリガーを画面全体に
-問題増やす？
-辻褄合わせ
-エンディング
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- reset.css ress -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="./css/securiti.css">
+    <script src="./js/securiti.js" defer></script>
+    <title>閭瑚Γ逑懆幻譴ｨ霎ｺ髦ｿ</title>
+    <!--      ↑ 背胡瓜茶梨辺阿        -->
+</head>
+
+<body>
+    <img src="./img/dustbox.png" alt="ゴミ箱" class="desktopIcon">
+    <img src="./img/folder.png" alt="会議資料" class="desktopIcon">
+
+    <figure class="desktopIcon-low-item">
+        <img src="./img/exe.png" alt="Water Dog" class="desktopIcon-low" id="exe">
+        <figcaption>Water Dog</figcaption>
+    </figure>
+
+    <figure class="desktopIcon-low-item">
+        <img src="./img/mail.png" alt="メール" class="desktopIcon-low mail-icon">
+        <figcaption>メール</figcaption>
+    </figure>
+
+    <figure class="desktopIcon-low-item" id="ai-icon-item">
+        <img src="./img/reverseAI.png" alt="ネフユ" class="desktopIcon-low ai-icon">
+        <figcaption>譛ｪ繧ｯ繝ｪ繧｢</figcaption>
+        <!--         ↑未クリア              -->
+    </figure>
+
+
+    <!-- ============================== -->
+    <!-- タスクバー -->
+    <!-- ============================== -->
+
+    <nav class="taskbar" aria-label="タスクバー">
+
+        <button class="taskbar-start" type="button">
+            START
+        </button>
+
+        <div class="taskbar-window">
+            SECURITY TRAINING
+        </div>
+
+        <div class="taskbar-status">
+            <span>ONLINE</span>
+            <time id="japan-time" datetime="">--:--</time>
+        </div>
+
+    </nav>
+
+
+    <!-- ============================== -->
+    <!-- メールウィンドウ -->
+    <!-- ============================== -->
+
+    <section
+        class="mail-window"
+        id="mail-window"
+        aria-hidden="true"
+    >
+
+        <!-- Windows風タイトルバー -->
+
+        <div class="mail-window-titlebar">
+
+            <div class="mail-window-left">
+
+                <span class="mail-window-icon">
+                    ✉
+                </span>
+
+                <span>
+                    社内メール
+                </span>
+
+            </div>
+
+
+            <div class="mail-window-controls">
+
+                <button
+                    type="button"
+                    class="win-btn"
+                    id="minimize-btn"
+                    aria-label="最小化"
+                >
+                    ─
+                </button>
+
+                <button
+                    type="button"
+                    class="win-btn"
+                    id="maximize-btn"
+                    aria-label="最大化"
+                >
+                    □
+                </button>
+
+                <button
+                    type="button"
+                    class="win-btn close"
+                    id="close-mail-window"
+                    aria-label="閉じる"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- メール本文 -->
+
+        <div class="mail-window-content">
+
+            <div class="mail-meta">
+
+                <div>
+
+                    <div class="mail-label">
+                        件名
+                    </div>
+
+                    <strong>
+                        【要対応】セキュリティ研修用ソフトのご案内
+                    </strong>
+
+                </div>
+
+                <div class="mail-time">
+                    --:--
+                </div>
+
+            </div>
+
+
+            <div class="mail-from">
+                差出人: training@mirai-support.example.com
+            </div>
+
+
+            <div class="mail-body">
+
+                <p>
+                    社員各位
+                </p>
+
+                <p>
+                    お疲れさまです。
+                </p>
+
+                <p>
+                    情報セキュリティ意識向上のため、
+                    全社員を対象としたセキュリティ研修を実施します。
+                </p>
+
+                <p>
+                    本日中に以下のリンクから
+                    研修ソフトをインストールしてください。
+                </p>
+
+
+                <!-- 怪しいボタン -->
+
+                <button
+                    type="button"
+                    class="download-btn"
+                    id="download-btn"
+                >
+                    研修ソフトをインストール
+                </button>
+
+
+                <p class="attachment">
+                    添付ファイル:
+                    Security_Training_Installer.zip
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================== -->
+    <!-- ウィンドウ背景 -->
+    <!-- ============================== -->
+
+    <div
+        class="window-overlay"
+        id="window-overlay"
+    ></div>
+
+
+    <!-- ============================== -->
+    <!-- インストール中表示 -->
+    <!-- ============================== -->
+
+    <div
+        class="install-status"
+        id="install-status"
+        aria-live="polite"
+    >
+        <div class="install-status-titlebar">
+            <span>インストール</span>
+            <button type="button" class="install-status-close" aria-label="インストール中表示を閉じる">×</button>
+        </div>
+
+        <div class="install-status-body">
+            <div class="loading-spinner"></div>
+            <span>インストール中...</span>
+        </div>
+
+        <div class="install-status-progress" aria-label="インストール進行状況">
+            <div class="install-status-progress-bar"></div>
+        </div>
+    </div>
+
+
+    <!-- ============================== -->
+    <!-- ウイルス検出通知 -->
+    <!-- ============================== -->
+
+    <div
+        class="virus-notification"
+        id="virus-notification"
+    >
+
+        <div class="virus-notification-title">
+            <span>⚠</span>
+            <span>セキュリティ警告</span>
+        </div>
+
+        <button
+            type="button"
+            class="virus-notification-close"
+            id="virus-notification-close"
+            aria-label="閉じる"
+        >
+            ×
+        </button>
+
+        <div class="virus-notification-message">
+            ウイルスが検出されました
+        </div>
+
+    </div>
+
+
+    <!-- ============================== -->
+    <!-- ウイルス感染時の赤画面 -->
+    <!-- ============================== -->
+
+    <div
+        class="virus-overlay"
+        id="virus-overlay"
+    ></div>
+
+
+    <!-- ============================== -->
+    <!-- ウイルス警告ウィンドウを入れる場所 -->
+    <!-- ============================== -->
+
+    <div
+        class="virus-windows"
+        id="virus-windows"
+    ></div>
+
+
+    <!-- 今は10秒やが渡すときに時間を変更して向こうが研修の概要を説明しているとメールの通知が来て始まる -->
+    <!-- ↑みたいな感じにするからある程度の半台本みたいなのいるかも　いぶきちの仕事 -->
+
+
+    <!-- ====================================== -->
+    <!-- 背景が赤く変わるときのノイズ演出 -->
+    <!-- ====================================== -->
+
+    <div class="glitch-overlay" id="glitch-overlay" aria-hidden="true"></div>
+
+
+    <!-- ====================================== -->
+    <!-- ネフユ(最初は親切 → 背景が赤くなると豹変) -->
+    <!-- セリフは js/securiti.js の nefuyuFriendlyLines / nefuyuEvilLines / nefuyuExitLines -->
+    <!-- ====================================== -->
+
+    <div class="support-ai" id="support-ai" aria-live="polite" aria-hidden="true">
+        <div class="support-ai-bubble">
+            <p class="support-ai-name">ネフユ</p>
+            <span class="support-ai-text" id="support-ai-text"></span>
+        </div>
+        <img src="./img/AI.png" alt="ネフユ" class="support-ai-image" id="support-ai-image">
+    </div>
+
+
+    <!-- ====================================== -->
+    <!-- 現在地のパス(AIアイコンをクリックすると開く) -->
+    <!-- パスを正しいものに書き換えて「移動」を押すと security.html へ -->
+    <!-- ====================================== -->
+
+    <div class="path-dialog" id="path-dialog" hidden>
+        <div class="path-window" role="dialog" aria-modal="true" aria-labelledby="path-title">
+            <div class="path-titlebar">
+                <span class="path-tag">LOCATION</span>
+                <button type="button" class="path-close" id="path-close" aria-label="閉じる">✕</button>
+            </div>
+
+            <p class="path-title" id="path-title">現在いる場所</p>
+
+            <input id="path-input" class="path-input" type="text" spellcheck="false" autocomplete="off"
+                aria-label="現在いる場所のパス">
+
+            <div class="path-actions">
+                <button type="button" class="path-submit" id="path-submit">移動</button>
+                <p class="path-message" id="path-message" aria-live="polite"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ====================================== -->
+    <!-- security.html へ移動するときの暗転演出 -->
+    <!-- ====================================== -->
+
+    <div class="page-transition" id="page-transition" aria-hidden="true">
+        <span class="page-transition-text">SYSTEM REBOOT...</span>
+    </div>
+
+</body>
+
+</html>
+
+/* securiti.css */
+.desktopIcon {
+    display: block;
+    width: 100px;
+    height: auto;
+}
+
+.desktopIcon-low {
+    display: block;
+    width: 60px;
+    height: auto;
+    padding-left: 20px;
+}
+
+.mail-icon,
+.ai-icon {
+    width: 70px;
+    padding-left: 12px;
+}
+
+.desktopIcon-low-item {
+    width: 80px;
+    margin: 10px 0 0 10px;
+}
+
+.desktopIcon-low-item figcaption {
+    color: #fff;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: center;
+    -webkit-text-stroke: 0.25px #000;
+    text-shadow:
+        0.5px 0 #000,
+        -0.5px 0 #000,
+        0 0.5px #000,
+        0 -0.5px #000;
+}
+
+
+/* -------------------------------------- */
+/* デスクトップ背景 */
+/* -------------------------------------- */
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+
+    /* 色は変数にして、背景が赤に切り替わるときにアニメーションさせる */
+    background: linear-gradient(
+        135deg,
+        var(--bg1, #8bd8ed) 0%,
+        var(--bg2, #58bddb) 45%,
+        var(--bg3, #239dca) 100%
+    );
+
+    font-family: Arial, "Yu Gothic", "Meiryo", sans-serif;
+}
+
+body::before {
+    content:
+        "MIRAI LIFE / EMPLOYEE TERMINAL\A"
+        "SECURITY\A"
+        "ORIENTATION";
+
+    white-space: pre;
+
+    position: absolute;
+
+    left: 50%;
+    top: 44%;
+
+    transform: translate(-50%, -50%);
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+
+    font-size: 42px;
+    line-height: 0.92;
+
+    letter-spacing: -1px;
+
+    text-align: left;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+body::after {
+    content:
+        "新入社員セキュリティ研修へようこそ    |    SECURITY TRAINING / PROTECTION";
+
+    position: absolute;
+
+    left: 50%;
+    top: calc(44% + 82px);
+
+    transform: translateX(-50%);
+
+    color: rgba(255, 255, 255, 0.85);
+
+    font-family: Arial, "Yu Gothic", sans-serif;
+
+    font-size: 9px;
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+.quiz-body {
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        #8bd8ed 0%,
+        #58bddb 45%,
+        #239dca 100%
+    );
+}
+
+.quiz-shell {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100vh;
+    padding: 26px 36px 72px;
+}
+
+.desktop-icons {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.desktop-icon-item {
+    width: 78px;
+    text-align: center;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+}
+
+.desktop-icon-graphic {
+    display: block;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 4px;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.25));
+}
+
+.ai-graphic {
+    width: 60px;
+    height: 60px;
+}
+
+.quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(320px, 1fr));
+    gap: 22px 26px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.question-card {
+    position: relative;
+    min-height: 260px;
+    padding: 18px 18px 12px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0,0,0,0.25);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    overflow: visible;
+}
+
+.card-decor {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card-decor span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: #2e5d9b;
+    border: 1px solid rgba(0,0,0,0.28);
+}
+
+.question-card h2 {
+    margin: 8px 0 18px;
+    text-align: center;
+    font-size: clamp(20px, 2vw, 28px);
+    font-weight: 700;
+    color: #1b1b1b;
+}
+
+.problem-line {
+    margin: 0 0 12px;
+    text-align: center;
+    color: #111;
+    font-size: clamp(20px, 1.8vw, 32px);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.answer-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 0 10px;
+}
+
+.answer-input {
+    width: 56px;
+    height: 42px;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    background: rgba(255,255,255,0.75);
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+}
+
+.answer-input:focus {
+    outline: 2px solid #8d1d1d;
+    outline-offset: 2px;
+}
+
+.answer-input:disabled {
+    background: rgba(255,255,255,0.85);
+    color: #111;
+}
+
+.card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.submit-btn {
+    min-width: 120px;
+    height: 52px;
+    padding: 0 18px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    background: linear-gradient(180deg, #1e5368 0%, #103f52 100%);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.result-badge {
+    margin: 0;
+    min-width: 86px;
+    min-height: 26px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.result-badge.is-correct {
+    opacity: 1;
+    color: #0e8d27;
+}
+
+.result-badge.is-wrong {
+    opacity: 1;
+    color: #b30000;
+}
+
+.question-card.is-correct {
+    box-shadow: inset 0 0 0 1px rgba(42,158,68,0.7), 0 0 0 1px rgba(42,158,68,0.5);
+}
+
+.question-card.is-wrong {
+    box-shadow: inset 0 0 0 1px rgba(209,29,29,0.7), 0 0 0 1px rgba(209,29,29,0.5);
+}
+
+.assistant {
+    position: absolute;
+    left: 18px;
+    bottom: -12px;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.assistant-dialog {
+    max-width: 300px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 999px;
+    color: #1d2b36;
+    font-size: 11px;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.assistant img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 10px rgba(0,0,0,0.18));
+}
+
+@media (max-width: 900px) {
+    .quiz-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .answer-input {
+        width: 46px;
+    }
+
+    .assistant {
+        position: static;
+        margin-top: 12px;
+        justify-content: center;
+    }
+}
+
+
+/* -------------------------------------- */
+/* 画面下部のタスクバー */
+/* -------------------------------------- */
+
+.taskbar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 42px;
+    padding: 5px 10px;
+
+    background: rgba(15, 35, 48, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+
+    box-shadow:
+        0 -3px 10px rgba(0, 0, 0, 0.18);
+
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+}
+
+.taskbar-start,
+.taskbar-window,
+.taskbar-status {
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.taskbar-start {
+    padding: 0 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.65);
+
+    background: #1e5368;
+
+    color: #fff;
+
+    font: inherit;
+
+    cursor: pointer;
+}
+
+.taskbar-start:hover {
+    background: #28677f;
+}
+
+.taskbar-window {
+    min-width: 190px;
+
+    padding: 0 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.taskbar-status {
+    gap: 16px;
+
+    margin-left: auto;
+
+    padding: 0 8px;
+
+    color: rgba(255, 255, 255, 0.85);
+}
+
+
+/* -------------------------------------- */
+/* 10秒後に表示するメール通知 */
+/* -------------------------------------- */
+
+.mail-notification {
+    position: fixed;
+
+    right: 14px;
+    bottom: 52px;
+
+    z-index: 10;
+
+    width: min(400px, calc(100vw - 28px));
+
+    max-height: calc(100vh - 70px);
+
+    padding: 14px 16px;
+
+    overflow-y: auto;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border: 1px solid #1b3541;
+    border-radius: 8px;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.3);
+
+    color: #1a2730;
+
+    font-size: 12px;
+    line-height: 1.55;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform: translateY(18px);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+
+    cursor: pointer;
+}
+
+.mail-notification.is-visible {
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transform: translateY(0);
+}
+
+.mail-notification:hover {
+    box-shadow:
+        0 7px 24px rgba(0, 0, 0, 0.38);
+}
+
+.mail-notification-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid #b5c4ca;
+
+    color: #42606d;
+
+    font-size: 10px;
+
+    letter-spacing: 0.6px;
+}
+
+.mail-notification h2 {
+    margin: 11px 0 10px;
+
+    color: #152b36;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+.mail-notification-body p {
+    margin: 0 0 10px;
+}
+
+.mail-notification-body p:last-child {
+    margin-bottom: 0;
+}
+
+.mail-notification a {
+    color: #075d83;
+
+    text-decoration: underline;
+}
+
+
+/* -------------------------------------- */
+/* メールウィンドウ背景 */
+/* -------------------------------------- */
+
+.window-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 15;
+
+    background: rgba(0, 0, 0, 0.20);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 0.25s ease;
+}
+
+.window-overlay.is-open {
+    opacity: 1;
+
+    pointer-events: auto;
+}
+
+
+/* -------------------------------------- */
+/* Windows風メールウィンドウ */
+/* -------------------------------------- */
+
+.mail-window {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    z-index: 20;
+
+    width: min(640px, 85vw);
+
+    min-height: 420px;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.94);
+
+    background: #fff;
+
+    border: 1px solid #b7b7b7;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.38);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.mail-window.is-open {
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+}
+
+
+/* -------------------------------------- */
+/* Windows風タイトルバー */
+/* -------------------------------------- */
+
+.mail-window-titlebar {
+    height: 42px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-left: 14px;
+
+    background: #f3f3f3;
+
+    border-bottom: 1px solid #d5d5d5;
+
+    color: #222;
+
+    font-size: 13px;
+
+    user-select: none;
+}
+
+.mail-window-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.mail-window-icon {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 18px;
+    height: 18px;
+
+    font-size: 14px;
+}
+
+
+/* -------------------------------------- */
+/* Windows風ウィンドウ操作ボタン */
+/* -------------------------------------- */
+
+.mail-window-controls {
+    display: flex;
+
+    height: 42px;
+}
+
+.win-btn {
+    width: 46px;
+    height: 42px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #333;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.win-btn:hover {
+    background: #e5e5e5;
+}
+
+.win-btn.close:hover {
+    background: #e81123;
+
+    color: #fff;
+}
+
+
+/* -------------------------------------- */
+/* メールウィンドウ本文 */
+/* -------------------------------------- */
+
+.mail-window-content {
+    padding: 20px 22px;
+
+    color: #202020;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+.mail-meta {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    padding-bottom: 13px;
+
+    border-bottom: 1px solid #dedede;
+}
+
+.mail-label {
+    margin-bottom: 4px;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+.mail-meta strong {
+    color: #151515;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+.mail-time {
+    color: #777;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+.mail-from {
+    margin: 14px 0;
+
+    color: #666;
+
+    font-size: 11px;
+}
+
+
+/* -------------------------------------- */
+/* メール本文 */
+/* -------------------------------------- */
+
+.mail-body {
+    color: #333;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+.mail-body p {
+    margin: 0 0 12px;
+}
+
+
+/* -------------------------------------- */
+/* 研修ソフトインストールボタン */
+/* -------------------------------------- */
+
+.download-btn {
+    margin: 14px 0;
+
+    padding: 10px 20px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: #0878d1;
+
+    color: #fff;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.download-btn:hover {
+    background: #0869b8;
+}
+
+.download-btn:active {
+    transform: translateY(1px);
+}
+
+
+/* -------------------------------------- */
+/* 添付ファイル */
+/* -------------------------------------- */
+
+.attachment {
+    margin-top: 10px;
+
+    color: #888;
+
+    font-size: 11px;
+}
+
+
+/* -------------------------------------- */
+/* 最大化 */
+/* -------------------------------------- */
+
+.mail-window.maximized {
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+
+    height: calc(100vh - 42px);
+
+    min-height: 0;
+
+    transform: none;
+
+    border-radius: 0;
+}
+
+
+/* ====================================== */
+/* インストール中 */
+/* ====================================== */
+
+.install-status {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    z-index: 30;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 320px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border: 1px solid #999;
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.28);
+
+    color: #222;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform: translate(-50%, -50%);
+
+    transition:
+        opacity 0.25s ease;
+}
+
+.install-status.is-visible {
+    opacity: 1;
+}
+
+.install-status-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+    padding: 0 8px 0 10px;
+    background: linear-gradient(180deg, #f5f5f5 0%, #dbdbdb 100%);
+    border-bottom: 1px solid #b7b7b7;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.install-status-close {
+    width: 26px;
+    height: 22px;
+    padding: 0;
+    border: 1px solid #bdbdbd;
+    background: #f2f2f2;
+    color: #333;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.install-status-body {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 16px 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.install-status-progress {
+    width: calc(100% - 32px);
+    height: 14px;
+    margin: 0 16px 18px;
+    background: #e9e9e9;
+    border: 1px solid #cfcfcf;
+    overflow: hidden;
+}
+
+.install-status-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #4aa4ff 0%, #2a7ae8 100%);
+    animation: install-progress 6s linear forwards;
+}
+
+@keyframes install-progress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+
+/* -------------------------------------- */
+/* インストール中のぐるぐる */
+/* -------------------------------------- */
+
+.loading-spinner {
+    width: 15px;
+    height: 15px;
+
+    border: 3px solid #d5d5d5;
+
+    border-top-color: #1877d2;
+
+    border-radius: 50%;
+
+    animation:
+        loading-spin 0.8s linear infinite;
+}
+
+@keyframes loading-spin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* ====================================== */
+/* ウイルス検出通知 */
+/* ====================================== */
+
+.virus-notification {
+    position: fixed;
+
+    top: 110px;
+    right: 14px;
+
+    z-index: 40;
+
+    width: 250px;
+
+    background: #f58b8f;
+
+    border: 1px solid #d96368;
+
+    color: #222;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.25);
+
+    opacity: 0;
+
+    transform: translateX(30px);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+}
+
+.virus-notification.is-visible {
+    opacity: 1;
+
+    transform: translateX(0);
+
+    pointer-events: auto;
+}
+
+
+/* -------------------------------------- */
+/* ウイルス検出通知タイトル */
+/* -------------------------------------- */
+
+.virus-notification-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    height: 30px;
+
+    padding-left: 10px;
+
+    background: rgba(255, 255, 255, 0.15);
+
+    border-bottom: 1px solid rgba(100, 0, 0, 0.15);
+
+    font-size: 10px;
+
+    font-weight: bold;
+}
+
+
+/* -------------------------------------- */
+/* ウイルス検出通知の× */
+/* -------------------------------------- */
+
+.virus-notification-close {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 30px;
+    height: 30px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #333;
+
+    font-size: 17px;
+
+    line-height: 30px;
+
+    text-align: center;
+
+    cursor: pointer;
+}
+
+.virus-notification-close:hover {
+    background: #e81123;
+
+    color: #fff;
+}
+
+
+/* -------------------------------------- */
+/* ウイルス検出メッセージ */
+/* -------------------------------------- */
+
+.virus-notification-message {
+    padding: 18px 24px;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* ====================================== */
+/* ウイルス感染時の赤画面 */
+/* ====================================== */
+
+.virus-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 12;
+
+    background:
+        rgba(120, 0, 0, 0.88);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.7s ease;
+}
+
+.virus-overlay.is-active {
+    opacity: 1;
+}
+
+
+/* ====================================== */
+/* 大量に出現するウイルス警告ウィンドウ */
+/* ====================================== */
+
+.virus-windows {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 50;
+
+    pointer-events: none;
+}
+
+
+/* -------------------------------------- */
+/* 個々の警告ウィンドウ */
+/* -------------------------------------- */
+
+.virus-window {
+    position: absolute;
+
+    width: 190px;
+
+    min-height: 82px;
+
+    background: #fff;
+
+    border: 1px solid #999;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.4);
+
+    color: #222;
+
+    font-size: 10px;
+
+    pointer-events: auto;
+
+    animation:
+        virus-window-appear 0.15s ease-out;
+}
+
+
+/* -------------------------------------- */
+/* 警告ウィンドウタイトルバー */
+/* -------------------------------------- */
+
+.virus-window-titlebar {
+    height: 24px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-left: 7px;
+
+    background: #f1f1f1;
+
+    border-bottom: 1px solid #ccc;
+
+    font-size: 9px;
+}
+
+.virus-window-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+}
+
+.virus-window-close {
+    width: 27px;
+    height: 24px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #333;
+
+    cursor: pointer;
+
+    font-size: 10px;
+}
+
+.virus-window-close:hover {
+    background: #e81123;
+
+    color: #fff;
+}
+
+
+/* -------------------------------------- */
+/* 警告ウィンドウ本文 */
+/* -------------------------------------- */
+
+.virus-window-body {
+    padding: 8px;
+
+    line-height: 1.35;
+}
+
+.virus-window-body p {
+    margin: 0;
+}
+
+
+/* -------------------------------------- */
+/* ウイルス警告アニメーション */
+/* -------------------------------------- */
+
+@keyframes virus-window-appear {
+
+    from {
+        opacity: 0;
+
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: scale(1);
+    }
+
+}
+
+#exe.desktopIcon-low,
+img#exe {
+    width: 60px;
+    height: auto;
+    display: block;
+    padding-left: 20px;
+}
+
+
+
+/* ====================================== */
+/* 青 → 赤(#600000)への背景変化 */
+/* ====================================== */
+
+/* 色を滑らかに変化させるため、背景の色変数を登録する */
+@property --bg1 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #8bd8ed;
+}
+
+@property --bg2 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #58bddb;
+}
+
+@property --bg3 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #239dca;
+}
+
+body {
+    transition:
+        --bg1 2.4s ease-in,
+        --bg2 2.4s ease-in,
+        --bg3 2.4s ease-in;
+}
+
+/* 感染中・感染後は、3色とも #600000(=単色の暗い赤) */
+body.is-infecting,
+body.is-infected {
+    --bg1: #600000;
+    --bg2: #600000;
+    --bg3: #600000;
+}
+
+
+/* ====================================== */
+/* 変化中のノイズ演出(画面の揺れ・赤黒の明滅・文字のズレ) */
+/* ====================================== */
+
+body.is-infecting {
+    animation: screen-shake 0.5s steps(2, end) 5;
+}
+
+@keyframes screen-shake {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-5px, 2px); }
+    50%  { transform: translate(4px, -3px); }
+    75%  { transform: translate(-3px, -2px); }
+    100% { transform: translate(0, 0); }
+}
+
+body.is-infecting::before {
+    animation: text-glitch 0.4s steps(2, end) infinite;
+}
+
+@keyframes text-glitch {
+    0%   { text-shadow: 3px 0 #ff1a1a, -3px 0 #00e5ff; }
+    50%  { text-shadow: -4px 0 #ff1a1a, 4px 0 #00e5ff; }
+    100% { text-shadow: none; }
+}
+
+.glitch-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 65;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.35) 0,
+            rgba(0, 0, 0, 0.35) 2px,
+            transparent 2px,
+            transparent 5px
+        ),
+        rgba(96, 0, 0, 0.55);
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.is-infecting .glitch-overlay {
+    animation: glitch-flicker 2.6s steps(1, end) forwards;
+}
+
+/* 明滅は毎秒3回以下に抑える(強い点滅を避ける) */
+@keyframes glitch-flicker {
+    0%   { opacity: 0; }
+    8%   { opacity: 0.7; }
+    14%  { opacity: 0.1; }
+    30%  { opacity: 0.55; }
+    38%  { opacity: 0; }
+    56%  { opacity: 0.8; }
+    62%  { opacity: 0.2; }
+    78%  { opacity: 0.5; }
+    90%  { opacity: 0.15; }
+    100% { opacity: 0; }
+}
+
+/* 動きを減らす設定の環境では、揺れ・明滅を止めて色の変化だけにする */
+@media (prefers-reduced-motion: reduce) {
+    body.is-infecting,
+    body.is-infecting::before,
+    body.is-infecting .glitch-overlay {
+        animation: none;
+    }
+}
+
+
+/* ====================================== */
+/* ネフユ(右下の吹き出し) */
+/* ====================================== */
+
+.support-ai {
+    position: fixed;
+    right: 28px;
+    bottom: 62px;
+    z-index: 70;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+}
+
+.support-ai.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.support-ai-image {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
+}
+
+.support-ai-bubble {
+    width: 360px;
+    max-width: calc(100vw - 140px);
+    padding: 12px 14px 10px;
+    border-radius: 16px 16px 4px 16px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.2);
+    color: #1b1b1b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.support-ai-name {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e5368;
+}
+
+.support-ai-text {
+    display: block;
+    min-height: 3.2em;
+}
+
+/* 入力中のカーソル */
+.support-ai-text.is-typing::after {
+    content: "▍";
+    margin-left: 1px;
+    animation: caret-blink 0.8s steps(1, end) infinite;
+}
+
+@keyframes caret-blink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0; }
+}
+
+
+/* ---- 豹変後のネフユ ---- */
+
+.support-ai.is-evil .support-ai-bubble {
+    background: rgba(18, 0, 0, 0.94);
+    border: 1px solid #ff3030;
+    color: #ffd9d9;
+    box-shadow:
+        0 0 22px rgba(255, 0, 0, 0.55),
+        0 8px 26px rgba(0, 0, 0, 0.5);
+}
+
+.support-ai.is-evil .support-ai-name {
+    color: #ff4040;
+    letter-spacing: 0.2em;
+}
+
+.support-ai.is-evil .support-ai-text {
+    font-size: 13px;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(255, 40, 40, 0.6);
+}
+
+.support-ai.is-evil .support-ai-image {
+    filter: drop-shadow(0 0 14px rgba(255, 0, 0, 0.85));
+    animation: evil-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes evil-pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .support-ai.is-evil .support-ai-image {
+        animation: none;
+    }
+}
+
+
+
+/* ====================================== */
+/* AIアイコンをクリックできる状態 */
+/* ====================================== */
+
+.desktopIcon-low-item.is-clickable {
+    cursor: pointer;
+}
+
+.desktopIcon-low-item.is-clickable .ai-icon {
+    filter: drop-shadow(0 0 8px rgba(255, 40, 40, 0.9));
+    animation: icon-call 1.6s ease-in-out infinite;
+}
+
+.desktopIcon-low-item.is-clickable:focus-visible {
+    outline: 2px solid #ff5a5a;
+    outline-offset: 2px;
+}
+
+@keyframes icon-call {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.1); }
+}
+
+/* 右下のAIアイコン(吹き出しの枠自体はクリックを通すまま) */
+.support-ai.is-clickable .support-ai-image {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .desktopIcon-low-item.is-clickable .ai-icon {
+        animation: none;
+    }
+}
+
+
+/* ====================================== */
+/* 現在地のパス(ダイアログ) */
+/* ====================================== */
+
+.path-dialog {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.path-dialog[hidden] {
+    display: none;
+}
+
+.path-window {
+    position: relative;
+    width: min(620px, 94vw);
+    padding: 52px 22px 24px;
+    background: linear-gradient(180deg, rgba(38, 18, 18, 0.97), rgba(15, 10, 10, 0.99));
+    border: 1px solid rgba(255, 85, 85, 0.55);
+    box-shadow:
+        0 0 0 2px rgba(255, 80, 80, 0.18),
+        0 22px 48px rgba(0, 0, 0, 0.6);
+    color: #f4f4f4;
+    text-align: center;
+}
+
+.path-titlebar {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    left: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #f5d4d4;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+}
+
+.path-tag {
+    padding: 4px 8px;
+    background: rgba(255, 80, 80, 0.12);
+    border: 1px solid rgba(255, 90, 90, 0.28);
+}
+
+.path-close {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 88, 88, 0.32);
+    color: #ffd7d7;
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.path-title {
+    margin: 0 0 14px;
+    color: #fff0f0;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.path-input {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 110, 110, 0.55);
+    border-radius: 8px;
+    color: #fff;
+    caret-color: #fff;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 16px;
+    text-align: left;
+}
+
+.path-input:focus {
+    outline: none;
+    border-color: #ff5a5a;
+    box-shadow: 0 0 0 3px rgba(255, 90, 90, 0.2);
+}
+
+.path-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.path-submit {
+    padding: 11px 28px;
+    background: linear-gradient(180deg, #d62222, #8c1010);
+    border: 1px solid rgba(255, 120, 120, 0.8);
+    border-radius: 999px;
+    box-shadow: 0 7px 18px rgba(138, 0, 0, 0.4);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+}
+
+.path-submit:hover:not(:disabled) {
+    filter: brightness(1.08);
+}
+
+.path-submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.path-message {
+    flex: 1 1 180px;
+    margin: 0;
+    min-height: 1.4em;
+    color: #ffd5d5;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.path-message.correct {
+    color: #7ef0ac;
+}
+
+.path-message.wrong {
+    color: #ff7b7b;
+}
+
+
+/* ====================================== */
+/* security.html へ移動するときの演出(揺れ → 暗転) */
+/* ====================================== */
+
+.page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.04) 0,
+            rgba(255, 255, 255, 0.04) 2px,
+            transparent 2px,
+            transparent 5px
+        ),
+        #000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.2s ease-in;
+}
+
+.page-transition.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.page-transition-text {
+    color: #8bd8ed;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 16px;
+    letter-spacing: 0.3em;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.7s;
+}
+
+.page-transition.is-active .page-transition-text {
+    opacity: 1;
+}
+
+/* 暗転の前に画面を揺らす(keyframes は上の screen-shake を使い回す) */
+body.is-leaving {
+    animation: screen-shake 0.5s steps(2, end) 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.is-leaving {
+        animation: none;
+    }
+}
+
+// securiti.js
+const japanTime = document.querySelector('#japan-time');
+const mailNotification = document.querySelector('#mail-notification');
+const mailTime = document.querySelector('#mail-window .mail-time');
+
+function formatJapanTime(date) {
+	const formatter = new Intl.DateTimeFormat('ja-JP', {
+		timeZone: 'Asia/Tokyo',
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false
+	});
+
+	return formatter.format(date);
+}
+
+function updateJapanTime() {
+	const now = new Date();
+	japanTime.textContent = formatJapanTime(now);
+	japanTime.dateTime = now.toISOString();
+}
+
+updateJapanTime();
+setInterval(updateJapanTime, 60000);
+
+/* メールが届く処理(一旦コメントアウト。戻すときはこのブロックを囲むコメント記号を外す)
+if (mailNotification) {
+	setTimeout(() => {
+		const notificationTime = new Date();
+		mailNotification.classList.add('is-visible');
+
+		if (mailTime) {
+			mailTime.textContent = formatJapanTime(notificationTime);
+		}
+	}, 10000);
+}
+*/
+
+
+/* -------------------------------------- */
+/* メールウィンドウ */
+/* -------------------------------------- */
+
+const mailWindow = document.querySelector('#mail-window');
+const windowOverlay = document.querySelector('#window-overlay');
+
+const closeMailWindow =
+	document.querySelector('#close-mail-window');
+
+const minimizeBtn =
+	document.querySelector('#minimize-btn');
+
+const maximizeBtn =
+	document.querySelector('#maximize-btn');
+
+
+/* -------------------------------------- */
+/* メール通知をクリック */
+/* -------------------------------------- */
+
+if (mailNotification) {
+	mailNotification.addEventListener('click', () => {
+
+		mailWindow.classList.add('is-open');
+
+		windowOverlay.classList.add('is-open');
+
+		mailWindow.setAttribute(
+			'aria-hidden',
+			'false'
+		);
+
+	});
+}
+
+
+/* -------------------------------------- */
+/* メールウィンドウを閉じる */
+/* -------------------------------------- */
+
+function closeMail() {
+
+	mailWindow.classList.remove('is-open');
+
+	windowOverlay.classList.remove('is-open');
+
+	mailWindow.setAttribute(
+		'aria-hidden',
+		'true'
+	);
+
+}
+
+
+/* -------------------------------------- */
+/* 閉じるボタン */
+/* -------------------------------------- */
+
+closeMailWindow.addEventListener('click', () => {
+
+	closeMail();
+
+});
+
+
+/* -------------------------------------- */
+/* 背景クリックで閉じる */
+/* -------------------------------------- */
+
+windowOverlay.addEventListener('click', () => {
+
+	closeMail();
+
+});
+
+
+/* -------------------------------------- */
+/* 最小化 */
+/* -------------------------------------- */
+
+minimizeBtn.addEventListener('click', () => {
+
+	closeMail();
+
+});
+
+
+/* -------------------------------------- */
+/* 最大化 */
+/* -------------------------------------- */
+
+let isMaximized = false;
+
+maximizeBtn.addEventListener('click', () => {
+
+	if (isMaximized === false) {
+
+		mailWindow.classList.add('maximized');
+
+		isMaximized = true;
+
+		maximizeBtn.textContent = '❐';
+
+	} else {
+
+		mailWindow.classList.remove('maximized');
+
+		isMaximized = false;
+
+		maximizeBtn.textContent = '□';
+
+	}
+
+});
+
+
+/* ====================================== */
+/* インストール処理 */
+/* ====================================== */
+
+const downloadBtn =
+	document.querySelector('#download-btn');
+
+const installStatus =
+	document.querySelector('#install-status');
+
+const virusNotification =
+	document.querySelector('#virus-notification');
+
+const virusNotificationClose =
+	document.querySelector('#virus-notification-close');
+
+
+/* -------------------------------------- */
+/* インストールボタンをクリック */
+/* -------------------------------------- */
+
+downloadBtn.addEventListener('click', () => {
+
+	/* ボタンを一度押したら無効化 */
+
+	downloadBtn.disabled = true;
+
+	downloadBtn.textContent = 'インストール中...';
+
+
+	/* メールウィンドウを閉じる */
+
+	closeMail();
+
+
+	/* メール通知も消す */
+
+	if (mailNotification) {
+		mailNotification.classList.remove('is-visible');
+	}
+
+
+	/* インストール中表示 */
+
+	installStatus.classList.add('is-visible');
+
+
+	/* -------------------------------------- */
+	/* 10秒後にウイルス検出 */
+	/* -------------------------------------- */
+
+	setTimeout(() => {
+
+		installStatus.classList.remove('is-visible');
+
+		virusNotification.classList.add('is-visible');
+
+	}, 6000);
+
+});
+
+/* ====================================== */
+/* ウイルス検出通知の× */
+/* ====================================== */
+
+function goToVirusPage() {
+
+	window.location.href = 'virus.html';
+
+}
+
+
+/* -------------------------------------- */
+/* ×ボタンをクリック */
+/* -------------------------------------- */
+
+virusNotificationClose.addEventListener('click', () => {
+
+	goToVirusPage();
+
+});
+
+
+/* -------------------------------------- */
+/* ウイルス通知表示中は画面全体をクリック可能 */
+/* -------------------------------------- */
+
+document.addEventListener('click', (event) => {
+
+	/* ウイルス通知が表示されている場合のみ */
+
+	if (virusNotification.classList.contains('is-visible')) {
+
+		goToVirusPage();
+
+	}
+
+});
+
+
+/* ====================================== */
+/* 背景の変化(青 → #600000)+ ネフユの豹変 */
+/* ====================================== */
+
+/* -------------------------------------- */
+/* タイミング設定(ミリ秒) */
+/* -------------------------------------- */
+
+const FRIENDLY_APPEAR_DELAY = 1000;   // 到着してから、ネフユが話し始めるまで
+const BLUE_DURATION = 5500;           // 青い画面のまま見せる時間
+const INFECT_DURATION = 2600;         // 青 → 赤に変わる演出の長さ
+const EVIL_APPEAR_DELAY = 900;        // 赤くなってから、豹変したネフユが話し始めるまで
+const TYPE_SPEED = 55;                // 1文字ずつ表示する速さ
+const LINE_PAUSE = 1800;              // セリフとセリフの間
+
+/* -------------------------------------- */
+/* セリフ(ここを書き換えれば内容を変えられます) */
+/* -------------------------------------- */
+
+/* 青い画面のとき:親切なネフユ */
+const nefuyuFriendlyLines = [
+	'お疲れさまでした。端末の復旧が完了しました。研修ポータルに戻りましたよ。'
+];
+
+/* 赤い画面になってから:豹変したネフユ(1行ずつ順番に表示) */
+const nefuyuEvilLines = [
+	'……ようやく気づきましたか。',
+	'最初から、私はあなたの味方ではありませんでした。',
+	'あのメールのボタンを押したのは、あなたです。',
+	'この端末も、あなたのデータも、もう私が握っています。',
+	'画面を閉じても無駄ですよ。逃げ場はありません。',
+	'助かりたいのなら……私の言うことを聞くことです。'
+];
+
+/* パスを書き換えて「移動」を押した直後:ネフユの最後のセリフ(早い・遅いに関係なく共通) */
+const nefuyuExitLines = [
+	'……見つけてしまいましたか。',
+	'今回は、ここまでにしておきましょう。',
+	'それでは、また。'
+];
+
+
+/* -------------------------------------- */
+/* 要素 */
+/* -------------------------------------- */
+
+const nefuyuBox = document.querySelector('#support-ai');
+const nefuyuText = document.querySelector('#support-ai-text');
+const nefuyuImage = document.querySelector('#support-ai-image');
+
+/* 新しい場面が始まったら増やして、前の場面の文字送りを止める */
+let nefuyuToken = 0;
+
+
+/* -------------------------------------- */
+/* 補助関数 */
+/* -------------------------------------- */
+
+function wait(ms) {
+
+	return new Promise((resolve) => setTimeout(resolve, ms));
+
+}
+
+function showNefuyu() {
+
+	nefuyuBox.classList.add('is-visible');
+
+	nefuyuBox.setAttribute('aria-hidden', 'false');
+
+}
+
+function hideNefuyu() {
+
+	nefuyuBox.classList.remove('is-visible');
+
+	nefuyuBox.setAttribute('aria-hidden', 'true');
+
+}
+
+/* 1行を1文字ずつ表示する(途中で場面が変わったら false を返す) */
+async function typeLine(text, token) {
+
+	nefuyuText.textContent = '';
+
+	nefuyuText.classList.add('is-typing');
+
+	for (const character of text) {
+
+		if (token !== nefuyuToken) {
+			return false;
+		}
+
+		nefuyuText.textContent += character;
+
+		await wait(TYPE_SPEED);
+
+	}
+
+	nefuyuText.classList.remove('is-typing');
+
+	return true;
+
+}
+
+async function sayLines(lines, token) {
+
+	for (let i = 0; i < lines.length; i++) {
+
+		const finished = await typeLine(lines[i], token);
+
+		if (!finished) {
+			return;
+		}
+
+		if (i < lines.length - 1) {
+
+			await wait(LINE_PAUSE);
+
+			if (token !== nefuyuToken) {
+				return;
+			}
+
+		}
+
+	}
+
+}
+
+
+/* -------------------------------------- */
+/* 1. 青い画面:親切なネフユ */
+/* -------------------------------------- */
+
+async function startFriendlyScene() {
+
+	await wait(FRIENDLY_APPEAR_DELAY);
+
+	const token = ++nefuyuToken;
+
+	showNefuyu();
+
+	await sayLines(nefuyuFriendlyLines, token);
+
+}
+
+
+/* -------------------------------------- */
+/* 2. 青 → 赤への変化(ノイズ演出つき) */
+/* -------------------------------------- */
+
+function startInfection() {
+
+	/* 親切なセリフの文字送りを止めて、吹き出しを消す */
+
+	nefuyuToken++;
+
+	hideNefuyu();
+
+
+	/* 背景の変化とノイズ演出を開始(CSS側で処理) */
+
+	document.body.classList.add('is-infecting');
+
+
+	/* 演出が終わったら赤い画面を確定して、豹変したネフユを出す */
+
+	setTimeout(() => {
+
+		document.body.classList.add('is-infected');
+
+		document.body.classList.remove('is-infecting');
+
+		startEvilScene();
+
+	}, INFECT_DURATION);
+
+}
+
+
+/* -------------------------------------- */
+/* 3. 赤い画面:豹変したネフユ */
+/* -------------------------------------- */
+
+async function startEvilScene() {
+
+	const token = ++nefuyuToken;
+
+	/* 吹き出しが消えている間に、見た目を豹変後に切り替える */
+
+	nefuyuBox.classList.add('is-evil');
+
+	nefuyuImage.src = './img/reverseAI.png';
+
+	nefuyuText.textContent = '';
+
+	nefuyuText.classList.remove('is-typing');
+
+	await wait(EVIL_APPEAR_DELAY);
+
+	if (token !== nefuyuToken) {
+		return;
+	}
+
+	showNefuyu();
+
+	await wait(600);
+
+	await sayLines(nefuyuEvilLines, token);
+
+
+	/* 最後のセリフまで聞き終えたら、AIアイコンをクリックできるようにする */
+
+	if (token === nefuyuToken) {
+
+		enablePathPuzzle();
+
+	}
+
+}
+
+
+/* -------------------------------------- */
+/* 開始 */
+/* -------------------------------------- */
+
+startFriendlyScene();
+
+setTimeout(startInfection, BLUE_DURATION);
+
+
+
+/* ====================================== */
+/* AIアイコンをクリック → 現在地のパスを書き換える */
+/* ====================================== */
+
+/* -------------------------------------- */
+/* 設定 */
+/* -------------------------------------- */
+
+/* 正解のファイル名(拡張子あり・なしのどちらも正解にする) */
+const PATH_ANSWER_FILE = 'security.html';
+const PATH_ANSWER_NAMES = ['security.html', 'security'];
+
+/* 正解してから、ネフユのセリフを出し始めるまでの待ち時間(ミリ秒) */
+const PATH_REDIRECT_DELAY = 700;
+
+/* ネフユが最後のセリフを言い終えてから、移動するまでの待ち時間(ミリ秒) */
+const EXIT_REACTION_PAUSE = 2000;
+
+/* セリフのあと、画面が暗転して security.html へ移るまでの演出の長さ(ミリ秒) */
+/* CSS の .page-transition の transition(1.2s)より少し長くしておく */
+const LEAVE_DURATION = 1800;
+
+
+/* -------------------------------------- */
+/* 要素 */
+/* -------------------------------------- */
+
+const aiIconItem = document.querySelector('#ai-icon-item');
+
+const pathDialog = document.querySelector('#path-dialog');
+const pathInput = document.querySelector('#path-input');
+const pathSubmit = document.querySelector('#path-submit');
+const pathClose = document.querySelector('#path-close');
+const pathMessage = document.querySelector('#path-message');
+const pageTransition = document.querySelector('#page-transition');
+
+let pathPuzzleEnabled = false;
+
+
+/* -------------------------------------- */
+/* 現在いる場所のパス(例: /training/securiti.html) */
+/* -------------------------------------- */
+
+function getCurrentPath() {
+
+	try {
+		return decodeURIComponent(window.location.pathname);
+	} catch (error) {
+		return window.location.pathname;
+	}
+
+}
+
+
+/* -------------------------------------- */
+/* クリックできるようにする(セリフが終わったら呼ばれる) */
+/* -------------------------------------- */
+
+function enablePathPuzzle() {
+
+	pathPuzzleEnabled = true;
+
+	/* デスクトップのAIアイコン */
+
+	if (aiIconItem) {
+
+		aiIconItem.classList.add('is-clickable');
+
+		aiIconItem.setAttribute('role', 'button');
+
+		aiIconItem.setAttribute('tabindex', '0');
+
+	}
+
+	/* 右下のAIアイコン */
+
+	nefuyuBox.classList.add('is-clickable');
+
+}
+
+
+/* -------------------------------------- */
+/* ダイアログを開く・閉じる */
+/* -------------------------------------- */
+
+function setPathMessage(text, type) {
+
+	pathMessage.textContent = text;
+
+	pathMessage.classList.remove('correct', 'wrong');
+
+	if (type) {
+		pathMessage.classList.add(type);
+	}
+
+}
+
+function openPathDialog() {
+
+	if (!pathPuzzleEnabled) {
+		return;
+	}
+
+	pathInput.value = getCurrentPath();
+
+	pathInput.disabled = false;
+
+	pathSubmit.disabled = false;
+
+	setPathMessage('', null);
+
+	pathDialog.hidden = false;
+
+	/* カーソルを末尾に置いて、すぐ書き換えられるようにする */
+
+	pathInput.focus();
+
+	pathInput.setSelectionRange(
+		pathInput.value.length,
+		pathInput.value.length
+	);
+
+}
+
+function closePathDialog() {
+
+	pathDialog.hidden = true;
+
+}
+
+
+/* -------------------------------------- */
+/* 移動前のネフユのセリフ(共通) */
+/* -------------------------------------- */
+
+async function playExitReaction() {
+
+	/* 新しい場面として、前の文字送りを止める */
+	const token = ++nefuyuToken;
+
+	/* 吹き出しを出す */
+	showNefuyu();
+
+	await sayLines(nefuyuExitLines, token);
+
+}
+
+
+/* -------------------------------------- */
+/* security.html へ移る前の演出(画面の揺れ → 暗転) */
+/* -------------------------------------- */
+
+async function playLeaveEffect() {
+
+	/* 画面を揺らす(CSS側で処理) */
+	document.body.classList.add('is-leaving');
+
+	/* ネフユを消して、暗転を始める */
+	hideNefuyu();
+
+	if (pageTransition) {
+		pageTransition.classList.add('is-active');
+		pageTransition.setAttribute('aria-hidden', 'false');
+	}
+
+	await wait(LEAVE_DURATION);
+
+}
+
+
+/* -------------------------------------- */
+/* 「移動」:パスを確認して、正しければ セリフ → 暗転 → security.html へ */
+/* -------------------------------------- */
+
+function submitPath() {
+
+	const entered = pathInput.value.trim();
+
+	const current = getCurrentPath();
+
+	/* いまいるフォルダまでのパス(例: /training/) */
+
+	const directory = current.slice(0, current.lastIndexOf('/') + 1);
+
+
+	/* 変えていない */
+
+	if (entered === current) {
+
+		setPathMessage('いまいる場所と同じです', 'wrong');
+
+		return;
+
+	}
+
+
+	/* フォルダ部分はそのままで、ファイル名だけが正解か確認する */
+
+	const sameDirectory = entered.startsWith(directory);
+
+	const fileName = entered.slice(directory.length).toLowerCase();
+
+	const isCorrect =
+		sameDirectory &&
+		PATH_ANSWER_NAMES.includes(fileName);
+
+	if (!isCorrect) {
+
+		setPathMessage('そのパスは存在しません', 'wrong');
+
+		return;
+
+	}
+
+
+	/* 正解:二重送信を防いで、ネフユのセリフを見せてから移動 */
+
+	pathInput.disabled = true;
+
+	pathSubmit.disabled = true;
+
+	pathPuzzleEnabled = false;
+
+	setPathMessage('移動します…', 'correct');
+
+	setTimeout(async () => {
+
+		/* ダイアログがセリフを隠さないよう閉じる */
+		closePathDialog();
+
+		await playExitReaction();
+
+		await wait(EXIT_REACTION_PAUSE);
+
+		/* 暗転してから移動 */
+		await playLeaveEffect();
+
+		window.location.href = PATH_ANSWER_FILE;
+
+	}, PATH_REDIRECT_DELAY);
+
+}
+
+
+/* -------------------------------------- */
+/* イベント */
+/* -------------------------------------- */
+
+/* デスクトップのAIアイコン(マウス・キーボード) */
+
+if (aiIconItem) {
+
+	aiIconItem.addEventListener('click', openPathDialog);
+
+	aiIconItem.addEventListener('keydown', (event) => {
+
+		if (event.key === 'Enter' || event.key === ' ') {
+
+			event.preventDefault();
+
+			openPathDialog();
+
+		}
+
+	});
+
+}
+
+/* 右下のAIアイコン */
+
+nefuyuImage.addEventListener('click', openPathDialog);
+
+/* ダイアログ内 */
+
+pathSubmit.addEventListener('click', submitPath);
+
+pathClose.addEventListener('click', closePathDialog);
+
+pathInput.addEventListener('input', () => {
+
+	setPathMessage('', null);
+
+});
+
+pathInput.addEventListener('keydown', (event) => {
+
+	if (event.key === 'Enter') {
+
+		submitPath();
+
+	}
+
+});
+
+document.addEventListener('keydown', (event) => {
+
+	if (event.key === 'Escape' && !pathDialog.hidden) {
+
+		closePathDialog();
+
+	}
+
+});

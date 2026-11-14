@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const FINAL_CODE = '111111';             // ← 仮の答え(半角数字111111)。確定したら変更
     const FINAL_NEXT_PAGE = 'securiti.html'; // 正解後の遷移先
     const SUPPORT_AI_DELAY = 800;            // 問題07正解からAI表示までの待ち時間(ms)
-    const REDIRECT_DELAY = 700;              // 正解表示から遷移までの待ち時間(ms)
+    const FINAL_CORRECT_PAUSE = 600;         // 「正解」表示から演出開始までの待ち時間(ms)
+    const LEAVE_DURATION = 2600;             // 演出の長さ(ms)。CSS の .page-transition(0.5s + 1.2s)より長くしておく
 
     const finalExeIcon = document.querySelector('#final-exe-icon');
     const finalDialog = document.querySelector('#final-dialog');
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalClose = document.querySelector('#final-close');
     const finalMessage = document.querySelector('#final-message');
     const supportAi = document.querySelector('#support-ai');
+    const pageTransition = document.querySelector('#page-transition');
     const imagePreview = document.querySelector('#image-preview');
     const imagePreviewContent = imagePreview?.querySelector('.image-preview-content');
     const imagePreviewClose = imagePreview?.querySelector('.image-preview-close');
@@ -133,6 +135,23 @@ document.addEventListener('DOMContentLoaded', () => {
         finalMessage.classList.toggle('wrong', !correct);
     }
 
+    // securiti.html へ移る前の演出(揺れ・赤い明滅 → 暗転 → 文字表示)
+    function playLeaveEffect() {
+        // 最終コード入力ダイアログを閉じる
+        if (finalDialog) {
+            finalDialog.hidden = true;
+        }
+
+        // 揺れ・赤い明滅(CSS側で処理)
+        document.body.classList.add('is-leaving');
+
+        // 暗転(CSS側で処理)
+        if (pageTransition) {
+            pageTransition.classList.add('is-active');
+            pageTransition.setAttribute('aria-hidden', 'false');
+        }
+    }
+
     function submitFinal() {
         const value = finalInput.value;
 
@@ -146,14 +165,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 正解:二重送信を防いで securiti.html へ遷移
+        // 正解:二重送信を防いで、演出 → securiti.html へ遷移
         finalInput.disabled = true;
         finalSubmit.disabled = true;
         showFinalMessage('正解', true);
 
         setTimeout(() => {
-            window.location.href = FINAL_NEXT_PAGE;
-        }, REDIRECT_DELAY);
+            playLeaveEffect();
+
+            setTimeout(() => {
+                window.location.href = FINAL_NEXT_PAGE;
+            }, LEAVE_DURATION);
+        }, FINAL_CORRECT_PAUSE);
     }
 
 

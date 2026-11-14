@@ -3,7 +3,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     min-height: 100%;
 }
@@ -23,13 +24,11 @@ body.quiz-body::before {
     position: absolute;
     inset: 0;
     background:
-        repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,0.015),
-            rgba(255,255,255,0.015) 1px,
+        repeating-linear-gradient(0deg,
+            rgba(255, 255, 255, 0.015),
+            rgba(255, 255, 255, 0.015) 1px,
             transparent 1px,
-            transparent 4px
-        );
+            transparent 4px);
     pointer-events: none;
 }
 
@@ -71,7 +70,7 @@ body.quiz-body::before {
     padding: 26px 22px 22px 60px;
     background: linear-gradient(180deg, rgba(38, 18, 18, 0.9), rgba(15, 10, 10, 0.96));
     border: 1px solid rgba(255, 85, 85, 0.45);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .question-card.active {
@@ -350,7 +349,7 @@ body.quiz-body::before {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.04em;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
     cursor: pointer;
     transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
@@ -399,8 +398,8 @@ body.quiz-body::before {
     align-items: center;
     height: 44px;
     background: linear-gradient(180deg, #171717 0%, #0c0c0c 100%);
-    border-top: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.35);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.35);
     color: #f4f4f4;
     font-size: 12px;
     letter-spacing: 0.08em;
@@ -413,7 +412,7 @@ body.quiz-body::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: 1px solid rgba(255,255,255,0.12);
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .taskbar-start {
@@ -594,4 +593,122 @@ body.quiz-body::before {
 /* 最終exe:正解後は少し暗くする */
 .final-exe-item.is-solved {
     opacity: 0.6;
+}
+
+
+/* ====================================== */
+/* securiti.html へ移動するときの演出 */
+/* 赤い明滅 + 画面の揺れ → 暗転 → 文字表示 */
+/* ====================================== */
+
+.page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        repeating-linear-gradient(0deg,
+            rgba(255, 255, 255, 0.04) 0,
+            rgba(255, 255, 255, 0.04) 2px,
+            transparent 2px,
+            transparent 5px),
+        #000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.2s ease-in 0.5s;
+}
+
+.page-transition.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.page-transition-text {
+    color: #ff6b6b;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 16px;
+    letter-spacing: 0.3em;
+    opacity: 0;
+    transition: opacity 0.5s ease 1.4s;
+}
+
+.page-transition.is-active .page-transition-text {
+    opacity: 1;
+}
+
+/* 画面の揺れ */
+body.is-leaving .question-stage,
+body.is-leaving .desktop-icons {
+    animation: leave-shake 0.5s steps(2, end) 3;
+}
+
+/* 赤い明滅(毎秒3回以下に抑える) */
+body.is-leaving::before {
+    z-index: 150;
+    background: rgba(255, 0, 0, 0.35);
+    animation: leave-flash 1.6s steps(1, end) forwards;
+}
+
+@keyframes leave-shake {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-5px, 2px);
+    }
+
+    50% {
+        transform: translate(4px, -3px);
+    }
+
+    75% {
+        transform: translate(-3px, -2px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes leave-flash {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    25% {
+        opacity: 0.2;
+    }
+
+    45% {
+        opacity: 0.9;
+    }
+
+    60% {
+        opacity: 0.1;
+    }
+
+    80% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* 動きを減らす設定の環境では、揺れ・明滅を止める */
+@media (prefers-reduced-motion: reduce) {
+
+    body.is-leaving .question-stage,
+    body.is-leaving .desktop-icons,
+    body.is-leaving::before {
+        animation: none;
+    }
 }
