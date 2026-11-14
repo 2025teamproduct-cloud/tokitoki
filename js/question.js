@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const FINAL_QUESTION_INDEX = 5;          // 問題06(index 5)
     const FINAL_CODE = '111111';             // ← 仮の答え(半角数字111111)。確定したら変更
-    const FINAL_NEXT_PAGE = 'securiti.html'; // 正解後の遷移先
+    const FINAL_NEXT_PAGE = 'classified/leaked_data/securiti.html'; // 正解後の遷移先
     const SUPPORT_AI_DELAY = 800;            // 問題07正解からAI表示までの待ち時間(ms)
     const REDIRECT_DELAY = 700;              // 正解表示から遷移までの待ち時間(ms)
 
