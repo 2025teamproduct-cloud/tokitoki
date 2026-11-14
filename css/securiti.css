@@ -54,23 +54,22 @@ body {
     margin: 0;
     overflow: hidden;
 
-    /* 最初は青。感染すると question.css と同じ「暗い赤 + 上部の赤い光」に変わる */
-    /* 色・光の強さは変数にして、感染時にアニメーションさせる */
+    /* 上部の赤い光 + 暗い赤のグラデーション */
+    /* 色は変数にして、感染時に #600000 へアニメーションさせる */
     background:
-        radial-gradient(circle at top, rgba(255, 0, 0, var(--glow, 0)), transparent 35%),
+        radial-gradient(circle at top, rgba(255, 0, 0, 0.18), transparent 35%),
         linear-gradient(
             135deg,
-            var(--bg1, #8bd8ed) 0%,
-            var(--bg2, #70c8e2) 25%,
-            var(--bg3, #58bddb) 52%,
-            var(--bg4, #239dca) 100%
+            var(--bg1, #1b1b1b) 0%,
+            var(--bg2, #2d0808) 25%,
+            var(--bg3, #4a0202) 52%,
+            var(--bg4, #120808) 100%
         );
 
     font-family: Arial, "Yu Gothic", "Meiryo", sans-serif;
 }
 
 /* 走査線(body::before は文字表示に使っているので html 側に付ける) */
-/* 青い間は非表示。感染が始まると question と同じ走査線が浮かび上がる */
 html::before {
     content: "";
     position: fixed;
@@ -83,14 +82,7 @@ html::before {
         transparent 1px,
         transparent 4px
     );
-    opacity: 0;
     pointer-events: none;
-    transition: opacity 2.4s ease-in;
-}
-
-html:has(body.is-infecting)::before,
-html:has(body.is-infected)::before {
-    opacity: 1;
 }
 
 body::before {
@@ -152,12 +144,9 @@ body::after {
 
 .quiz-body {
     overflow: hidden;
-    background: linear-gradient(
-        135deg,
-        #8bd8ed 0%,
-        #58bddb 45%,
-        #239dca 100%
-    );
+    background:
+        radial-gradient(circle at top, rgba(255, 0, 0, 0.18), transparent 35%),
+        linear-gradient(135deg, #1b1b1b 0%, #2d0808 25%, #4a0202 52%, #120808 100%);
 }
 
 .quiz-shell {
@@ -1290,39 +1279,32 @@ img#exe {
 
 
 /* ====================================== */
-/* 青 → question と同じ暗い赤への背景変化 */
+/* 暗い赤 → 鮮やかな赤(#600000)への背景変化 */
 /* ====================================== */
 
-/* 色を滑らかに変化させるため、背景の色変数を登録する(初期値は青) */
+/* 色を滑らかに変化させるため、背景の色変数を登録する(question.css と同じ配色が初期値) */
 @property --bg1 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #8bd8ed;
+    initial-value: #1b1b1b;
 }
 
 @property --bg2 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #70c8e2;
+    initial-value: #2d0808;
 }
 
 @property --bg3 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #58bddb;
+    initial-value: #4a0202;
 }
 
 @property --bg4 {
     syntax: '<color>';
     inherits: false;
-    initial-value: #239dca;
-}
-
-/* 上部の赤い光の強さ(青い間は 0) */
-@property --glow {
-    syntax: '<number>';
-    inherits: false;
-    initial-value: 0;
+    initial-value: #120808;
 }
 
 body {
@@ -1330,18 +1312,16 @@ body {
         --bg1 2.4s ease-in,
         --bg2 2.4s ease-in,
         --bg3 2.4s ease-in,
-        --bg4 2.4s ease-in,
-        --glow 2.4s ease-in;
+        --bg4 2.4s ease-in;
 }
 
-/* 感染中・感染後は、question.css と同じ配色(暗い赤のグラデーション + 上部の赤い光) */
+/* 感染中・感染後は、4色とも #600000(=単色の暗い赤) */
 body.is-infecting,
 body.is-infected {
-    --bg1: #1b1b1b;
-    --bg2: #2d0808;
-    --bg3: #4a0202;
-    --bg4: #120808;
-    --glow: 0.18;
+    --bg1: #600000;
+    --bg2: #600000;
+    --bg3: #600000;
+    --bg4: #600000;
 }
 
 
