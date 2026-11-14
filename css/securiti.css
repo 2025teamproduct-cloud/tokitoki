@@ -1365,8 +1365,7 @@ body.is-infecting {
     100% { transform: translate(0, 0); }
 }
 
-body.is-infecting::before,
-body.is-leaving::before {
+body.is-shaking::before {
     content:
         "SYSTEM ALERT\A"
         "SECURITY\A"

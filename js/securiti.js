@@ -405,6 +405,25 @@ async function startFriendlyScene() {
 /* 2. 青 → 赤への変化(ノイズ演出つき) */
 /* -------------------------------------- */
 
+function startScreenShake(className) {
+	const body = document.body;
+
+	if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		body.classList.add('is-shaking');
+	}
+
+	body.classList.add(className);
+}
+
+function finishScreenShake(event) {
+	if (event.target === document.body && event.animationName === 'screen-shake') {
+		document.body.classList.remove('is-shaking');
+	}
+}
+
+document.body.addEventListener('animationend', finishScreenShake);
+document.body.addEventListener('animationcancel', finishScreenShake);
+
 function startInfection() {
 
 	/* 親切なセリフの文字送りを止めて、吹き出しを消す */
@@ -416,7 +435,7 @@ function startInfection() {
 
 	/* 背景の変化とノイズ演出を開始(CSS側で処理) */
 
-	document.body.classList.add('is-infecting');
+	startScreenShake('is-infecting');
 
 
 	/* 演出が終わったら赤い画面を確定して、豹変したネフユを出す */
@@ -641,7 +660,7 @@ async function playExitReaction() {
 async function playLeaveEffect() {
 
 	/* 画面を揺らす(CSS側で処理) */
-	document.body.classList.add('is-leaving');
+	startScreenShake('is-leaving');
 
 	/* ネフユを消して、暗転を始める */
 	hideNefuyu();
