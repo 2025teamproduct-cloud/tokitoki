@@ -102,31 +102,37 @@ body::before {
         "MIRAI LIFE / EMPLOYEE TERMINAL\A"
         "SECURITY\A"
         "ORIENTATION";
+}
 
+.background-title-replacement,
+body::before {
     white-space: pre;
-
     position: absolute;
-
     left: 50%;
     top: 44%;
-
     transform: translate(-50%, -50%);
-
     color: rgba(255, 255, 255, 0.92);
-
     font-family: Arial, sans-serif;
     font-weight: bold;
-
     font-size: 42px;
     line-height: 0.92;
-
     letter-spacing: -1px;
-
     text-align: left;
-
     z-index: 1;
-
     pointer-events: none;
+    transition: opacity 1s ease;
+}
+
+.background-title-replacement {
+    opacity: 0;
+}
+
+body.has-shaken::before {
+    opacity: 0;
+}
+
+body.has-shaken .background-title-replacement {
+    opacity: 1;
 }
 
 body::after {
@@ -1365,13 +1371,6 @@ body.is-infecting {
     100% { transform: translate(0, 0); }
 }
 
-body.has-shaken::before {
-    content:
-        "SYSTEM ALERT\A"
-        "SECURITY\A"
-        "BREACH DETECTED";
-}
-
 body.is-infecting::before {
     animation: text-glitch 0.4s steps(2, end) infinite;
 }
@@ -1423,6 +1422,11 @@ body.is-infecting .glitch-overlay {
     body.is-infecting::before,
     body.is-infecting .glitch-overlay {
         animation: none;
+    }
+
+    .background-title-replacement,
+    body::before {
+        transition: none;
     }
 }
 
